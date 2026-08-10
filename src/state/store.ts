@@ -1,6 +1,15 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { AgeGroup, CountryCode } from '@/types'
+import type {
+  A11yPrefs,
+  AccountType,
+  AgeGroup,
+  CountryCode,
+  GoalId,
+  LanguageCode,
+  NotifyPref,
+} from '@/types'
+import { DEFAULT_A11Y } from '@/types'
 import { LESSON_MAP } from '@/data/content'
 import { EMPTY_PROGRESS, type ProgressSnapshot } from '@/lib/sync'
 
@@ -12,15 +21,39 @@ function dayDiff(a: string, b: string): number {
   return Math.round(ms / 86_400_000)
 }
 
+/** What onboarding collects about the learner, saved in one shot. */
+export interface LearnerProfileInit {
+  accountType: AccountType
+  ageGroup: AgeGroup
+  language: LanguageCode
+  goals: GoalId[]
+  avatarId: string
+  notify: NotifyPref
+  a11y: A11yPrefs
+}
+
 interface ProgressState {
   onboarded: boolean
+  accountType: AccountType | null
   ageGroup: AgeGroup | null
+  language: LanguageCode
+  goals: GoalId[]
+  avatarId: string | null
+  notify: NotifyPref
+  a11y: A11yPrefs
   xp: number
   streak: number
   lastActive: string | null
   completed: Record<string, true>
 
   setAgeGroup: (a: AgeGroup) => void
+  /** Persist the full onboarding profile in one step (also marks onboarded). */
+  completeOnboarding: (p: LearnerProfileInit) => void
+  setLanguage: (l: LanguageCode) => void
+  setGoals: (g: GoalId[]) => void
+  setAvatar: (id: string) => void
+  setNotify: (n: NotifyPref) => void
+  setA11y: (a: A11yPrefs) => void
   completeLesson: (lessonId: string) => { xpGained: number; streak: number }
   isCompleted: (lessonId: string) => boolean
   stampedCountries: () => CountryCode[]
@@ -36,13 +69,37 @@ export const useProgress = create<ProgressState>()(
   persist(
     (set, get) => ({
       onboarded: false,
+      accountType: null,
       ageGroup: null,
+      language: 'en',
+      goals: [],
+      avatarId: null,
+      notify: 'off',
+      a11y: DEFAULT_A11Y,
       xp: 0,
       streak: 0,
       lastActive: null,
       completed: {},
 
       setAgeGroup: (a) => set({ ageGroup: a, onboarded: true }),
+
+      completeOnboarding: (p) =>
+        set({
+          accountType: p.accountType,
+          ageGroup: p.ageGroup,
+          language: p.language,
+          goals: p.goals,
+          avatarId: p.avatarId,
+          notify: p.notify,
+          a11y: p.a11y,
+          onboarded: true,
+        }),
+
+      setLanguage: (l) => set({ language: l }),
+      setGoals: (g) => set({ goals: g }),
+      setAvatar: (id) => set({ avatarId: id }),
+      setNotify: (n) => set({ notify: n }),
+      setA11y: (a) => set({ a11y: a }),
 
       completeLesson: (lessonId) => {
         const lesson = LESSON_MAP[lessonId]
@@ -86,14 +143,33 @@ export const useProgress = create<ProgressState>()(
       reset: () => set({ ...EMPTY_PROGRESS }),
 
       exportSnapshot: () => {
-        const { onboarded, ageGroup, xp, streak, lastActive, completed } = get()
-        return { onboarded, ageGroup, xp, streak, lastActive, completed }
+        const s = get()
+        return {
+          onboarded: s.onboarded,
+          accountType: s.accountType,
+          ageGroup: s.ageGroup,
+          language: s.language,
+          goals: s.goals,
+          avatarId: s.avatarId,
+          notify: s.notify,
+          a11y: s.a11y,
+          xp: s.xp,
+          streak: s.streak,
+          lastActive: s.lastActive,
+          completed: s.completed,
+        }
       },
 
       hydrate: (s) =>
         set({
           onboarded: s.onboarded,
+          accountType: s.accountType ?? null,
           ageGroup: s.ageGroup,
+          language: s.language ?? 'en',
+          goals: s.goals ?? [],
+          avatarId: s.avatarId ?? null,
+          notify: s.notify ?? 'off',
+          a11y: s.a11y ?? DEFAULT_A11Y,
           xp: s.xp,
           streak: s.streak,
           lastActive: s.lastActive,

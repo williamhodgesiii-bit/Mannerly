@@ -14,13 +14,28 @@
    changes.
    ============================================================ */
 
-import type { AgeGroup, CountryCode } from '@/types'
+import type {
+  A11yPrefs,
+  AccountType,
+  AgeGroup,
+  CountryCode,
+  GoalId,
+  LanguageCode,
+  NotifyPref,
+} from '@/types'
+import { DEFAULT_A11Y } from '@/types'
 import type { Entitlement } from '@/lib/entitlements'
 
-/** The learner's progress, as stored per account. */
+/** The learner's progress + profile, as stored per account. */
 export interface ProgressSnapshot {
   onboarded: boolean
+  accountType: AccountType | null
   ageGroup: AgeGroup | null
+  language: LanguageCode
+  goals: GoalId[]
+  avatarId: string | null
+  notify: NotifyPref
+  a11y: A11yPrefs
   xp: number
   streak: number
   lastActive: string | null
@@ -42,7 +57,13 @@ export interface AccountSnapshot {
 
 export const EMPTY_PROGRESS: ProgressSnapshot = {
   onboarded: false,
+  accountType: null,
   ageGroup: null,
+  language: 'en',
+  goals: [],
+  avatarId: null,
+  notify: 'off',
+  a11y: DEFAULT_A11Y,
   xp: 0,
   streak: 0,
   lastActive: null,

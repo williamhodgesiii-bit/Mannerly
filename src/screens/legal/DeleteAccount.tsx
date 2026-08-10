@@ -3,6 +3,7 @@ import LegalShell from './LegalShell'
 import { useAccount } from '@/state/account'
 import { useProgress } from '@/state/store'
 import { useEntitlements } from '@/state/entitlements'
+import { useProfiles } from '@/state/profiles'
 import { haptic } from '@/lib/haptics'
 
 export default function DeleteAccount() {
@@ -11,6 +12,7 @@ export default function DeleteAccount() {
   const deleteAccount = useAccount((s) => s.deleteAccount)
   const resetProgress = useProgress((s) => s.reset)
   const clearEntitlements = useEntitlements((s) => s.clearEntitlements)
+  const resetProfiles = useProfiles((s) => s.resetProfiles)
 
   const wipeLocal = () => {
     try {
@@ -23,10 +25,11 @@ export default function DeleteAccount() {
 
   const doDelete = () => {
     const msg = account
-      ? `Delete the account ${account.email ?? account.displayName}? This erases your progress, entitlements and preferences. This cannot be undone.`
-      : 'Erase your progress, entitlements and preferences on this device? This cannot be undone.'
+      ? `Delete the account ${account.email ?? account.displayName}? This erases your progress, entitlements, learner profiles and preferences. This cannot be undone.`
+      : 'Erase your progress, entitlements, learner profiles and preferences on this device? This cannot be undone.'
     if (!confirm(msg)) return
     haptic('error')
+    resetProfiles() // household children / class data + their snapshots
     if (account) {
       deleteAccount()
     } else {

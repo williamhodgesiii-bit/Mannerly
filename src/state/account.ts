@@ -104,7 +104,8 @@ function demoSnapshot(spec: DemoSpec): AccountSnapshot {
 
 /* ---------- active-data helpers ---------- */
 
-function currentSnapshot(): AccountSnapshot {
+/** Snapshot the live stores (progress + entitlements) for the active learner. */
+export function snapshotLive(): AccountSnapshot {
   return {
     progress: useProgress.getState().exportSnapshot(),
     entitlements: useEntitlements.getState().exportSnapshot(),
@@ -112,7 +113,8 @@ function currentSnapshot(): AccountSnapshot {
   }
 }
 
-function hydrateActive(snap: AccountSnapshot | null): void {
+/** Replace the live stores with a snapshot (or empty for a fresh learner). */
+export function applyLive(snap: AccountSnapshot | null): void {
   useProgress.getState().hydrate(snap?.progress ?? { ...EMPTY_PROGRESS })
   useEntitlements.getState().hydrate(snap?.entitlements ?? { ...EMPTY_ENTITLEMENTS })
 }
@@ -141,9 +143,9 @@ export const useAccount = create<AccountState>()(
     (set, get) => {
       /** Save the outgoing account's data, then load the incoming account's data. */
       const switchTo = (next: Account | null, incoming: AccountSnapshot | null) => {
-        saveSnapshot(get().activeId(), currentSnapshot())
+        saveSnapshot(get().activeId(), snapshotLive())
         set({ account: next })
-        hydrateActive(incoming)
+        applyLive(incoming)
       }
 
       return {
@@ -153,7 +155,7 @@ export const useAccount = create<AccountState>()(
 
         activeId: () => get().account?.id ?? GUEST_ID,
 
-        persistActive: () => saveSnapshot(get().activeId(), currentSnapshot()),
+        persistActive: () => saveSnapshot(get().activeId(), snapshotLive()),
 
         signUpPassword: (emailRaw, username, password) => {
           const email = emailRaw.trim().toLowerCase()
@@ -177,7 +179,7 @@ export const useAccount = create<AccountState>()(
             creds: { ...get().creds, [email]: { accountId: id, hash: localHash(password) } },
             account,
           })
-          saveSnapshot(id, currentSnapshot())
+          saveSnapshot(id, snapshotLive())
           return { ok: true }
         },
 
@@ -230,7 +232,7 @@ export const useAccount = create<AccountState>()(
             set({ users, creds })
           }
           set({ account: null })
-          hydrateActive(null) // fresh guest → back to onboarding
+          applyLive(null) // fresh guest → back to onboarding
         },
       }
     },

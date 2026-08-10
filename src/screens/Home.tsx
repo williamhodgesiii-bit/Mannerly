@@ -5,6 +5,9 @@ import Header from '@/components/Header'
 import Mascot from '@/components/Mascot'
 import { HOME_UNIT_ORDER, LESSON_MAP, UNIT_MAP } from '@/data/content'
 import { levelFor, useProgress } from '@/state/store'
+import { useProfiles } from '@/state/profiles'
+import { useAccount } from '@/state/account'
+import { avatarEmoji } from '@/data/avatars'
 import { haptic } from '@/lib/haptics'
 
 const ZIG = [0, 46, 66, 46, 0, -46, -66, -46]
@@ -13,7 +16,14 @@ export default function Home() {
   const navigate = useNavigate()
   const completed = useProgress((s) => s.completed)
   const xp = useProgress((s) => s.xp)
+  const avatarId = useProgress((s) => s.avatarId)
   const lvl = levelFor(xp)
+
+  const activeChildId = useProfiles((s) => s.activeChildId)
+  const children = useProfiles((s) => s.children)
+  const accountName = useAccount((s) => s.account?.displayName)
+  const learnerName =
+    children.find((c) => c.id === activeChildId)?.name ?? accountName ?? null
 
   // flatten core path in order
   const flat = useMemo(() => {
@@ -39,6 +49,15 @@ export default function Home() {
     <div className="screen has-tabbar">
       <Header title="Mannerly" />
       <div className="screen--padded" style={{ paddingTop: 14 }}>
+        {/* greeting */}
+        <div className="row" style={{ gap: 10, marginBottom: 12 }}>
+          <span className="home-hi-ava">{avatarEmoji(avatarId)}</span>
+          <div>
+            <div className="kicker">{learnerName ? `Welcome back, ${learnerName}` : 'Welcome back'}</div>
+            <div style={{ fontWeight: 900, fontSize: 18 }}>Ready for today’s manner?</div>
+          </div>
+        </div>
+
         {/* level hero */}
         <motion.div
           className="card"

@@ -17,6 +17,7 @@ import DeleteAccount from '@/screens/legal/DeleteAccount'
 import { useProgress } from '@/state/store'
 import { useEntitlements } from '@/state/entitlements'
 import { useAccount } from '@/state/account'
+import { useProfiles } from '@/state/profiles'
 
 /** Public pages reachable without completing onboarding (store/legal requirement). */
 const PUBLIC_PREFIXES = ['/help', '/privacy', '/terms', '/account']
@@ -38,18 +39,39 @@ function Page({ children }: { children: ReactNode }) {
 export default function App() {
   const location = useLocation()
   const onboarded = useProgress((s) => s.onboarded)
+  const a11y = useProgress((s) => s.a11y)
 
   // Push the live snapshot to the sync backend whenever progress or
-  // entitlements change, so the signed-in account stays in sync.
+  // entitlements change, so the active learner (account holder or the
+  // child currently learning) stays in sync.
   useEffect(() => {
-    const save = () => useAccount.getState().persistActive()
+    const save = () => useProfiles.getState().persistLive()
     const unsubA = useProgress.subscribe(save)
     const unsubB = useEntitlements.subscribe(save)
+    // Signing in/out swaps the whole account snapshot — drop any active
+    // child so we land on the account holder's own profile.
+    let lastId = useAccount.getState().account?.id ?? 'guest'
+    const unsubC = useAccount.subscribe((s) => {
+      const id = s.account?.id ?? 'guest'
+      if (id !== lastId) {
+        lastId = id
+        useProfiles.setState({ activeChildId: null })
+      }
+    })
     return () => {
       unsubA()
       unsubB()
+      unsubC()
     }
   }, [])
+
+  // Reflect accessibility choices on the document root for CSS to key off.
+  useEffect(() => {
+    const el = document.documentElement
+    el.toggleAttribute('data-large-text', a11y.largeText)
+    el.toggleAttribute('data-reduce-motion', a11y.reduceMotion)
+    el.toggleAttribute('data-contrast', a11y.highContrast)
+  }, [a11y])
 
   const path = location.pathname
   const isPublic = PUBLIC_PREFIXES.some((p) => path.startsWith(p))

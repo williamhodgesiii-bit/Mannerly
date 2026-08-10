@@ -6,6 +6,95 @@
 
 export type AgeGroup = 'kids' | 'tweens' | 'teens' | 'adults'
 
+/* ============================================================
+   Account & learner profile.
+
+   An Account owns authentication, billing, and permissions.
+   A Learner Profile owns age, region, language, goals, avatar,
+   and progress. One individual account owns one profile; a family
+   account owns several; a teacher account manages classes.
+   ============================================================ */
+
+export type AccountType = 'individual' | 'family' | 'teacher' | 'student'
+
+/** Interface / narration language — kept separate from home region on purpose. */
+export type LanguageCode = 'en' | 'es' | 'pt' | 'ja' | 'ko' | 'hi' | 'ar'
+
+export interface Language {
+  code: LanguageCode
+  /** English name */
+  name: string
+  /** the language's own name */
+  native: string
+  /** a short spoken example the user can preview */
+  sample: string
+  /** right-to-left script */
+  rtl?: boolean
+}
+
+/** What the learner wants to get better at — drives recommendations. */
+export type GoalId =
+  | 'everyday'
+  | 'conversation'
+  | 'confidence'
+  | 'dining'
+  | 'school'
+  | 'friends'
+  | 'digital'
+  | 'work'
+  | 'travel'
+  | 'culture'
+  | 'family'
+  | 'kindness'
+
+export interface Goal {
+  id: GoalId
+  label: string
+  emoji: string
+}
+
+export interface Avatar {
+  id: string
+  emoji: string
+  /** brand color the ring uses */
+  color: UnitColor
+}
+
+/** How often the learner wants a Daily Manner nudge. */
+export type NotifyPref = 'daily' | 'weekly' | 'off'
+
+/** Accessibility choices, offered in onboarding and Settings. */
+export interface A11yPrefs {
+  largeText: boolean
+  reduceMotion: boolean
+  highContrast: boolean
+}
+
+export const DEFAULT_A11Y: A11yPrefs = {
+  largeText: false,
+  reduceMotion: false,
+  highContrast: false,
+}
+
+/** A child in a household account — a learner profile without its own login. */
+export interface ChildProfile {
+  id: string
+  name: string
+  ageGroup: AgeGroup
+  avatarId: string
+}
+
+/** A teacher's class. The join code is what students enter. */
+export interface Classroom {
+  id: string
+  name: string
+  joinCode: string
+  gradeAge: AgeGroup
+  language: LanguageCode
+  homeRegion: CountryCode
+  createdAt: string
+}
+
 export type Formality = 'casual' | 'semiformal' | 'formal'
 export type NormStrength = 'strong' | 'medium' | 'soft'
 
