@@ -1,0 +1,705 @@
+DO NOT DO UNLESS I AUTHORIZED YOU TO DO THIS VIA CLAUDE CHAT:
+
+# Mannerly App Distribution, Store Setup, and Web Launch
+
+Mannerly should operate as one platform distributed through several storefronts rather than as separate products. The same account, learner profile, progress, Mannerly Passport, subscriptions, family relationships, classrooms, regions, languages, and purchases should ultimately sync through one backend regardless of whether the user enters through iPhone, Android, Fire Tablet, Windows, or the web.
+
+The primary launch platforms should be **Apple App Store, Google Play, and the Mannerly website/web application**. Amazon Appstore should be the next priority if Fire Tablet users become important to the family and child audience. Samsung Galaxy Store, Huawei AppGallery, and Microsoft Store should be secondary distribution channels added when their audiences justify the additional testing, billing, support, and release work.
+
+## One Mannerly Account Everywhere
+
+A user should be able to create a Mannerly account on an iPhone, sign into the web application later, and see the same profile and progress. A parent should be able to manage children's profiles from a computer while those children learn on tablets. A teacher should be able to create assignments from the web dashboard while students complete those assignments through Android, iOS, or a browser.
+
+The platform should therefore treat Apple, Google, Amazon, Samsung, Huawei, Microsoft, and the web as **distribution and payment surfaces**, not independent account databases.
+
+Authentication should connect to the central Mannerly backend. The backend should own learner profiles, household relationships, classrooms, home-region access, purchased Travel Packs, lesson progress, achievements, accessibility preferences, and subscription entitlements.
+
+Store-specific systems should primarily handle downloading the application and, where applicable, purchasing digital subscriptions or content.
+
+## Create the Business Accounts First
+
+Before publishing, Mannerly should establish developer accounts under the actual Mannerly business entity where possible rather than tying the entire business permanently to a founder's personal developer identity.
+
+For Apple organization enrollment, Apple requires organization verification information including a D-U-N-S Number, an organization-associated work email, and a functional public website tied to the organization.
+
+Google also distinguishes between personal and organization developer accounts. Organization verification can require a D-U-N-S Number, payments profile, organizational information, contact information, identity verification, and merchant/bank verification when monetizing through Google Play.
+
+This should be handled early because the public developer identity becomes part of the trust users associate with Mannerly.
+
+## Standardize the App Identity
+
+Use one permanent naming convention across the entire platform.
+
+A practical structure would be:
+
+Mannerly — public brand name
+
+`mannerly.com` — public website
+
+`app.mannerly.com` — web application
+
+`support.mannerly.com` — support/help center
+
+`schools.mannerly.com` — optional school portal
+
+`com.mannerly.app` — production mobile application identifier
+
+Internally, maintain separate environments for development, staging, and production.
+
+Development should contain test users and experimental content.
+
+Staging should mirror the production architecture and be used for final QA.
+
+Production should contain real users and purchases.
+
+Never test major billing, parent/child permissions, classroom access, region entitlements, or account deletion for the first time against the live environment.
+
+## Central Entitlement System
+
+Mannerly should maintain one central entitlement layer that answers questions such as:
+
+Does this person have Free access?
+
+What is their Home Region?
+
+Do they have Manners+?
+
+Are they part of a Family plan?
+
+Which Travel Packs do they own?
+
+Are they covered by a school license?
+
+Which classroom memberships are active?
+
+The storefront processes the transaction, but the Mannerly backend determines what the authenticated user can access.
+
+This becomes especially important because Apple, Google, Amazon, Samsung, web payments, school invoices, promo codes, complimentary memberships, and future partnerships may all create legitimate access to the same curriculum.
+
+The entitlement layer should therefore translate different payment sources into common internal permissions such as `GLOBAL_CORE`, `HOME_REGION_US`, `MANNERLY_PLUS`, `FAMILY`, `JAPAN_TRAVEL_PACK`, or `SCHOOL_LICENSE`.
+
+## Subscription Products
+
+Keep the initial catalog simple.
+
+The primary consumer products should remain Mannerly+ Monthly, Mannerly+ Annual, and Mannerly Family Annual.
+
+Travel Packs should be one-time regional unlocks where the economics and store rules support them.
+
+School and district licensing should primarily be administered through Mannerly's institutional web system rather than forcing schools to purchase dozens or hundreds of seats through consumer app-store subscriptions.
+
+Apple supports auto-renewable subscriptions through subscription groups in App Store Connect, and the necessary agreements, banking information, and tax information must be configured before In-App Purchases can be properly offered and tested.
+
+Google Play Billing similarly supports digital products and subscriptions and provides APIs for keeping purchase state synchronized with a backend.
+
+Do not build subscription access as a simple Boolean such as `premium=true`. Build a real entitlement system from the beginning.
+
+## Apple App Store — Behind the Scenes
+
+Create the Apple Developer organization account and establish the Mannerly application in App Store Connect.
+
+Configure the production bundle identifier, signing credentials, push notification capabilities, subscription products, in-app purchases, tax and banking information, privacy information, age rating, territories, pricing, and required legal URLs.
+
+Because Mannerly uses accounts, account deletion must be designed into the product before submission. Apple requires apps that support account creation to allow users to initiate account deletion from inside the application.
+
+App Store Connect also requires the developer to disclose the application's data practices, including relevant data practices of integrated third-party SDKs, for the App Privacy information shown on the product page.
+
+This means every analytics SDK, crash-reporting SDK, authentication provider, notification provider, payment integration, and other third-party service should be documented internally before submission.
+
+For testing, use TestFlight. Apple supports internal and external beta distribution through TestFlight before production submission.
+
+A sensible Apple release flow is:
+
+development build → internal QA → TestFlight → parent/teacher/student beta testing → final privacy review → subscription testing → App Store submission → production rollout.
+
+App Store Connect handles the app record, TestFlight distribution, submissions, agreements, financial information, and reporting.
+
+If using Expo, EAS Build can manage signed production builds and EAS Submit can upload an iOS build into Apple's distribution workflow.
+
+## Apple App Store — What Customers See
+
+The public App Store presentation should immediately explain that Mannerly is for more than small children.
+
+The app icon should use the simplified Mannerly two-person/checkmark mark.
+
+The title should remain simply:
+
+**Mannerly**
+
+The subtitle or short positioning should communicate something close to:
+
+**Manners. Confidence. Culture.**
+
+The screenshot sequence should visually tell the product story.
+
+The first screenshot should show an interactive scenario.
+
+The next should show Global Manners.
+
+Another should show the world/region exploration system.
+
+Another should show the Mannerly Passport.
+
+Another should show Family profiles.
+
+Another should show classroom functionality.
+
+Another should show Travel Packs.
+
+The final screenshot should show progress, mastery, or achievements.
+
+All screenshots should use the established Deep Blue, Mint Teal, Golden Yellow, Charcoal Navy, white-space-heavy visual system.
+
+Avoid generic screenshots covered in explanatory text. Show the product actually being used.
+
+The product page should emphasize:
+
+**Learn what to do. Understand why. Feel confident anywhere.**
+
+Localize the listing as additional interface languages are released rather than translating marketing materials for languages the actual product does not yet support.
+
+## Children's Positioning on Apple
+
+The Apple child strategy requires deliberate planning.
+
+If Mannerly is placed in Apple's Kids Category, Apple applies additional Kids Category requirements including age-band selection, privacy limitations, and parental gates around certain actions.
+
+Because Mannerly also serves teens, adults, parents, travelers, professionals, and teachers, the team should determine whether the primary Mannerly application should be positioned as an all-ages educational platform rather than designing the entire public product exclusively around Apple's Kids Category.
+
+Regardless of store category, children's data should remain heavily minimized and parent-controlled.
+
+The store configuration and the application's internal age-based experience must agree with each other.
+
+## Google Play — Behind the Scenes
+
+Create and verify the Mannerly organization developer account in Google Play Console.
+
+Register the Android application, establish the permanent package identifier, configure Play App Signing, set up the payments profile, create subscription products, configure testing tracks, complete App Content declarations, complete the Data Safety section, establish age and target-audience settings, add the privacy policy, and prepare the production listing.
+
+Google's Play App Signing system securely manages the application's signing key once configured.
+
+Use internal testing first, followed by controlled closed testing before production. Google provides internal, closed, and open testing workflows; internal testing supports rapid distribution to a limited testing group.
+
+Certain new personal developer accounts also face a required closed-testing period before gaining production access, another reason I would establish Mannerly as the proper organization account from the beginning.
+
+Google requires published Play applications to complete the Data Safety form, and the disclosures must match what the application and its SDKs actually collect or share.
+
+Because Mannerly includes children in its intended audience, its Google Play target-audience configuration must reflect that accurately. Apps including children in their target audience are subject to Google's Families Policy requirements.
+
+For child or unknown-age users, Google also imposes restrictions around transmission of certain device and advertising identifiers.
+
+This reinforces the earlier recommendation: **do not make advertising the core Mannerly business model.**
+
+## Google Account Deletion
+
+Google Play has an additional account architecture requirement that should influence the web product.
+
+If an app lets people create accounts, Google requires an in-app path for requesting account deletion and also requires a web resource through which users can request account and associated-data deletion.
+
+Mannerly should therefore build something like:
+
+`mannerly.com/account/delete`
+
+The signed-in app should also provide:
+
+Settings → Account → Delete Account
+
+Parent-owned child profiles should have a separate parent-controlled deletion workflow so deleting one learner profile does not accidentally delete the entire household account.
+
+Teacher, student, and school data should have similarly explicit ownership and deletion rules.
+
+## Google Play — What Customers See
+
+The Play Store listing should closely match the Apple presentation so the brand remains consistent.
+
+Use the same app icon.
+
+Use the same core screenshot story.
+
+Use the same positioning.
+
+Keep screenshots slightly adapted to Android device dimensions rather than blindly reusing iPhone frames.
+
+The Play listing should communicate three things immediately:
+
+Mannerly teaches everyday social skills.
+
+Mannerly teaches cultural etiquette by region.
+
+Mannerly works for different ages and situations.
+
+Parents should immediately see family functionality.
+
+Teachers should immediately see classroom functionality.
+
+Adults should immediately see travel, work, culture, and dining so they do not assume the application is only a children's product.
+
+## Amazon Appstore
+
+Amazon Appstore should be the first alternative Android marketplace I would evaluate after Apple, Google, and web, particularly if Mannerly decides to support Fire Tablet as a significant learning device.
+
+Amazon uses its own Developer Console and application-submission process. Its In-App Purchasing system supports digital content and subscriptions, which means Mannerly would need to connect Amazon purchase receipts and entitlement events into the central Mannerly entitlement service.
+
+Do not simply assume Google Play Billing will operate unchanged in the Amazon distribution version.
+
+Create an Amazon-specific build and test profile.
+
+Test:
+
+account creation
+
+family profiles
+
+video and Rive animation performance
+
+audio narration
+
+offline lessons
+
+notifications where supported
+
+subscription purchase
+
+subscription restoration
+
+Travel Pack purchase
+
+account deletion
+
+child restrictions
+
+tablet layouts
+
+The public Amazon listing should remain visually identical to the Mannerly brand rather than becoming a separate Fire-branded product.
+
+## Samsung Galaxy Store
+
+Samsung Galaxy Store should be treated as an additional Android acquisition channel, not as a launch requirement.
+
+Publishing is managed through Samsung Seller Portal. Samsung's developer documentation describes Seller Portal as the system for registering, publishing, managing, and promoting Galaxy Store apps, and commercial distribution can also involve seller and payment setup.
+
+Samsung also maintains its own In-App Purchase system for Galaxy Store applications.
+
+Therefore, add Samsung only when its expected user acquisition justifies maintaining another billing integration, testing matrix, listing, and review process.
+
+## Huawei AppGallery
+
+Huawei AppGallery should be considered when Mannerly begins targeting markets where Huawei distribution is strategically meaningful.
+
+Huawei's process uses a verified HUAWEI ID and AppGallery Connect to create the application record, provide application details, upload the application package, and manage releases.
+
+AppGallery Connect also supports product and in-app-purchase configuration.
+
+Again, the important architectural rule is that Huawei users should still authenticate into the same Mannerly backend and receive the same learner profiles and curriculum entitlements.
+
+## Microsoft Store
+
+Microsoft Store is particularly interesting later for Mannerly's teacher, student, school, and desktop audiences.
+
+Rather than building an entirely separate Windows application immediately, the Mannerly web application can eventually be packaged as a Progressive Web App.
+
+Microsoft currently supports packaging a PWA using PWABuilder and submitting it through Partner Center to Microsoft Store.
+
+That allows a school or Windows user to install Mannerly more like a desktop application while Mannerly continues maintaining the same underlying web product.
+
+This should be considered a distribution enhancement rather than a separate product.
+
+## Mannerly Web Application
+
+The web experience should be a first-class product, not a reduced companion to the mobile application.
+
+Use:
+
+**mannerly.com**
+
+for discovery, SEO, pricing, regional etiquette guides, travel content, school information, parent information, and marketing.
+
+Use:
+
+**app.mannerly.com**
+
+for the authenticated learning application.
+
+The web application should contain the same major learning functions as mobile:
+
+onboarding
+
+individual profiles
+
+family accounts
+
+child profiles
+
+teacher dashboards
+
+student lessons
+
+Mannerly Passport
+
+region selection
+
+interactive scenarios
+
+progress
+
+subscriptions
+
+Travel Packs
+
+account management
+
+accessibility settings
+
+language preferences.
+
+Because Mannerly previously selected Next.js for the web stack, it can be deployed through several production approaches including a Node.js server, containerized deployment, or supported hosting platforms.
+
+The web application should also be built with Progressive Web App capabilities where practical. Current Next.js documentation supports PWA patterns, and installable PWAs can provide more app-like access while still running from the web codebase.
+
+This means someone could discover Mannerly through Google, complete a free etiquette lesson, create an account, and continue using Mannerly without installing anything.
+
+That is an important advantage over relying exclusively on app-store discovery.
+
+## Web Payments
+
+Web should become Mannerly's primary account-management surface.
+
+Adults should be able to view their plan, family members, Travel Packs, billing status, privacy settings, account deletion, school relationships, languages, and regions from the web.
+
+Use a reputable web payment processor for web purchases and have successful transactions write into the same centralized entitlement system used by mobile purchases.
+
+Native applications should continue to comply with the current payment and digital-content rules of each storefront where they are distributed. Those policies can vary by platform, country, storefront program, and product type, so purchase flows should be reviewed against current store rules before each major release rather than hard-coding one global assumption.
+
+## Teacher and School Web Dashboard
+
+The teacher experience should be web-first even though lesson consumption remains cross-platform.
+
+A teacher works more efficiently on a laptop when creating classrooms, assigning 30 students, reviewing completion, selecting lessons, managing curriculum, printing class codes, and viewing reports.
+
+The teacher web dashboard should therefore provide:
+
+class creation
+
+student rosters
+
+join codes
+
+assignments
+
+curriculum selection
+
+regional packs
+
+lesson preview
+
+completion reporting
+
+mastery reporting
+
+accessibility accommodations
+
+classroom language
+
+license management
+
+parent-connection permissions.
+
+Students can then consume the assigned experience wherever they are: Chromebook browser, Windows computer, iPad, iPhone, Android phone, Fire Tablet, or other supported device.
+
+## Parent Web Dashboard
+
+Parents should similarly have a full web dashboard.
+
+The parent should be able to log in and see all household learner profiles, assigned challenges, progress summaries, languages, accessibility settings, subscription status, regional access, purchases, and privacy controls.
+
+This becomes especially valuable when a child's primary learning device is a tablet where detailed account administration would be inconvenient.
+
+## Public SEO Strategy
+
+Every major Mannerly curriculum area should have a public web presence.
+
+Examples include pages for Japanese etiquette, restaurant manners, manners for children, workplace etiquette, table manners, digital manners, classroom manners, travel etiquette, conversation etiquette, Korean etiquette, Indian etiquette, Mexican etiquette, and similar topics.
+
+Each page should provide real educational value for free and then transition naturally into:
+
+**Practice this situation in Mannerly.**
+
+This gives Mannerly a customer-acquisition system that the app stores alone cannot provide.
+
+The funnel becomes:
+
+Google/search/social content → free Mannerly lesson → personalized onboarding → account creation → Global Core + Home Region → continued learning → optional paid upgrade.
+
+## Store Listing Assets
+
+Create one reusable master asset library rather than recreating graphics during every release.
+
+The library should include the full horizontal Mannerly logo, stacked logo, icon-only version, monochrome logo, dark-mode logo, application icon, screenshots, tablet screenshots, teacher screenshots, family screenshots, Travel Pack screenshots, device mockups, app-preview video assets, promotional banners, and press assets.
+
+The same Deep Blue, Mint Teal, Golden Yellow, Charcoal Navy, rounded typography, characters, illustrations, and animation language should appear everywhere.
+
+Someone should be able to move from a Mannerly advertisement to the website to the App Store to onboarding and feel that they never changed products.
+
+## Store Screenshot Story
+
+The first store image should sell the concept.
+
+**Know what to do. Wherever you are.**
+
+The second should show an interactive lesson.
+
+**Practice real situations.**
+
+The third should show categories.
+
+**Manners for everyday life.**
+
+The fourth should show the world.
+
+**Learn how customs change around the world.**
+
+The fifth should show the Passport.
+
+**Explore cultures. Earn stamps.**
+
+The sixth should show family.
+
+**Learn together as a family.**
+
+The seventh should show school.
+
+**Built for classrooms too.**
+
+The eighth should show adult content.
+
+**Travel. Dining. Work. Social confidence.**
+
+This prevents users from misunderstanding Mannerly as either exclusively a children's application or exclusively a travel-etiquette application.
+
+## Release Infrastructure
+
+Behind all storefronts should be one controlled release pipeline.
+
+Code should move through:
+
+**Development → Staging → Internal Testing → Beta → Production**
+
+For the Expo mobile project, EAS can manage signing credentials, production builds, and submission into Apple and Google distribution workflows.
+
+Mobile versions and build numbers should be controlled systematically rather than manually changed by different developers. Expo's current EAS tooling can also centrally manage build-version increments.
+
+Every production release should be traceable to a source-control commit and release record.
+
+## Feature Flags
+
+Do not require a new App Store release every time Mannerly wants to test a curriculum feature.
+
+Build server-controlled feature flags.
+
+For example:
+
+Travel Mode enabled
+
+Teacher Dashboard beta
+
+New onboarding enabled
+
+Japan Pack V2
+
+Family Challenge system
+
+new Passport design
+
+new Rive scenario engine.
+
+This allows Mannerly to release code safely and progressively enable functionality for selected accounts.
+
+It also allows teacher, family, and consumer experiences to evolve at different speeds.
+
+## Remote Content
+
+Lesson content should remain primarily server-controlled.
+
+Adding:
+
+a dining lesson
+
+a Japanese cultural scenario
+
+a new language
+
+a teacher assignment
+
+a corrected etiquette explanation
+
+a new animation reference
+
+should usually not require a new native application version.
+
+The app should download structured lesson data and appropriate media from the Mannerly backend/CDN.
+
+Only changes requiring new application functionality should require a store release.
+
+This keeps cultural information maintainable and allows inaccurate or outdated content to be corrected quickly.
+
+## Crash Reporting and Operational Monitoring
+
+Before public launch, Mannerly needs monitoring for:
+
+application crashes
+
+API failures
+
+login failures
+
+failed purchases
+
+failed entitlement synchronization
+
+animation failures
+
+video failures
+
+notification failures
+
+account-deletion requests
+
+parent-consent failures
+
+class-code failures
+
+slow lesson loading.
+
+These should be monitored centrally across platforms while respecting the stricter privacy requirements applicable to child users.
+
+Do not install analytics or marketing SDKs simply because they are common. Every SDK included in a mixed-age educational product should have a clear purpose and undergo privacy review.
+
+This is especially important if Mannerly ever participates in Apple's Kids Category, where Apple imposes significant restrictions on third-party analytics, advertising, and transmission of identifiable child information.
+
+## Push Notifications
+
+Push notifications should use the same account-personalization model as the application.
+
+Adults might receive:
+
+**Today's Manner: Meeting someone new**
+
+Parents might receive:
+
+**Emma completed her Dining challenge**
+
+Teachers might receive:
+
+**8 students still have this week's lesson remaining**
+
+Children should receive only appropriately designed learning reminders under the applicable parent and privacy controls.
+
+Expo provides cross-platform tooling for configuring and handling push notifications on Android and iOS, although production credentials still need to be properly configured for the respective platforms.
+
+## Support Infrastructure
+
+Before the application appears publicly in a store, Mannerly should have a real support system.
+
+At minimum, create:
+
+`mannerly.com/help`
+
+`mannerly.com/privacy`
+
+`mannerly.com/terms`
+
+`mannerly.com/account/delete`
+
+and a Mannerly support email address.
+
+The help center should cover account creation, family accounts, child profiles, teacher accounts, student codes, forgotten passwords, subscriptions, restoring purchases, changing languages, changing home region, Travel Packs, accessibility, privacy, deleting an account, and reporting incorrect cultural information.
+
+Because cultural etiquette is part of the product itself, add:
+
+**Report outdated or inaccurate etiquette**
+
+to every cultural lesson.
+
+That feedback should go into a content-review queue rather than normal technical support.
+
+## App Review Accounts
+
+Maintain dedicated reviewer/demo accounts for store-review teams.
+
+Prepare an adult demo account, parent account with sample child profiles, teacher account with a sample classroom, and student account.
+
+Provide store reviewers with clear instructions for accessing gated functionality.
+
+Do not force an Apple or Google reviewer to guess how to reach the Teacher Dashboard, create a family, unlock premium content, or test a lesson.
+
+A well-prepared review environment reduces unnecessary friction during submission.
+
+## Backups and Recovery
+
+The Mannerly backend should maintain secure database backups and documented recovery procedures.
+
+The company needs to be able to restore user accounts, learner progress, classroom relationships, subscription entitlements, region access, and lesson content following an infrastructure failure.
+
+Payment-provider data should never be the only record that someone legitimately owns Mannerly access.
+
+The internal entitlement ledger should maintain enough information to reconcile store receipts with Mannerly account access.
+
+## Recommended Distribution Order
+
+Mannerly should not launch everywhere simultaneously.
+
+**Phase 1:** Mannerly Web, Apple App Store, and Google Play.
+
+**Phase 2:** Amazon Appstore if Fire Tablet adoption makes it worthwhile.
+
+**Phase 3:** Microsoft Store PWA for school and desktop expansion.
+
+**Phase 4:** Samsung Galaxy Store and Huawei AppGallery based on regional demand.
+
+The codebase should be architected from the beginning so these platforms are possible, but the business should only absorb their additional operational complexity when the audience justifies it.
+
+## The Complete User Journey
+
+The finished Mannerly ecosystem should work like this:
+
+A parent discovers Mannerly through Google.
+
+They visit `mannerly.com`.
+
+They complete a free interactive manners lesson.
+
+They create a Family account.
+
+They select their Home Region.
+
+They add two children.
+
+They install Mannerly from the App Store onto an iPad.
+
+They sign in.
+
+Both children's profiles immediately appear.
+
+One child completes lessons on the iPad.
+
+The parent later checks progress on a laptop.
+
+A teacher sends one child a classroom code.
+
+The parent approves the connection.
+
+The student completes a teacher-assigned etiquette lesson.
+
+Later, the family buys a Japan Travel Pack.
+
+Japan appears in everyone's Mannerly Passport according to the family's entitlement rules.
+
+The family travels.
+
+The same lessons are available through their phones.
+
+Nothing about the experience should make them think about Apple accounts, Google accounts, web accounts, school databases, or separate purchases.
+
+To the customer, there is only **one Mannerly account and one Mannerly world.**
+
+That should be the underlying goal of the distribution architecture: **many ways to enter Mannerly, one identity once the user is inside.**
