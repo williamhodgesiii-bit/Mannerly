@@ -107,6 +107,13 @@ body,
   height: 100%;
 }
 
+/* center the app frame at a constant width on every screen */
+#root {
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+}
+
 body {
   font-family: var(--font);
   background: var(--bg-tint);
@@ -139,30 +146,29 @@ h1, h2, h3 {
   background: var(--gold-100);
 }
 
-/* ---------- app shell (phone frame on desktop, full-bleed on mobile) ---------- */
+/* ---------- app shell ----------
+   Constant-width, full-height column, centered by #root's flexbox.
+   width:100% + max-width gives a fixed flex-basis, so the frame is the
+   SAME width on every screen (it never shrink-wraps to its content). */
 .app-frame {
   position: relative;
+  flex: 0 0 auto;
   width: 100%;
   max-width: var(--app-max);
   min-height: 100dvh;
-  margin: 0 auto;
   background: var(--bg);
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
+/* on wider viewports, frame it with subtle side rails (no rounded float,
+   so the fixed tab bar / sheets stay flush with the column) */
 @media (min-width: 520px) {
-  body {
-    display: grid;
-    place-items: center;
-  }
   .app-frame {
-    min-height: min(920px, 100dvh);
-    height: min(920px, 100dvh);
-    border-radius: 40px;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    box-shadow: 0 0 70px rgba(12, 32, 74, 0.08);
   }
 }
 
