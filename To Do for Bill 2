@@ -1,0 +1,616 @@
+DO NOT DO ANY OF THIS UNLESS I VERBALLY AUTHORIZE YOU TOO IN CLAUDE CHAT
+
+# Mannerly Account Onboarding and Profile System
+
+Mannerly's onboarding should feel like the user's first interactive lesson, not an account-registration form. The objective is to identify who is learning, their age, home region, language, learning goals, and account relationship while getting them into their first lesson as quickly as possible. Every screen should use the existing Mannerly visual system: Deep Blue for trust and primary navigation, Mint Teal for selections and progress, Golden Yellow for success and rewards, white backgrounds for clarity, rounded cards and buttons, and the Mannerly two-person/checkmark symbol throughout the experience.
+
+The onboarding system should support four primary entry paths: **Individual, Parent/Family, Teacher, and Student**. The first screen should therefore ask a simple question such as **“How will you use Mannerly?”** with four large animated cards. “For Myself” shows one character. “For My Family” shows an adult and child. “I'm a Teacher” shows a teacher/classroom scene. “I'm a Student” shows a student with a classroom badge. Selecting a card should animate the character and smoothly move the user into the appropriate onboarding path.
+
+## Start With Age
+
+Age should be collected immediately after the user selects an account type because it determines the appropriate lesson content, reading level, permissions, privacy settings, and parent requirements.
+
+Avoid requiring an exact birthday from every user unless it is legally or operationally necessary. The product can begin with broad learning groups such as **5–7, 8–12, 13–17, and 18+**, while using a separate compliant age-verification or parental-consent process where required.
+
+A five-year-old and a thirty-five-year-old may both need to learn how to introduce themselves, but they should not receive the same scenario, vocabulary, explanation, or animation. Age should therefore become a permanent personalization field that affects the entire curriculum.
+
+For younger children, the interface should use larger buttons, more narration, fewer words, animated characters, and visual choices. Older children should receive more social reasoning. Teenagers should receive scenarios involving friendships, digital communication, boundaries, social media, school, first jobs, and independence. Adults should receive professional, travel, dining, family, social, and cultural scenarios.
+
+For U.S. users under 13, COPPA can require operators covered by the rule to provide notice to parents and obtain verifiable parental consent before collecting personal information from the child, subject to limited exceptions. Mannerly should therefore avoid treating a young child's profile like a normal adult account and should minimize the personal information collected from children.
+
+## Home Region
+
+The next major step should ask:
+
+**“Where do you call home?”**
+
+The screen can display a simple animated globe that rotates into regional choices. Selecting a region zooms into the corresponding countries.
+
+The user's **Home Region** becomes their one included regional etiquette library on the free plan. The Global Manners Core should remain available to everyone, while the user's selected home region provides free access to region-specific and country-specific lessons relevant to where they live.
+
+For example:
+
+**Free Account**
+
+Global Manners Core
++
+United States Home Region
+
+A user living in Japan could instead receive:
+
+Global Manners Core
++
+Japan Home Region
+
+Additional countries and regions can be unlocked through Manners+, individual Travel Packs, family subscriptions, school licenses, or promotional access.
+
+The onboarding screen should clearly explain this before the user confirms the region:
+
+**“Your free account includes Global Manners + one Home Region.”**
+
+Do not hide this behind a later paywall.
+
+The region should not permanently trap the user. Allow users to correct mistakes during onboarding and provide a reasonable mechanism for changing their home region after relocation. Frequent switching to access premium libraries can remain restricted.
+
+## Language
+
+Next ask:
+
+**“What language should Mannerly speak?”**
+
+The interface should show supported languages by their native names and allow the user to hear a short spoken example.
+
+Language should control interface text, lesson narration, explanations, captions, accessibility text, notifications, emails, parent dashboards, and teacher dashboards.
+
+Eventually, users should also be able to select a secondary language. This creates an additional product opportunity: a user could learn etiquette for Japan in English while optionally seeing important Japanese phrases inside the lesson.
+
+Language and region must remain separate settings. Someone living in the United States may primarily speak Spanish. Someone living in Japan may prefer English. Someone using Mannerly for school may speak one language at home and another in class.
+
+## Personal Learning Goals
+
+Instead of immediately creating a password, Mannerly should next ask:
+
+**“What would you like to get better at?”**
+
+Display animated category cards such as:
+
+Everyday Manners
+Conversation
+Confidence
+Dining
+School
+Friends
+Digital Life
+Work
+Travel
+Culture
+Family
+Respect & Kindness
+
+Users can choose several.
+
+These choices should personalize the home screen, recommended lessons, daily scenarios, notifications, and initial learning path.
+
+The goal selection also makes onboarding feel useful. The user is no longer filling out a profile; they are building their version of Mannerly.
+
+## Interactive Starting Scenario
+
+Before asking the user to finish account creation, give them one extremely short interactive scenario.
+
+For example, a child might see:
+
+**“Someone gives you a birthday present. What do you do?”**
+
+An adult might see:
+
+**“You're introduced to someone at a professional event. What should you do first?”**
+
+The user selects an answer, the Rive character reacts, and Mannerly gives immediate feedback.
+
+Then show:
+
+**“Nice. Mannerly will build lessons like this around your age, goals, and region.”**
+
+This demonstrates the product before asking the user for more commitment.
+
+It can also serve as a lightweight starting assessment. The first several lessons can quietly determine whether the user needs beginner explanations or can move quickly into more advanced scenarios.
+
+## Individual Accounts
+
+The standard Individual Account should be the simplest account type.
+
+The user selects:
+
+Age group
+Home region
+Primary language
+Learning goals
+
+Then they create the account using an appropriate supported authentication method.
+
+The resulting profile should contain their lesson progress, Manners Passport, mastery levels, achievements, daily scenarios, saved lessons, streak, home region, language, age learning level, purchased Travel Packs, and subscription status.
+
+Adults should have full control over their profile and privacy settings.
+
+Teen accounts can use the same general learning system while receiving age-appropriate content and privacy defaults.
+
+## Parent and Family Accounts
+
+The Family system should be built around a **Household Account** rather than several unrelated subscriptions.
+
+A parent creates the primary account first.
+
+They then see:
+
+**“Who is learning with you?”**
+
+They can add children using large profile cards similar to Netflix or Disney+ profiles.
+
+Each child receives:
+
+Display name or nickname
+Avatar
+Age learning group
+Language
+Home region
+Learning goals
+Lesson progress
+Manners Passport
+Achievements
+Optional profile PIN
+
+A young child should not need their own email address simply to use Mannerly.
+
+The parent account should control billing, family subscription status, child profile creation, permissions, additional region purchases, notification settings, account deletion, and privacy controls.
+
+The parent dashboard should focus on learning rather than surveillance.
+
+Parents should be able to see:
+
+Lessons completed
+Categories practiced
+Current mastery
+Recent achievements
+Learning streak
+Assigned lessons
+Real-world challenges
+Areas that need more practice
+
+Parents should also be able to assign something such as:
+
+**“Complete Table Manners 1–3 this week.”**
+
+or:
+
+**“Family Challenge: Everyone keeps phones away during dinner tonight.”**
+
+Avoid designing the parent dashboard around invasive monitoring. The purpose is to help parents teach social skills, not watch every action a child takes.
+
+For younger users, purchasing, leaving the child experience, changing important account settings, or accessing external destinations should be protected by an adult-controlled gate where appropriate. Apple specifically expects parental gates for certain actions in apps participating in its Kids category and distinguishes those gates from the separate legal requirements that can apply to parental consent for collecting children's personal data.
+
+## Child Login Experience
+
+Children should have a much simpler login experience than adults.
+
+After the family account has been created, opening Mannerly could display:
+
+**“Who's learning?”**
+
+The child taps their avatar.
+
+Depending on the parent's settings, they either enter a simple profile PIN or immediately enter their personalized learning environment.
+
+They should not repeatedly encounter subscription screens, billing information, privacy forms, email prompts, or adult account settings.
+
+The child experience should feel like entering their own Mannerly world.
+
+## Teacher Accounts
+
+Teacher onboarding should begin with:
+
+**“Let's set up your classroom.”**
+
+The teacher provides only the information necessary to establish the classroom, such as:
+
+Teacher account information
+School or organization
+Country/region
+Student age or grade range
+Primary classroom language
+Class name
+
+Then Mannerly generates a simple classroom join code, for example:
+
+**MANNER-7284**
+
+The teacher can create multiple classes.
+
+For example:
+
+Mrs. Carter — Grade 3
+Mr. Lewis — Grade 7
+Global Studies — Grade 10
+
+Teachers should receive a dashboard that allows them to assign lessons, lesson collections, country packs, real-world challenges, and classroom activities.
+
+The dashboard should show class-level and student-level educational progress such as completion, mastery, assigned work, and areas where students need additional practice.
+
+It should not become a behavioral surveillance platform.
+
+For U.S. schools subject to FERPA, education records and personally identifiable information from those records require appropriate handling, and the Department of Education specifically provides guidance for educational-technology vendors working with schools. The school product should therefore be designed from the beginning around data minimization, clear school controls, appropriate agreements, and separation between educational data and unrelated commercial uses.
+
+## Student Accounts
+
+Student onboarding should be extremely fast.
+
+The opening screen can offer:
+
+**“Joining a class?”**
+
+The student enters the teacher's class code.
+
+Mannerly then displays:
+
+**“Welcome to Mrs. Carter's Class.”**
+
+The student chooses or receives a profile based on the school's configuration.
+
+Depending on age and school policy, the student might use:
+
+School-managed login
+Student ID
+Class code + nickname
+Single sign-on
+Parent-linked account
+
+Students should not have to independently create consumer subscriptions to participate in school lessons.
+
+Their classroom profile should display assigned lessons, completed work, mastery, achievements, classroom challenges, and their Manners Passport.
+
+The school experience and personal consumer experience should remain logically separate. If a student eventually wants a personal Mannerly account, provide an appropriate parent or adult-controlled process rather than silently turning school data into a commercial consumer profile.
+
+## Teacher-to-Parent Connection
+
+A valuable later feature would allow a parent to connect a child's home profile with a classroom profile without giving the teacher access to unrelated family information.
+
+The parent could approve:
+
+**“Connect Emma's Mannerly profile to Mrs. Carter's Grade 4 class?”**
+
+The teacher sees school-related progress.
+
+The parent sees both assigned school work and home learning.
+
+The child maintains one recognizable learner identity.
+
+Permissions should determine which information crosses between contexts.
+
+## Profile Switching
+
+Family accounts should use simple visual profile switching.
+
+A family might see:
+
+Mom
+Dad
+Emma
+Liam
+
+Each represented by a colorful Mannerly avatar.
+
+Teacher accounts could similarly switch between classes.
+
+The transition should animate rather than reload into a completely different-looking application.
+
+This reinforces the idea that everyone belongs inside the same Mannerly ecosystem while receiving a different experience.
+
+## Avatar System
+
+Mannerly should introduce avatars during onboarding because they make profiles feel personal without requiring photographs.
+
+Users could choose from friendly illustrated characters representing different ages, appearances, clothing styles, abilities, and cultures.
+
+Later, users could unlock avatar accessories through learning:
+
+Passport backpack
+Chef hat for Dining mastery
+Conversation badge
+Travel patches
+Graduation cap
+Culture Explorer scarf
+Kindness pin
+
+These should be earned primarily through learning rather than purchased individually.
+
+Children should never need to upload a real photograph simply to personalize their learning profile.
+
+## The Mannerly Passport
+
+Every account should receive a **Mannerly Passport** during onboarding.
+
+After selecting their home region, an animation opens a small passport and stamps:
+
+**Global Core**
+
+and:
+
+**Your Home Region**
+
+This visually explains the content-access model.
+
+Free users see empty passport spaces representing other regions without being aggressively pushed to buy them.
+
+When the user purchases a Travel Pack or subscribes to Manners+, another country receives an animated stamp.
+
+The passport becomes the visual connection between learning, travel, countries, progress, and monetization.
+
+## Progress Indicator During Onboarding
+
+Onboarding should always communicate how close the user is to finishing.
+
+Instead of:
+
+Step 2 of 9
+
+use a Mannerly-themed progress path.
+
+For example, the two Mannerly characters can move toward one another as onboarding progresses. Each completed screen fills another portion of the M-shaped pathway. When onboarding finishes, the Golden Yellow checkmark animates into place.
+
+This makes the logo itself part of the experience.
+
+The final animation completes the Mannerly symbol and says:
+
+**“You're ready.”**
+
+Then immediately launch the first recommended lesson.
+
+## Motion and Interaction
+
+Every onboarding interaction should have a small response.
+
+Tap a region and the globe moves.
+
+Select a language and a character greets the user.
+
+Choose an age and the character subtly changes.
+
+Select a learning goal and its icon animates.
+
+Add a child and another character joins the family.
+
+Create a classroom and desks appear.
+
+Enter a valid class code and the Golden Yellow checkmark draws itself.
+
+Finish onboarding and the Mannerly logo assembles.
+
+Animations should generally be short and functional. They should confirm actions and maintain momentum rather than delay users.
+
+Rive is well suited to these reusable state-based interactions because the same characters and components can react to user selections without requiring separate rendered videos for every onboarding step.
+
+## Use the Existing Color System
+
+The onboarding interface should consistently use the established Mannerly palette.
+
+**Deep Blue — #0B4AA6**
+
+Use for primary buttons, headings, navigation, account controls, teacher interfaces, and important information. It should provide the stable foundation of the product.
+
+**Mint Teal — #63D1BE**
+
+Use for selected cards, secondary buttons, active states, progress, family elements, friendly confirmations, and interactive highlights.
+
+**Golden Yellow — #F6C137**
+
+Use sparingly for achievements, successful answers, passport stamps, completed steps, checkmarks, rewards, and moments worth celebrating.
+
+**Charcoal Navy — #1F2A44**
+
+Use for body copy and supporting text.
+
+**White and very light neutrals**
+
+Use for backgrounds so the application remains clean, readable, accessible, and calm.
+
+Golden Yellow should remain an accent. If it appears everywhere, the checkmark and achievement moments lose their importance.
+
+## Keep Forms Out of the Experience
+
+Avoid presenting onboarding as:
+
+First Name
+Last Name
+Birthday
+Country
+Language
+Email
+Password
+Confirm Password
+Terms
+Continue
+
+Instead, make each screen answer one question.
+
+**Who are you learning for?**
+
+Tap.
+
+**What's your age group?**
+
+Tap.
+
+**Where's home?**
+
+Tap.
+
+**Which language should we use?**
+
+Tap.
+
+**What do you want to learn?**
+
+Tap.
+
+**Try this situation.**
+
+Tap.
+
+Then finish the account.
+
+Users should feel like they are making decisions, not completing paperwork.
+
+## Save Progress During Onboarding
+
+If an adult begins onboarding and closes the app, Mannerly should preserve the non-sensitive setup progress where appropriate so the experience can continue without unnecessary repetition.
+
+The user should not have to choose their region, language, age category, and goals again because they accidentally left the application.
+
+For child accounts, temporary and stored information should be handled more conservatively and according to the applicable privacy requirements.
+
+## Notifications
+
+Do not ask for notification permission immediately after the app opens.
+
+First establish value.
+
+After the user completes several onboarding decisions, Mannerly can say:
+
+**“Want a Daily Manner?”**
+
+Then explain:
+
+**“We'll send one quick situation each day.”**
+
+Allow:
+
+Daily
+A few times a week
+Off
+
+Parents should separately control notifications relating to family challenges and children's assigned work.
+
+Teachers should separately control classroom reminders.
+
+The notification request should have a clear learning purpose rather than simply maximizing engagement.
+
+## Accessibility
+
+Accessibility should be part of onboarding rather than hidden several layers inside Settings.
+
+Offer an optional:
+
+**“Make Mannerly comfortable for you.”**
+
+screen containing choices such as:
+
+Larger text
+Reduced motion
+Captions always on
+Narration
+Higher contrast
+Simplified reading
+Audio instructions
+
+Users should also be able to change these options later.
+
+This is particularly important because the audience spans young children, adults, older adults, language learners, and users with disabilities.
+
+## Privacy Explanation
+
+Mannerly should explain privacy in plain language.
+
+For a parent:
+
+**“You control your child's Mannerly profile and learning settings.”**
+
+For a teacher:
+
+**“Classroom information is used to provide and track Mannerly learning.”**
+
+For an adult:
+
+**“You control your profile, progress, and preferences.”**
+
+Detailed privacy policies can remain available, but the onboarding experience should communicate the important concepts before asking users to continue.
+
+Google Play requires developers to declare target age groups, and apps whose target audience includes children must follow its Families policies. That means Mannerly's account architecture, privacy disclosures, SDK choices, and store configuration should be designed together rather than treating child compliance as something added after launch.
+
+## Recommended Individual Flow
+
+The final individual flow should feel approximately like:
+
+**Mannerly Logo → How will you use Mannerly? → For Myself → Age → Home Region → Language → Learning Goals → Interactive Scenario → Create Account → Mannerly Passport → First Lesson**
+
+The process should feel like one continuous conversation.
+
+## Recommended Family Flow
+
+The family experience should be:
+
+**Mannerly Logo → How will you use Mannerly? → For My Family → Parent Setup → Household Region → Language → Create Parent Account → Add Child → Child Age → Child Language → Child Goals → Child Avatar → Appropriate Parent Consent/Permissions → Add Another Child or Continue → Family Passport → First Family Challenge**
+
+The parent should be able to finish their own profile later rather than forcing the family through unnecessary setup before a child can learn.
+
+## Recommended Teacher Flow
+
+The teacher flow should be:
+
+**Mannerly Logo → I'm a Teacher → Teacher Account → School/Organization → Country/Region → Grade/Age → Classroom Language → Create Class → Generate Join Code → Choose Starter Curriculum → Teacher Dashboard**
+
+Immediately after setup, give the teacher a recommended first assignment rather than showing an empty dashboard.
+
+## Recommended Student Flow
+
+The student flow should be:
+
+**Mannerly Logo → I'm a Student → Enter Class Code → Verify Class → Appropriate Student Authentication → Language/Accessibility if Needed → Avatar → Assigned Lesson**
+
+A student should be able to move from opening the app to learning in very few steps.
+
+## Account Architecture
+
+Behind the interface, Mannerly should distinguish between the **Account** and the **Learner Profile**.
+
+An account controls authentication, billing, permissions, ownership, privacy settings, and subscriptions.
+
+A learner profile controls age level, region, language, goals, curriculum, progress, achievements, recommendations, and Passport activity.
+
+One individual account may own one learner profile.
+
+One family account may own several learner profiles.
+
+One teacher account may manage several classes.
+
+A student profile may belong to an authorized classroom relationship.
+
+Separating these concepts now will make family subscriptions, classrooms, organizations, and future institutional licensing much easier to build.
+
+## The Core Principle
+
+Mannerly onboarding should not ask users to configure software. It should introduce them to the Mannerly world.
+
+The user chooses who they are.
+
+Mannerly adjusts to their age.
+
+They choose where home is.
+
+Mannerly opens their regional curriculum.
+
+They choose their language.
+
+Mannerly speaks to them appropriately.
+
+They choose what they want to improve.
+
+Mannerly builds their learning path.
+
+They complete one small social situation.
+
+Mannerly shows them how the product works.
+
+Then their Passport opens, their first stamps appear, the Mannerly checkmark completes, and their first lesson begins.
+
+The onboarding system should therefore accomplish five things without feeling complicated: **identify the learner, protect the learner, personalize the curriculum, establish the correct account relationship, and get the learner into an interactive lesson quickly.**
+
+The ideal experience ends with the user feeling that Mannerly already knows **what they need to learn, how to teach it to them, and which world of manners they should explore first.**
