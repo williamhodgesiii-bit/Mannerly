@@ -1,0 +1,90 @@
+import type { Country, Region } from '@/types'
+
+export const COUNTRIES: Record<string, Country> = {
+  US: {
+    code: 'US',
+    name: 'United States',
+    flag: '🇺🇸',
+    region: 'north-america',
+    hello: 'Hi!',
+    blurb: 'Friendly, informal, big on personal space.',
+    courseId: 'us',
+  },
+  GB: {
+    code: 'GB',
+    name: 'United Kingdom',
+    flag: '🇬🇧',
+    region: 'europe',
+    hello: 'Hello',
+    blurb: 'Queuing, understatement and please & thank you.',
+    courseId: 'gb',
+  },
+  MX: {
+    code: 'MX',
+    name: 'Mexico',
+    flag: '🇲🇽',
+    region: 'latin-america',
+    hello: '¡Hola!',
+    blurb: 'Warm greetings, close and personable.',
+    courseId: 'mx',
+  },
+  BR: {
+    code: 'BR',
+    name: 'Brazil',
+    flag: '🇧🇷',
+    region: 'latin-america',
+    hello: 'Oi!',
+    blurb: 'Cheek kisses, warmth and relaxed time.',
+    courseId: 'br',
+  },
+  JP: {
+    code: 'JP',
+    name: 'Japan',
+    flag: '🇯🇵',
+    region: 'east-asia',
+    hello: 'こんにちは',
+    blurb: 'Bowing, shoes off, quiet trains.',
+    courseId: 'jp',
+  },
+  KR: {
+    code: 'KR',
+    name: 'South Korea',
+    flag: '🇰🇷',
+    region: 'east-asia',
+    hello: '안녕하세요',
+    blurb: 'Two hands, respect for elders.',
+    courseId: 'kr',
+  },
+  IN: {
+    code: 'IN',
+    name: 'India',
+    flag: '🇮🇳',
+    region: 'south-asia',
+    hello: 'नमस्ते',
+    blurb: 'Namaste, right hand, shoes off.',
+    courseId: 'in',
+  },
+  AE: {
+    code: 'AE',
+    name: 'United Arab Emirates',
+    flag: '🇦🇪',
+    region: 'mena',
+    hello: 'مرحبا',
+    blurb: 'Right hand, modest dress, warm hospitality.',
+    courseId: 'ae',
+  },
+}
+
+export const REGIONS: Region[] = [
+  { id: 'north-america', name: 'North America', emoji: '🌎', countries: ['US'] },
+  { id: 'latin-america', name: 'Latin America', emoji: '🌴', countries: ['MX', 'BR'] },
+  { id: 'europe', name: 'Europe', emoji: '🏰', countries: ['GB'] },
+  { id: 'mena', name: 'Middle East & N. Africa', emoji: '🕌', countries: ['AE'] },
+  { id: 'east-asia', name: 'East Asia', emoji: '🏮', countries: ['JP', 'KR'] },
+  { id: 'south-asia', name: 'South Asia', emoji: '🪷', countries: ['IN'] },
+  { id: 'southeast-asia', name: 'Southeast Asia', emoji: '🌺', countries: [] },
+  { id: 'sub-saharan', name: 'Sub-Saharan Africa', emoji: '🦁', countries: [] },
+  { id: 'oceania', name: 'Oceania', emoji: '🏄', countries: [] },
+]
+
+export const countryList = (): Country[] => Object.values(COUNTRIES)
