@@ -30,7 +30,7 @@ const build = (seed: LessonSeed): Lesson => ({ ...seed, reviewer: REVIEWER, revi
    ============================================================ */
 const CORE: Lesson[] = [
   build({
-    id: 'gc-greet', title: 'Say hello', icon: '👋', xp: 10,
+    id: 'gc-greet', title: 'Do you wave back?', icon: '👋', xp: 10,
     scene: { environment: 'street', state: 'greeting', characters: ['manni', 'kaya'], caption: 'Someone new says hi.' },
     prompt: 'They wave and smile. You…',
     choices: [
@@ -47,7 +47,7 @@ const CORE: Lesson[] = [
     ageGroups: ['kids', 'tweens', 'teens', 'adults'], sources: [S.post],
   }),
   build({
-    id: 'gc-please', title: 'The magic word', icon: '🙏', xp: 10,
+    id: 'gc-please', title: "What's the magic word?", icon: '🙏', xp: 10,
     scene: { environment: 'home', state: 'asking', characters: ['manni', 'kaya'], caption: 'You want the juice.' },
     prompt: 'It’s across the table. You say…',
     choices: [
@@ -64,7 +64,7 @@ const CORE: Lesson[] = [
     ageGroups: ['kids', 'tweens', 'teens', 'adults'], sources: [S.post],
   }),
   build({
-    id: 'gc-thanks', title: 'Say thank you', icon: '💛', xp: 10,
+    id: 'gc-thanks', title: 'Do you owe a thanks?', icon: '💛', xp: 10,
     scene: { environment: 'store', state: 'thanking', characters: ['manni', 'server'], caption: 'They held the door.' },
     prompt: 'Someone holds the door for you. You…',
     choices: [
@@ -81,7 +81,7 @@ const CORE: Lesson[] = [
     ageGroups: ['kids', 'tweens', 'teens', 'adults'], sources: [S.post],
   }),
   build({
-    id: 'gc-introduce', title: 'Introduce yourself', icon: '🤝', xp: 10,
+    id: 'gc-introduce', title: 'How do you break the ice?', icon: '🤝', xp: 10,
     scene: { environment: 'party', state: 'greeting', characters: ['manni', 'friend'], caption: 'A new face in the room.' },
     prompt: 'You meet someone new. You…',
     choices: [
@@ -98,7 +98,7 @@ const CORE: Lesson[] = [
     ageGroups: ['tweens', 'teens', 'adults'], sources: [S.post],
   }),
   build({
-    id: 'gc-sorry', title: 'A real apology', icon: '🫶', xp: 10,
+    id: 'gc-sorry', title: 'What makes a real sorry?', icon: '🫶', xp: 10,
     scene: { environment: 'street', state: 'apologizing', characters: ['manni', 'kaya'], caption: 'You bump someone.' },
     prompt: 'You knock their bag. You…',
     choices: [
@@ -116,7 +116,7 @@ const CORE: Lesson[] = [
   }),
 
   build({
-    id: 'gc-listen', title: 'Really listen', icon: '👂', xp: 10,
+    id: 'gc-listen', title: 'Are you really listening?', icon: '👂', xp: 10,
     scene: { environment: 'classroom', state: 'listening', characters: ['manni', 'friend'], caption: 'A friend is telling a story.' },
     prompt: 'Mid-story, you…',
     choices: [
@@ -133,7 +133,7 @@ const CORE: Lesson[] = [
     ageGroups: ['kids', 'tweens', 'teens', 'adults'], sources: [S.post],
   }),
   build({
-    id: 'gc-interrupt', title: 'Wait your turn', icon: '✋', xp: 10,
+    id: 'gc-interrupt', title: 'When can you jump in?', icon: '✋', xp: 10,
     scene: { environment: 'classroom', state: 'talking', characters: ['manni', 'kaya'], caption: 'Two people are mid-chat.' },
     prompt: 'You have a great idea. You…',
     choices: [
@@ -150,7 +150,7 @@ const CORE: Lesson[] = [
     ageGroups: ['kids', 'tweens', 'teens', 'adults'], sources: [S.post],
   }),
   build({
-    id: 'gc-boundaries', title: 'Read the “no”', icon: '🛑', xp: 10,
+    id: 'gc-boundaries', title: 'What if they say no?', icon: '🛑', xp: 10,
     scene: { environment: 'home', state: 'confused', characters: ['manni', 'friend'], caption: 'They say “not now.”' },
     prompt: 'Your friend needs space. You…',
     choices: [
@@ -168,7 +168,7 @@ const CORE: Lesson[] = [
   }),
 
   build({
-    id: 'gc-wait-eat', title: 'Wait to eat', icon: '🍽️', xp: 10,
+    id: 'gc-wait-eat', title: 'When can you dig in?', icon: '🍽️', xp: 10,
     scene: { environment: 'restaurant', state: 'idle', characters: ['manni', 'kaya', 'host'], caption: 'Plates arrive one by one.' },
     prompt: 'Your food comes first. You…',
     choices: [
@@ -186,7 +186,7 @@ const CORE: Lesson[] = [
     ageGroups: ['kids', 'tweens', 'teens', 'adults'], sources: [S.post],
   }),
   build({
-    id: 'gc-chew', title: 'Chew quietly', icon: '🤫', xp: 10,
+    id: 'gc-chew', title: 'Are you a noisy eater?', icon: '🤫', xp: 10,
     scene: { environment: 'home', state: 'eating', characters: ['manni', 'kaya'], caption: 'Dinner with family.' },
     prompt: 'You’re hungry. You…',
     choices: [
@@ -204,7 +204,7 @@ const CORE: Lesson[] = [
     ageGroups: ['kids', 'tweens', 'teens', 'adults'], sources: [S.post],
   }),
   build({
-    id: 'gc-phone-meal', title: 'Phone down to eat', icon: '📵', xp: 10,
+    id: 'gc-phone-meal', title: 'Phone at the table?', icon: '📵', xp: 10,
     scene: { environment: 'restaurant', state: 'idle', characters: ['manni', 'friend'], caption: 'Your phone buzzes at dinner.' },
     prompt: 'It lights up mid-meal. You…',
     choices: [
@@ -222,7 +222,7 @@ const CORE: Lesson[] = [
   }),
 
   build({
-    id: 'gc-text-tone', title: 'Texts have no tone', icon: '💬', xp: 10,
+    id: 'gc-text-tone', title: "Does 'k' sound cold?", icon: '💬', xp: 10,
     scene: { environment: 'home', state: 'confused', characters: ['manni'], caption: 'A one-word reply: “fine.”' },
     prompt: 'You’re about to send “k.” You…',
     choices: [
@@ -239,7 +239,7 @@ const CORE: Lesson[] = [
     ageGroups: ['tweens', 'teens', 'adults'], sources: [S.post],
   }),
   build({
-    id: 'gc-groupchat', title: 'Group chat manners', icon: '📱', xp: 10,
+    id: 'gc-groupchat', title: 'Blowing up the chat?', icon: '📱', xp: 10,
     scene: { environment: 'home', state: 'idle', characters: ['manni', 'friend'], caption: '47 unread messages.' },
     prompt: 'You want to reply to one thing. You…',
     choices: [
@@ -256,7 +256,7 @@ const CORE: Lesson[] = [
     ageGroups: ['tweens', 'teens', 'adults'], sources: [S.post],
   }),
   build({
-    id: 'gc-videocall', title: 'On camera', icon: '🎥', xp: 10,
+    id: 'gc-videocall', title: 'Mic on or off?', icon: '🎥', xp: 10,
     scene: { environment: 'office', state: 'talking', characters: ['manni', 'host'], caption: 'A call with six people.' },
     prompt: 'You’re not speaking. You…',
     choices: [
@@ -274,7 +274,7 @@ const CORE: Lesson[] = [
   }),
 
   build({
-    id: 'gc-queue', title: 'Take your place', icon: '🧍', xp: 10,
+    id: 'gc-queue', title: 'Can you skip the line?', icon: '🧍', xp: 10,
     scene: { environment: 'store', state: 'idle', characters: ['manni', 'kaya'], caption: 'A line at the counter.' },
     prompt: 'You’re in a hurry. You…',
     choices: [
@@ -291,7 +291,7 @@ const CORE: Lesson[] = [
     ageGroups: ['kids', 'tweens', 'teens', 'adults'], sources: [S.post, S.debretts],
   }),
   build({
-    id: 'gc-seat', title: 'Offer your seat', icon: '💺', xp: 10,
+    id: 'gc-seat', title: 'Give up your seat?', icon: '💺', xp: 10,
     scene: { environment: 'train', state: 'idle', characters: ['manni', 'elder'], caption: 'A packed train.' },
     prompt: 'Someone who needs it more gets on. You…',
     choices: [
@@ -308,7 +308,7 @@ const CORE: Lesson[] = [
     ageGroups: ['kids', 'tweens', 'teens', 'adults'], sources: [S.post],
   }),
   build({
-    id: 'gc-guest', title: 'Be a good guest', icon: '🎁', xp: 10,
+    id: 'gc-guest', title: 'How to be the best guest?', icon: '🎁', xp: 10,
     scene: { environment: 'friends-home', state: 'giving', characters: ['manni', 'host'], caption: 'You arrive at their home.' },
     prompt: 'You step inside. You…',
     choices: [
@@ -331,7 +331,7 @@ const CORE: Lesson[] = [
    ============================================================ */
 const JP: Lesson[] = [
   build({
-    id: 'jp-shoes', title: 'Shoes at the door', icon: '🥿', xp: 15, country: 'JP',
+    id: 'jp-shoes', title: 'Shoes on or off?', icon: '🥿', xp: 15, country: 'JP',
     scene: { environment: 'home', state: 'asking', characters: ['manni', 'host'], caption: 'You reach a Japanese home’s genkan.' },
     prompt: 'At the entrance step, you…',
     choices: [
@@ -349,7 +349,7 @@ const JP: Lesson[] = [
     ageGroups: ['kids', 'tweens', 'teens', 'adults'], sources: [S.jp1, S.jp2],
   }),
   build({
-    id: 'jp-chopsticks', title: 'Chopstick care', icon: '🥢', xp: 15, country: 'JP',
+    id: 'jp-chopsticks', title: 'The chopstick mistake?', icon: '🥢', xp: 15, country: 'JP',
     scene: { environment: 'restaurant', state: 'eating', characters: ['manni', 'kaya'], caption: 'A bowl of rice arrives.' },
     prompt: 'You pause between bites. You…',
     choices: [
@@ -366,7 +366,7 @@ const JP: Lesson[] = [
     ageGroups: ['tweens', 'teens', 'adults'], sources: [S.jp1, S.jp2],
   }),
   build({
-    id: 'jp-train', title: 'Quiet on the train', icon: '🚆', xp: 15, country: 'JP',
+    id: 'jp-train', title: 'Why do trains go quiet?', icon: '🚆', xp: 15, country: 'JP',
     scene: { environment: 'train', state: 'idle', characters: ['manni', 'kaya'], caption: 'A calm commuter train.' },
     prompt: 'Your friend calls. You…',
     choices: [
@@ -386,7 +386,7 @@ const JP: Lesson[] = [
 
 const KR: Lesson[] = [
   build({
-    id: 'kr-twohands', title: 'Give with two hands', icon: '🤲', xp: 15, country: 'KR',
+    id: 'kr-twohands', title: 'One hand or two?', icon: '🤲', xp: 15, country: 'KR',
     scene: { environment: 'office', state: 'giving', characters: ['manni', 'elder'], caption: 'You hand over a gift.' },
     prompt: 'You pass it to an elder. You…',
     choices: [
@@ -403,7 +403,7 @@ const KR: Lesson[] = [
     ageGroups: ['tweens', 'teens', 'adults'], sources: [S.kr1, S.kr2],
   }),
   build({
-    id: 'kr-elder-eats', title: 'Elders first', icon: '🍚', xp: 15, country: 'KR',
+    id: 'kr-elder-eats', title: 'Who eats first?', icon: '🍚', xp: 15, country: 'KR',
     scene: { environment: 'restaurant', state: 'idle', characters: ['manni', 'elder', 'kaya'], caption: 'A shared Korean meal.' },
     prompt: 'The food is ready. You…',
     choices: [
@@ -420,7 +420,7 @@ const KR: Lesson[] = [
     ageGroups: ['tweens', 'teens', 'adults'], sources: [S.kr1, S.kr2],
   }),
   build({
-    id: 'kr-shoes', title: 'Shoes off inside', icon: '🧦', xp: 15, country: 'KR',
+    id: 'kr-shoes', title: 'Wear shoes inside?', icon: '🧦', xp: 15, country: 'KR',
     scene: { environment: 'home', state: 'asking', characters: ['manni', 'host'], caption: 'A Korean home entrance.' },
     prompt: 'You step in. You…',
     choices: [
@@ -440,7 +440,7 @@ const KR: Lesson[] = [
 
 const AE: Lesson[] = [
   build({
-    id: 'ae-righthand', title: 'The right hand', icon: '🤝', xp: 15, country: 'AE',
+    id: 'ae-righthand', title: 'Which hand do you use?', icon: '🤝', xp: 15, country: 'AE',
     scene: { environment: 'restaurant', state: 'giving', characters: ['manni', 'host'], caption: 'You’re handed a date to try.' },
     prompt: 'You take it and eat. You…',
     choices: [
@@ -457,7 +457,7 @@ const AE: Lesson[] = [
     ageGroups: ['tweens', 'teens', 'adults'], sources: [S.ae1, S.ae2],
   }),
   build({
-    id: 'ae-dress', title: 'Dress with modesty', icon: '🧥', xp: 15, country: 'AE',
+    id: 'ae-dress', title: "What's okay to wear?", icon: '🧥', xp: 15, country: 'AE',
     scene: { environment: 'street', state: 'walking', characters: ['manni', 'kaya'], caption: 'Heading to a mall and mosque.' },
     prompt: 'You pick an outfit. You…',
     choices: [
@@ -475,7 +475,7 @@ const AE: Lesson[] = [
     ageGroups: ['teens', 'adults'], sources: [S.ae1, S.ae2],
   }),
   build({
-    id: 'ae-ramadan', title: 'Ramadan daytime', icon: '🌙', xp: 15, country: 'AE',
+    id: 'ae-ramadan', title: 'Can you eat in public?', icon: '🌙', xp: 15, country: 'AE',
     scene: { environment: 'street', state: 'idle', characters: ['manni', 'kaya'], caption: 'A hot afternoon during Ramadan.' },
     prompt: 'You’re thirsty in public. You…',
     choices: [
@@ -496,7 +496,7 @@ const AE: Lesson[] = [
 
 const IN: Lesson[] = [
   build({
-    id: 'in-namaste', title: 'Namaste', icon: '🙏', xp: 15, country: 'IN',
+    id: 'in-namaste', title: 'Do you shake hands?', icon: '🙏', xp: 15, country: 'IN',
     scene: { environment: 'home', state: 'greeting', characters: ['manni', 'elder'], caption: 'You meet an elder.' },
     prompt: 'You greet them. You…',
     choices: [
@@ -513,7 +513,7 @@ const IN: Lesson[] = [
     ageGroups: ['kids', 'tweens', 'teens', 'adults'], sources: [S.in1, S.in2],
   }),
   build({
-    id: 'in-shoes-temple', title: 'Shoes off, temples', icon: '🛕', xp: 15, country: 'IN',
+    id: 'in-shoes-temple', title: 'Shoes in the temple?', icon: '🛕', xp: 15, country: 'IN',
     scene: { environment: 'worship', state: 'asking', characters: ['manni', 'host'], caption: 'A temple entrance.' },
     prompt: 'At the threshold, you…',
     choices: [
@@ -530,7 +530,7 @@ const IN: Lesson[] = [
     ageGroups: ['kids', 'tweens', 'teens', 'adults'], sources: [S.in1, S.in2],
   }),
   build({
-    id: 'in-righthand', title: 'Right hand to eat', icon: '🍛', xp: 15, country: 'IN',
+    id: 'in-righthand', title: 'Which hand for food?', icon: '🍛', xp: 15, country: 'IN',
     scene: { environment: 'restaurant', state: 'eating', characters: ['manni', 'kaya'], caption: 'A shared thali meal.' },
     prompt: 'You reach for food. You…',
     choices: [
@@ -551,7 +551,7 @@ const IN: Lesson[] = [
 
 const MX: Lesson[] = [
   build({
-    id: 'mx-greet', title: 'Warm hello', icon: '🤗', xp: 15, country: 'MX',
+    id: 'mx-greet', title: 'Kiss, shake, or wave?', icon: '🤗', xp: 15, country: 'MX',
     scene: { environment: 'party', state: 'greeting', characters: ['manni', 'friend'], caption: 'You arrive at a gathering.' },
     prompt: 'You greet the group. You…',
     choices: [
@@ -569,7 +569,7 @@ const MX: Lesson[] = [
     ageGroups: ['teens', 'adults'], sources: [S.mx1, S.mx2],
   }),
   build({
-    id: 'mx-provecho', title: '“Buen provecho”', icon: '🍲', xp: 15, country: 'MX',
+    id: 'mx-provecho', title: 'What do you say at meals?', icon: '🍲', xp: 15, country: 'MX',
     scene: { environment: 'restaurant', state: 'talking', characters: ['manni', 'kaya'], caption: 'You pass a table mid-meal.' },
     prompt: 'People are eating nearby. You…',
     choices: [
@@ -586,7 +586,7 @@ const MX: Lesson[] = [
     ageGroups: ['tweens', 'teens', 'adults'], sources: [S.mx1, S.mx2],
   }),
   build({
-    id: 'mx-time', title: 'Relaxed time', icon: '🕰️', xp: 15, country: 'MX',
+    id: 'mx-time', title: 'Show up on time?', icon: '🕰️', xp: 15, country: 'MX',
     scene: { environment: 'friends-home', state: 'idle', characters: ['manni', 'friend'], caption: 'Invited over at 8pm.' },
     prompt: 'It’s a social gathering. You…',
     choices: [
@@ -607,7 +607,7 @@ const MX: Lesson[] = [
 
 const BR: Lesson[] = [
   build({
-    id: 'br-kiss', title: 'Cheek greetings', icon: '😙', xp: 15, country: 'BR',
+    id: 'br-kiss', title: 'One kiss or two?', icon: '😙', xp: 15, country: 'BR',
     scene: { environment: 'party', state: 'greeting', characters: ['manni', 'friend'], caption: 'You’re introduced to friends.' },
     prompt: 'You say hello. You…',
     choices: [
@@ -625,7 +625,7 @@ const BR: Lesson[] = [
     ageGroups: ['teens', 'adults'], sources: [S.br1, S.br2],
   }),
   build({
-    id: 'br-space', title: 'Close is friendly', icon: '🫂', xp: 15, country: 'BR',
+    id: 'br-space', title: 'Standing too close?', icon: '🫂', xp: 15, country: 'BR',
     scene: { environment: 'street', state: 'talking', characters: ['manni', 'kaya'], caption: 'A lively chat on the sidewalk.' },
     prompt: 'They stand close as you talk. You…',
     choices: [
@@ -642,7 +642,7 @@ const BR: Lesson[] = [
     ageGroups: ['teens', 'adults'], sources: [S.br1, S.br2],
   }),
   build({
-    id: 'br-time', title: 'Brazilian time', icon: '⏳', xp: 15, country: 'BR',
+    id: 'br-time', title: 'Late to the party?', icon: '⏳', xp: 15, country: 'BR',
     scene: { environment: 'friends-home', state: 'idle', characters: ['manni', 'friend'], caption: 'A party starts at 9.' },
     prompt: 'For the social party, you…',
     choices: [
@@ -663,7 +663,7 @@ const BR: Lesson[] = [
 
 const US: Lesson[] = [
   build({
-    id: 'us-space', title: 'Personal space', icon: '📏', xp: 15, country: 'US',
+    id: 'us-space', title: 'How close is too close?', icon: '📏', xp: 15, country: 'US',
     scene: { environment: 'office', state: 'talking', characters: ['manni', 'kaya'], caption: 'Chatting by the desks.' },
     prompt: 'You talk with someone new. You…',
     choices: [
@@ -680,7 +680,7 @@ const US: Lesson[] = [
     ageGroups: ['teens', 'adults'], sources: [S.post],
   }),
   build({
-    id: 'us-smalltalk', title: 'Friendly small talk', icon: '💬', xp: 15, country: 'US',
+    id: 'us-smalltalk', title: 'How do you do small talk?', icon: '💬', xp: 15, country: 'US',
     scene: { environment: 'store', state: 'talking', characters: ['manni', 'server'], caption: 'A cashier asks “How’s your day?”' },
     prompt: 'You reply. You…',
     choices: [
@@ -697,7 +697,7 @@ const US: Lesson[] = [
     ageGroups: ['tweens', 'teens', 'adults'], sources: [S.post],
   }),
   build({
-    id: 'us-tipping', title: 'Tipping', icon: '💵', xp: 15, country: 'US',
+    id: 'us-tipping', title: 'How much do you tip?', icon: '💵', xp: 15, country: 'US',
     scene: { environment: 'restaurant', state: 'idle', characters: ['manni', 'server'], caption: 'The check arrives.' },
     prompt: 'Service was good. You…',
     choices: [
@@ -718,7 +718,7 @@ const US: Lesson[] = [
 
 const GB: Lesson[] = [
   build({
-    id: 'gb-queue', title: 'Respect the queue', icon: '🧎', xp: 15, country: 'GB',
+    id: 'gb-queue', title: 'Jump the queue?', icon: '🧎', xp: 15, country: 'GB',
     scene: { environment: 'store', state: 'idle', characters: ['manni', 'kaya'], caption: 'A tidy queue at the shop.' },
     prompt: 'You’re in a rush. You…',
     choices: [
@@ -735,7 +735,7 @@ const GB: Lesson[] = [
     ageGroups: ['kids', 'tweens', 'teens', 'adults'], sources: [S.debretts],
   }),
   build({
-    id: 'gb-please', title: 'Please & thank you', icon: '☕', xp: 15, country: 'GB',
+    id: 'gb-please', title: "Mind your P's and Q's?", icon: '☕', xp: 15, country: 'GB',
     scene: { environment: 'restaurant', state: 'talking', characters: ['manni', 'server'], caption: 'Ordering a cup of tea.' },
     prompt: 'You order. You…',
     choices: [
@@ -752,7 +752,7 @@ const GB: Lesson[] = [
     ageGroups: ['kids', 'tweens', 'teens', 'adults'], sources: [S.debretts],
   }),
   build({
-    id: 'gb-understate', title: 'Understatement', icon: '🌦️', xp: 15, country: 'GB',
+    id: 'gb-understate', title: 'Too much enthusiasm?', icon: '🌦️', xp: 15, country: 'GB',
     scene: { environment: 'office', state: 'talking', characters: ['manni', 'friend'], caption: 'Someone asks how it’s going.' },
     prompt: 'Things are actually great. You…',
     choices: [
