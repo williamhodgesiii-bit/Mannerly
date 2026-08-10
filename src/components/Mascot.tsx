@@ -4,7 +4,7 @@ export type Pose = 'idle' | 'wave' | 'think' | 'cheer' | 'bow' | 'offer'
 export type Expression = 'smile' | 'neutral' | 'oops' | 'surprise'
 
 interface MascotProps {
-  color?: 'navy' | 'teal'
+  color?: 'navy' | 'teal' | 'gold'
   pose?: Pose
   expression?: Expression
   size?: number
@@ -15,6 +15,7 @@ interface MascotProps {
 const FILL = {
   navy: 'var(--navy-600)',
   teal: 'var(--teal-500)',
+  gold: 'var(--gold-500)',
 }
 
 /**

@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { AgeGroup, CountryCode } from '@/types'
 import { LESSON_MAP } from '@/data/content'
+import { EMPTY_PROGRESS, type ProgressSnapshot } from '@/lib/sync'
 
 function todayKey(d = new Date()): string {
   return d.toISOString().slice(0, 10)
@@ -24,6 +25,11 @@ interface ProgressState {
   isCompleted: (lessonId: string) => boolean
   stampedCountries: () => CountryCode[]
   reset: () => void
+
+  /** Snapshot for the account sync layer. */
+  exportSnapshot: () => ProgressSnapshot
+  /** Replace all progress with an account's snapshot (on sign-in / sign-out). */
+  hydrate: (s: ProgressSnapshot) => void
 }
 
 export const useProgress = create<ProgressState>()(
@@ -77,8 +83,22 @@ export const useProgress = create<ProgressState>()(
         return [...set2]
       },
 
-      reset: () =>
-        set({ onboarded: false, ageGroup: null, xp: 0, streak: 0, lastActive: null, completed: {} }),
+      reset: () => set({ ...EMPTY_PROGRESS }),
+
+      exportSnapshot: () => {
+        const { onboarded, ageGroup, xp, streak, lastActive, completed } = get()
+        return { onboarded, ageGroup, xp, streak, lastActive, completed }
+      },
+
+      hydrate: (s) =>
+        set({
+          onboarded: s.onboarded,
+          ageGroup: s.ageGroup,
+          xp: s.xp,
+          streak: s.streak,
+          lastActive: s.lastActive,
+          completed: s.completed,
+        }),
     }),
     { name: 'mannerly-progress-v1' },
   ),

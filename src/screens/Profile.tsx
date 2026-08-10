@@ -1,8 +1,9 @@
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Header from '@/components/Header'
 import Mascot from '@/components/Mascot'
 import { levelFor, useProgress } from '@/state/store'
 import { useEntitlements, useHeldPermissions } from '@/state/entitlements'
+import { useAccount } from '@/state/account'
 import { activePlan, travelPackPermission } from '@/lib/entitlements'
 import { totalLessonCount } from '@/data/content'
 import { COUNTRIES, countryList } from '@/data/countries'
@@ -19,15 +20,14 @@ export default function Profile() {
   const setHomeRegion = useEntitlements((s) => s.setHomeRegion)
   const grant = useEntitlements((s) => s.grant)
   const revoke = useEntitlements((s) => s.revoke)
-  const clearEntitlements = useEntitlements((s) => s.clearEntitlements)
+  const account = useAccount((s) => s.account)
+  const signOut = useAccount((s) => s.signOut)
 
   const doneCount = Object.keys(completed).length
   const lvl = levelFor(xp)
   const stamps = stampedCountries().length
   const plan = activePlan(held)
   const isPlus = held.has('MANNERLY_PLUS')
-
-  // Owned one-time Travel Packs, for a small "what you own" summary.
   const ownedPacks = countryList().filter((c) => held.has(travelPackPermission(c.code)))
 
   const stats = [
@@ -37,39 +37,16 @@ export default function Profile() {
     { n: `📔 ${stamps}`, l: 'Stamps' },
   ]
 
-  // Simulated web checkout: a successful transaction writes into the same
+  // Simulated web checkout — a successful transaction writes into the same
   // central entitlement ledger the mobile stores would write to.
-  const startPlus = () => {
-    haptic('success')
-    grant('MANNERLY_PLUS', 'web')
-  }
+  const startPlus = () => { haptic('success'); grant('MANNERLY_PLUS', 'web') }
   const cancelPlus = () => {
     if (confirm('Cancel Manners+? Country packs will lock again (except your home region).')) {
-      haptic('tap')
-      revoke('MANNERLY_PLUS')
+      haptic('tap'); revoke('MANNERLY_PLUS')
     }
   }
-
-  const changeHome = (code: CountryCode) => {
-    haptic('tap')
-    setHomeRegion(code)
-  }
-
-  // Store requirement (Apple + Google): let people delete their account and
-  // associated data from inside the app. Wipes progress + entitlements + storage.
-  const doDeleteAccount = () => {
-    if (!confirm('Delete your Mannerly account? This erases your progress, entitlements and preferences on this device. This cannot be undone.')) return
-    haptic('error')
-    reset()
-    clearEntitlements()
-    try {
-      localStorage.removeItem('mannerly-progress-v1')
-      localStorage.removeItem('mannerly-entitlements-v1')
-    } catch {
-      /* storage may be unavailable; state reset already applied */
-    }
-    navigate('/onboarding', { replace: true })
-  }
+  const changeHome = (code: CountryCode) => { haptic('tap'); setHomeRegion(code) }
+  const doSignOut = () => { haptic('tap'); signOut() }
 
   return (
     <div className="screen has-tabbar">
@@ -80,11 +57,17 @@ export default function Profile() {
           <div style={{ background: 'var(--navy-100)', borderRadius: '50%', width: 108, height: 108, display: 'grid', placeItems: 'center' }}>
             <Mascot color="navy" size={92} pose="idle" bob={false} />
           </div>
-          <h1 className="title" style={{ fontSize: 22 }}>Learner</h1>
+          <h1 className="title" style={{ fontSize: 22 }}>{account?.displayName ?? 'Guest'}</h1>
+          {account?.email && <div className="kicker">{account.email}</div>}
           <div className="pill-row" style={{ justifyContent: 'center' }}>
             <span className="chip chip--teal">{lvl.current.icon} {lvl.current.name}</span>
             <span className="chip">{plan.icon} {plan.label}</span>
           </div>
+          {!account && (
+            <button className="btn btn--sm" style={{ marginTop: 8 }} onClick={() => { haptic('tap'); navigate('/account') }}>
+              Sign in / Create account
+            </button>
+          )}
         </div>
 
         {/* level bar */}
@@ -108,13 +91,11 @@ export default function Profile() {
 
         {/* Manners+ — reflects the real entitlement state */}
         {isPlus ? (
-          <div className="card" style={{ padding: 18, marginBottom: 16, background: 'linear-gradient(135deg, var(--teal-500, #52B7A4), var(--navy-600))', color: '#fff', border: 'none' }}>
+          <div className="card" style={{ padding: 18, marginBottom: 16, background: 'linear-gradient(135deg, var(--teal-500), var(--navy-600))', color: '#fff', border: 'none' }}>
             <div className="spread">
               <div>
                 <div style={{ fontWeight: 900, fontSize: 18 }}>Manners+ is active ⭐</div>
-                <div style={{ fontSize: 13, fontWeight: 600, opacity: 0.9, marginTop: 2 }}>
-                  Every country & travel mode unlocked.
-                </div>
+                <div style={{ fontSize: 13, fontWeight: 600, opacity: 0.9, marginTop: 2 }}>Every country & travel mode unlocked.</div>
               </div>
             </div>
             <button className="btn" style={{ marginTop: 14, background: 'rgba(255,255,255,0.16)', color: '#fff' }} onClick={cancelPlus}>
@@ -126,21 +107,29 @@ export default function Profile() {
             <div className="spread">
               <div>
                 <div style={{ fontWeight: 900, fontSize: 18 }}>Manners+ ⭐</div>
-                <div style={{ fontSize: 13, fontWeight: 600, opacity: 0.9, marginTop: 2 }}>
-                  Every country, travel mode & more.
-                </div>
+                <div style={{ fontSize: 13, fontWeight: 600, opacity: 0.9, marginTop: 2 }}>Every country, travel mode & more.</div>
               </div>
               <span style={{ fontWeight: 900 }}>$6.99<span style={{ fontSize: 12, opacity: 0.8 }}>/mo</span></span>
             </div>
-            <button className="btn btn--gold" style={{ marginTop: 14 }} onClick={startPlus}>
-              Try 7 days free
-            </button>
+            <button className="btn btn--gold" style={{ marginTop: 14 }} onClick={startPlus}>Try 7 days free</button>
           </div>
         )}
 
         {/* settings */}
         <div className="section-title">Settings</div>
         <div className="stack" style={{ gap: 12 }}>
+          {/* account */}
+          <div className="tile" style={{ cursor: 'default' }}>
+            <span className="tile-flag" style={{ fontSize: 22 }}>{account ? '👤' : '🔐'}</span>
+            <div className="grow">
+              <div className="tile-name">Account</div>
+              <div className="tile-sub">{account ? (account.email ?? account.displayName) : 'Not signed in'}</div>
+            </div>
+            {account
+              ? <button className="chip" onClick={doSignOut}>Sign out</button>
+              : <button className="chip" onClick={() => { haptic('tap'); navigate('/account') }}>Sign in</button>}
+          </div>
+
           {/* age group */}
           <div className="tile" style={{ cursor: 'default' }}>
             <span className="tile-flag" style={{ fontSize: 22 }}>🎂</span>
@@ -148,27 +137,21 @@ export default function Profile() {
             <button className="chip" onClick={() => { haptic('tap'); navigate('/onboarding') }}>Change</button>
           </div>
 
-          {/* home region — unlocks that country pack on the free tier */}
+          {/* home region */}
           <div className="tile" style={{ cursor: 'default' }}>
             <span className="tile-flag" style={{ fontSize: 22 }}>{COUNTRIES[homeRegion]?.flag ?? '🏠'}</span>
             <div className="grow">
               <div className="tile-name">Home region</div>
               <div className="tile-sub">Free pack for where you live</div>
             </div>
-            <select
-              className="chip"
-              aria-label="Home region"
-              value={homeRegion}
+            <select className="chip" aria-label="Home region" value={homeRegion}
               onChange={(e) => changeHome(e.target.value as CountryCode)}
-              style={{ fontWeight: 700, border: 'none', background: 'var(--navy-100)', cursor: 'pointer' }}
-            >
-              {countryList().map((c) => (
-                <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
-              ))}
+              style={{ fontWeight: 700, border: 'none', background: 'var(--navy-100)', cursor: 'pointer' }}>
+              {countryList().map((c) => (<option key={c.code} value={c.code}>{c.flag} {c.name}</option>))}
             </select>
           </div>
 
-          {/* owned travel packs, if any */}
+          {/* owned travel packs */}
           {ownedPacks.length > 0 && (
             <div className="tile" style={{ cursor: 'default' }}>
               <span className="tile-flag" style={{ fontSize: 22 }}>🎟️</span>
@@ -185,13 +168,20 @@ export default function Profile() {
           </button>
 
           {/* store-required account deletion */}
-          <button className="tile" onClick={doDeleteAccount}>
+          <button className="tile" onClick={() => { haptic('tap'); navigate('/account/delete') }}>
             <span className="tile-flag" style={{ fontSize: 22 }}>🗑️</span>
-            <div className="grow"><div className="tile-name" style={{ color: 'var(--coral-600)' }}>Delete account</div><div className="tile-sub">Erase your data from this device</div></div>
+            <div className="grow"><div className="tile-name" style={{ color: 'var(--coral-600)' }}>Delete account</div><div className="tile-sub">Erase your data</div></div>
+            <span className="tile-go">›</span>
           </button>
         </div>
 
-        <p className="kicker" style={{ textAlign: 'center', marginTop: 22 }}>
+        {/* legal / support */}
+        <nav className="legal-links">
+          <Link to="/help" className="src-link">Help</Link>
+          <Link to="/privacy" className="src-link">Privacy</Link>
+          <Link to="/terms" className="src-link">Terms</Link>
+        </nav>
+        <p className="kicker" style={{ textAlign: 'center', marginTop: 12 }}>
           Mannerly · confidence in every culture
         </p>
       </div>

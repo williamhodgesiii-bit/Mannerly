@@ -1,56 +1,66 @@
 # Mannerly — Launch Roadmap Progress
 
 Tracks work against **`To Do for Bill`** (the distribution / store / web launch plan).
-Updated as items are started and completed.
 
-## ✅ Started — Central Entitlement System
+## ✅ Central Entitlement System
 
-> Plan: _"Do not build subscription access as a simple Boolean such as
-> `premium=true`. Build a real entitlement system from the beginning."_
-
-The app previously gated every country pack on a single `course.free` boolean.
-That has been replaced with a real entitlement layer:
+Replaced the single `course.free` gating boolean with a real entitlement layer.
 
 - **`src/lib/entitlements.ts`** — internal permissions (`GLOBAL_CORE`,
   `MANNERLY_PLUS`, `FAMILY`, `SCHOOL_LICENSE`, `HOME_REGION_<CC>`,
-  `<CC>_TRAVEL_PACK`), the storefront **source** each grant came from
-  (`apple` · `google` · `amazon` · `web` · `promo` · `school` · `home` · `free`),
-  and pure resolvers (`computeHeld`, `courseUnlocked`, `activePlan`).
-- **`src/state/entitlements.ts`** — a persisted **entitlement ledger**
-  (home region + grants with source & timestamp) with `grant` / `revoke` /
-  `setHomeRegion` and a `useHeldPermissions()` selector. This is the local
-  stand-in for the central backend layer; `grant`/`revoke` become the sync
-  points when the backend lands.
-- **Gating** in `Explore` and `CourseDetail` now asks the entitlement layer,
-  not `course.free`. Free tier = **Global Core + your Home Region + first
-  lesson of every pack**; Manners+ / Family / School / a Travel Pack unlock
-  the rest.
-- **Profile** shows the active plan, changing Home Region unlocks that pack,
-  and "Try 7 days free" writes a `MANNERLY_PLUS` grant (source `web`) into the
-  ledger — modelling a real purchase reconciling into central entitlements.
+  `<CC>_TRAVEL_PACK`), the storefront **source** of each grant, and pure resolvers.
+- **`src/state/entitlements.ts`** — a persisted entitlement **ledger**.
+- Gating in `Explore` / `CourseDetail` asks the entitlement layer.
+- Free tier = **Global Core + Home Region + first lesson of every pack**.
 
-## ✅ Started — Account Deletion (store requirement)
+## ✅ Accounts + cross-device sync foundation
 
-> Plan: Apple & Google both require an in-app path to delete an account and its
-> data (Settings → Account → Delete Account), plus a web deletion resource.
+> Plan: "create an account on one device, sign in on another, see the same profile."
 
-- Profile now has a **Delete account** action that erases progress,
-  entitlements and preferences from the device. The web `/account/delete`
-  resource is still to be built alongside the backend.
+- **`src/state/account.ts`** — email/password + **Continue with Google/Apple**
+  sign-in, per-account data (progress + entitlements swap on sign-in/out), and
+  account deletion.
+- **`src/lib/sync.ts`** — a per-account snapshot **vault** behind a `SyncBackend`
+  interface (`pull` / `push` / `remove`). Local today; **point `backend` at the real
+  service (Supabase / REST) to get true cross-device sync — no caller changes.**
+- **`src/screens/Auth.tsx`** — on-brand sign in / create account at `/account`.
+- App pushes the live snapshot through the sync seam on every change.
 
-## ▶️ Next up (from the plan, roughly in order)
+> ⚠️ Password + OAuth here are a **local development stand-in** so flows are testable
+> without a server. Real auth (server-side hashing, Google/Apple OAuth, sessions) and
+> the sync backend must be provisioned before cross-device works in production.
 
-1. **Home Region in onboarding** — pick it during signup (today it defaults to
-   US and is changed in Profile).
-2. **Server-controlled feature flags** — `Travel Mode`, `Teacher Dashboard beta`,
-   new onboarding, etc., so releases don't require a store update.
-3. **Central Mannerly backend** — accounts, households, classrooms, and syncing
-   the entitlement ledger across web / iOS / Android.
-4. **Web resources** — `mannerly.com/account/delete`, `/help`, `/privacy`,
-   `/terms`.
-5. **App Store / Play foundations** — Data Safety & App Privacy disclosures,
-   subscription products, reviewer demo accounts.
+## ✅ Onboarding — home region
 
-_Business setup in the plan (D-U-N-S, developer org accounts, banking/tax,
-store enrolment) is operational work outside this codebase and is tracked
-separately._
+Onboarding now asks age → **home region** → account (create / sign in / continue as
+guest). Home region unlocks that country's pack on the free tier.
+
+## ✅ Legal / web resources (store requirements)
+
+Public pages, reachable without signing in:
+
+- `/privacy` — Privacy Policy (COPPA, GDPR + UK Children's Code, CCPA/CPRA, FERPA, transfers, rights).
+- `/terms` — Terms of Service (subscriptions, billing, disputes).
+- `/help` — Help & Support centre.
+- `/account/delete` — account & data deletion (in-app + the web resource Google requires).
+
+> Legal copy is a **pre-launch draft**: bracketed `[…]` items (entity, addresses, DPO,
+> jurisdiction, effective dates) must be completed and the text reviewed by counsel
+> before publishing or submitting.
+
+## ✅ Store submission pack — `docs/store/`
+
+- `app-store-privacy.md` — Apple App Privacy answers.
+- `play-data-safety.md` — Google Data Safety answers.
+- `subscriptions.md` — product catalogue mapped to entitlement permissions.
+- `reviewer-notes.md` — seeded demo accounts + how to reach gated features.
+- `README.md` — data-collection source of truth + submission checklist.
+
+## ▶️ Still to do (needs infrastructure / business action)
+
+1. **Provision the backend** (accounts DB, server-side auth, Google/Apple OAuth) and
+   wire it into `src/lib/sync.ts` for real cross-device sync.
+2. **Server-controlled feature flags.**
+3. **Complete the legal `[…]` items** and get counsel sign-off.
+4. **Create store products** (App Store Connect / Play Console) and sign tax/banking agreements.
+5. **Business/ops** from the plan: D-U-N-S, developer org accounts — outside the codebase.

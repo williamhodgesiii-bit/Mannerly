@@ -8,6 +8,7 @@ import {
   type EntitlementSource,
   type Permission,
 } from '@/lib/entitlements'
+import { EMPTY_ENTITLEMENTS, type EntitlementSnapshot } from '@/lib/sync'
 
 /**
  * The persisted entitlement ledger.
@@ -38,6 +39,11 @@ interface EntitlementState {
   has: (permission: Permission) => boolean
   /** Wipe all entitlements and reset the home region (account deletion). */
   clearEntitlements: () => void
+
+  /** Snapshot for the account sync layer. */
+  exportSnapshot: () => EntitlementSnapshot
+  /** Replace entitlements with an account's snapshot (on sign-in / sign-out). */
+  hydrate: (s: EntitlementSnapshot) => void
 }
 
 export const useEntitlements = create<EntitlementState>()(
@@ -62,7 +68,14 @@ export const useEntitlements = create<EntitlementState>()(
       has: (permission) =>
         computeHeld(get().ledger, get().homeRegion).has(permission),
 
-      clearEntitlements: () => set({ homeRegion: DEFAULT_HOME_REGION, ledger: [] }),
+      clearEntitlements: () => set({ ...EMPTY_ENTITLEMENTS }),
+
+      exportSnapshot: () => {
+        const { homeRegion, ledger } = get()
+        return { homeRegion, ledger }
+      },
+
+      hydrate: (s) => set({ homeRegion: s.homeRegion, ledger: s.ledger }),
     }),
     { name: 'mannerly-entitlements-v1' },
   ),
