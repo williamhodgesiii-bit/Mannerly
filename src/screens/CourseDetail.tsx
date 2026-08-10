@@ -5,6 +5,8 @@ import Mascot from '@/components/Mascot'
 import { COURSE_MAP, LESSON_MAP, UNIT_MAP } from '@/data/content'
 import { COUNTRIES } from '@/data/countries'
 import { useProgress } from '@/state/store'
+import { useHeldPermissions } from '@/state/entitlements'
+import { courseUnlocked, unlockHint } from '@/lib/entitlements'
 import { haptic } from '@/lib/haptics'
 
 export default function CourseDetail() {
@@ -12,6 +14,7 @@ export default function CourseDetail() {
   const navigate = useNavigate()
   const course = COURSE_MAP[courseId]
   const completed = useProgress((s) => s.completed)
+  const held = useHeldPermissions()
 
   if (!course) {
     return (
@@ -23,6 +26,7 @@ export default function CourseDetail() {
   }
 
   const country = course.country ? COUNTRIES[course.country] : null
+  const unlocked = courseUnlocked(course, held)
   let globalIdx = -1
 
   const open = (id: string, locked: boolean) => {
@@ -50,11 +54,11 @@ export default function CourseDetail() {
           <Mascot color="teal" size={64} pose="wave" />
         </motion.div>
 
-        {!course.free && (
+        {!unlocked && (
           <div className="card" style={{ padding: 14, marginTop: 12, display: 'flex', gap: 10, alignItems: 'center', background: 'var(--gold-100)', border: '1px solid var(--gold-400)' }}>
             <span style={{ fontSize: 22 }}>⭐</span>
             <span style={{ fontWeight: 800, fontSize: 14, color: 'var(--gold-600)' }}>
-              First lesson free — unlock the pack with Manners+
+              First lesson free — {unlockHint(course).toLowerCase()}
             </span>
           </div>
         )}
@@ -70,7 +74,7 @@ export default function CourseDetail() {
                   globalIdx += 1
                   const lesson = LESSON_MAP[id]
                   const done = !!completed[id]
-                  const locked = !course.free && globalIdx > 0 && !done
+                  const locked = !unlocked && globalIdx > 0 && !done
                   return (
                     <motion.button
                       key={id}

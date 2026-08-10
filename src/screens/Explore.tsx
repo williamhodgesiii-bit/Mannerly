@@ -3,10 +3,13 @@ import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import { COUNTRIES, REGIONS } from '@/data/countries'
 import { COURSE_MAP } from '@/data/content'
+import { useHeldPermissions } from '@/state/entitlements'
+import { courseUnlocked } from '@/lib/entitlements'
 import { haptic } from '@/lib/haptics'
 
 export default function Explore() {
   const navigate = useNavigate()
+  const held = useHeldPermissions()
   const withCountries = REGIONS.filter((r) => r.countries.length)
   const soon = REGIONS.filter((r) => !r.countries.length)
 
@@ -27,6 +30,7 @@ export default function Explore() {
               {region.countries.map((code, i) => {
                 const c = COUNTRIES[code]
                 const course = COURSE_MAP[c.courseId]
+                const unlocked = course ? courseUnlocked(course, held) : false
                 return (
                   <motion.button
                     key={code}
@@ -43,7 +47,7 @@ export default function Explore() {
                       <div className="tile-name">{c.name}</div>
                       <div className="tile-sub">{c.blurb}</div>
                     </div>
-                    {course?.free ? <span className="tile-go">›</span> : <span className="lock-pill">Manners+</span>}
+                    {unlocked ? <span className="tile-go">›</span> : <span className="lock-pill">Manners+</span>}
                   </motion.button>
                 )
               })}
