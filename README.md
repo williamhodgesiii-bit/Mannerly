@@ -11,6 +11,62 @@ digital etiquette, and country-specific customs — into a playful, Duolingo-sty
 learning path. One codebase ships to **the web, the Apple App Store, and Google
 Play**.
 
+## 👤 How it works (from the user's side)
+
+Mannerly feels like a game, not a textbook. Here's the experience end to end.
+
+**1. You tell it who you are.** Onboarding is a friendly, one-question-at-a-time
+conversation that opens with *"How will you use Mannerly?"* and branches four ways:
+
+- **For myself** → your age band (Kids · Tweens · Teens · Adults), where you live
+  (your **home region**, which stays free forever), your language, and what you want
+  to get better at — work, travel, dining, confidence, and more. You try a quick
+  starter scenario, choose whether you'd like a **Daily Manner** nudge, set any
+  accessibility preferences, and you're in.
+- **For my family** → one grown-up sets up the household, then adds a profile for each
+  child (name, age, avatar — no email or login for kids). Everyone learns on their own
+  progress.
+- **I'm a teacher** → spin up a class and get a shareable **join code** (`MANNER-####`).
+- **I'm a student** → type your class code, pick an avatar, and start.
+
+**2. You land on your path.** Home is a winding trail of lesson "nodes" with a glowing
+**START** button waiting for you. A banner up top shows the world you're in (Global Core
+or a country), how far you've come, and your level — with your **streak** 🔥 and your
+**charge** ⚡ in the corner.
+
+**3. You play a lesson.** This is the heart of it, and it's fast — a minute or two:
+
+1. **See the situation** on an animated stage — a home, a restaurant, a train, a temple.
+2. **Choose what you'd do** from a few options.
+3. **See what happens** right away — the character reacts, with a little buzz of haptic
+   feedback. Pick the wrong one? No penalty — just try again.
+4. **Learn _why_** — the reason it matters, how formal the setting is, how strong the
+   custom is, what to do *when you're unsure*, the exceptions, and the real sources it's
+   drawn from.
+5. **Get a real-world challenge** — a small mission to actually try in life ("Introduce
+   yourself to someone new today").
+6. **Get rewarded** — confetti, the XP you earned, and your streak ticking up.
+
+**4. You keep it bite-sized.** Each lesson spends one **bolt** of charge (you get five;
+one refills every 30 minutes). It's a gentle nudge to learn a little and come back —
+and **Manners+**, Family, and School plans make it unlimited.
+
+**5. You explore the world.** The **Explore** tab is a shelf of "worlds": the free
+**Global Core** plus eight country packs — Japan, South Korea, UAE, India, Mexico,
+Brazil, USA, and the UK — grouped by region. Tap one to make it your active path.
+
+**6. You collect and level up.**
+
+- The **Passport** gives you a stamp for every country you learn, plus achievements to
+  earn (First Steps, week-long streaks, Globetrotter, World Citizen…).
+- Your XP carries you up a ladder of levels: **Beginner → Comfortable → Confident →
+  Ambassador.**
+
+**7. It's yours everywhere.** The **Me** tab is your identity — avatar, level, stats,
+goals, and settings. Sign in and your progress follows you to any device. Basic manners
+stay free for good; **Manners+** unlocks every country and travel mode, a **Family** plan
+covers the whole household, and one-time **Travel Packs** cover a single trip.
+
 ## ✨ What's inside
 
 - **A winding learning path** (Global Manners Core) with unit bands, a live
