@@ -16,7 +16,30 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js'
    (src/lib/sync.ts).
    ============================================================ */
 
-const url = import.meta.env.VITE_SUPABASE_URL?.trim()
+/**
+ * Normalize the configured project URL to its clean origin.
+ *
+ * supabase-js builds every endpoint as `${url}/auth/v1/...`, `${url}/rest/v1/...`,
+ * so the URL must be the bare project origin (`https://<ref>.supabase.co`) with
+ * no trailing slash and no path. If it carries either, the request path becomes
+ * malformed — e.g. a trailing slash yields `//auth/v1/token`, a stray path yields
+ * `/rest/v1/auth/v1/...` — and Supabase's gateway rejects it with
+ * "Invalid path specified in request URL", blocking sign-in. Reducing to
+ * `URL.origin` makes auth resilient to a stray slash, path, or whitespace in the
+ * env var. Anything unparseable falls back to the on-device stand-in.
+ */
+function normalizeSupabaseUrl(raw: string | undefined): string | undefined {
+  const v = raw?.trim()
+  if (!v) return undefined
+  const withProtocol = /^https?:\/\//i.test(v) ? v : `https://${v}`
+  try {
+    return new URL(withProtocol).origin
+  } catch {
+    return undefined
+  }
+}
+
+const url = normalizeSupabaseUrl(import.meta.env.VITE_SUPABASE_URL)
 const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim()
 
 export const isSupabaseConfigured = Boolean(url && anonKey)
