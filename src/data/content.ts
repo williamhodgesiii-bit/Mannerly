@@ -1,27 +1,48 @@
 import type { Course, Lesson, Source, Unit } from '@/types'
 
-/* ---------- shared sources ---------- */
+/* ------------------------------------------------------------------
+   Sources. Lessons are grounded in three kinds of authority:
+   · etiquette institutions (Emily Post, Debrett's, Protocol School)
+   · cross-cultural research (Edward T. Hall's proxemics & context)
+   · peer-reviewed "why it matters" studies (listening, gratitude,
+     apology, phone use) and professional country guides
+     (Commisceo Global, SBS Cultural Atlas, Pew Research).
+   Every lesson cites at least two, so no single voice stands alone.
+   ------------------------------------------------------------------ */
 const S: Record<string, Source> = {
-  post: { label: 'The Emily Post Institute', url: 'https://emilypost.com/advice' },
-  usAtlas: { label: 'SBS Cultural Atlas — American Etiquette', url: 'https://culturalatlas.sbs.com.au/american-culture/american-culture-etiquette' },
+  /* etiquette institutions */
+  post: { label: 'The Emily Post Institute — Etiquette advice', url: 'https://emilypost.com/advice' },
+  debretts: { label: "Debrett's — Etiquette & modern manners", url: 'https://debretts.com/etiquettes/' },
+  debrettsQueue: { label: "Debrett's — How to queue", url: 'https://debretts.com/how-to-queue/' },
+  debrettsUnderstate: { label: "Debrett's — The art of understatement", url: 'https://debretts.com/the-art-of-understatement/' },
+  psow: { label: 'The Protocol School of Washington', url: 'https://www.psow.edu/' },
+
+  /* cross-cultural research */
+  hall: { label: 'Edward T. Hall — Proxemics & context (UC / CSISS Classics)', url: 'https://escholarship.org/uc/item/4774h1rm' },
+
+  /* why-it-matters research */
+  listening: { label: 'StatPearls / NIH — Active Listening', url: 'https://www.ncbi.nlm.nih.gov/books/NBK442015/' },
+  gratitude: { label: 'Greater Good Science Center, UC Berkeley — Gratitude & relationships', url: 'https://greatergood.berkeley.edu/article/item/how_gratitude_helps_your_friendships_grow' },
+  apology: { label: 'Ohio State (Lewicki et al., 2016) — Six elements of an effective apology', url: 'https://news.osu.edu/the-6-elements-of-an-effective-apology/' },
+  phubbing: { label: 'NIH / PMC — Phone interruptions & relational well-being', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC7430699/' },
+
+  /* country cultural authorities */
+  usAtlas: { label: 'SBS Cultural Atlas — American etiquette', url: 'https://culturalatlas.sbs.com.au/american-culture/american-culture-etiquette' },
   berlitz: { label: 'Berlitz — American manners & etiquette', url: 'https://www.berlitz.com/blog/american-manners-etiquette-tipping-table-handshakes' },
-  debretts: { label: "Debrett's — Etiquette", url: 'https://www.debretts.com/expertise/etiquette/' },
-  jp1: { label: 'JRPass — Guide to Japanese Etiquette', url: 'https://www.jrpass.com/blog/a-guide-to-japanese-etiquette' },
-  jp2: { label: 'Go! Go! Nihon — Japanese etiquette guide', url: 'https://gogonihon.com/en/blog/japanese-etiquette-guide-students/' },
-  kr1: { label: 'Wikipedia — Etiquette in South Korea', url: 'https://en.wikipedia.org/wiki/Etiquette_in_South_Korea' },
-  kr2: { label: 'OnboardKorea — Korean Etiquette 101', url: 'https://onboardkorea.com/korean-etiquette-101/' },
-  ae1: { label: 'Insta Dubai Visa — UAE Cultural Etiquette', url: 'https://www.instadubaivisa.com/blog/uae-cultural-etiquette-travelers-should-know' },
-  ae2: { label: 'World Trip Deal — Cultural Etiquette of the UAE', url: 'https://blog.worldtripdeal.com/en/cultural-etiquette-of-uae/' },
-  in1: { label: 'SBS Cultural Atlas — Indian Etiquette', url: 'https://culturalatlas.sbs.com.au/indian-culture/indian-culture-etiquette' },
-  in2: { label: 'Natural Habitat — India Do’s & Don’ts', url: 'https://www.nathab.com/know-before-you-go/asia-the-pacific/india/cultural-dos-and-donts' },
-  mx1: { label: 'Mexperience — Social Etiquette in Mexico', url: 'https://www.mexperience.com/guide-to-social-etiquette-and-local-customs-in-mexico/' },
-  mx2: { label: 'Moon Travel Guides — Customs in Mexico', url: 'https://www.moontravelguides.com/travel/planning/everyday-customs-etiquette-in-mexico/' },
-  br1: { label: 'CheapFareGuru — Brazil Etiquette', url: 'https://www.cheapfareguru.com/fly-away/brazil_etiquette_from_greetings_to_dining_like_a_local/' },
-  br2: { label: 'Fit for Global Learning — Etiquette in Brazil', url: 'https://fit4globallearningsystems.substack.com/p/navigating-etiquette-in-brazil' },
+  pew: { label: 'Pew Research Center — Tipping in America', url: 'https://www.pewresearch.org/2023/11/09/services-americans-do-and-dont-tip-for-and-how-much/' },
+  jpCommisceo: { label: 'Commisceo Global — Japan culture guide', url: 'https://commisceo-global.com/country-guides/japan-guide/' },
+  jpNippon: { label: 'Nippon.com — Glossary of chopstick etiquette', url: 'https://www.nippon.com/en/japan-data/h01362/' },
+  krCommisceo: { label: 'Commisceo Global — South Korea culture guide', url: 'https://commisceo-global.com/country-guides/south-korea-guide/' },
+  krAtlas: { label: 'SBS Cultural Atlas — South Korean greetings', url: 'https://culturalatlas.sbs.com.au/south-korean-culture/south-korean-culture-greetings' },
+  aeCommisceo: { label: 'Commisceo Global — UAE culture guide', url: 'https://commisceo-global.com/country-guides/uae-guide/' },
+  inCommisceo: { label: 'Commisceo Global — India culture guide', url: 'https://commisceo-global.com/country-guides/india-guide/' },
+  inAtlas: { label: 'SBS Cultural Atlas — Indian etiquette', url: 'https://culturalatlas.sbs.com.au/indian-culture/indian-culture-etiquette' },
+  mxCommisceo: { label: 'Commisceo Global — Mexico culture guide', url: 'https://commisceo-global.com/country-guides/mexico-guide/' },
+  brCommisceo: { label: 'Commisceo Global — Brazil culture guide', url: 'https://commisceo-global.com/country-guides/brazil-guide/' },
 }
 
 const REVIEWER = 'Mannerly Culture Desk'
-const REVIEWED = '2026-07-15'
+const REVIEWED = '2026-08-11'
 const ALL = ['kids', 'tweens', 'teens', 'adults'] as const
 
 type LessonSeed = Omit<Lesson, 'reviewer' | 'reviewedOn'>
@@ -45,7 +66,7 @@ const CORE: Lesson[] = [
     situation: 'Someone greets you', behavior: 'Say hi back',
     formality: 'casual', normStrength: 'strong',
     whenUnsure: 'A smile and a wave always work.', reasoning: 'Greeting people shows you see them.',
-    ageGroups: [...ALL], sources: [S.post],
+    ageGroups: [...ALL], sources: [S.post, S.psow],
   }),
   build({
     id: 'gc-please', title: "What's the magic word?", icon: '🙏', xp: 10,
@@ -60,8 +81,8 @@ const CORE: Lesson[] = [
     challenge: 'Say please every time you ask today.',
     situation: 'Asking for something', behavior: 'Ask with please',
     formality: 'casual', normStrength: 'strong',
-    whenUnsure: 'Add please. It always helps.', reasoning: 'Please shows respect.',
-    ageGroups: [...ALL], sources: [S.post],
+    whenUnsure: 'Add please. It always helps.', reasoning: 'Please turns an order into a request.',
+    ageGroups: [...ALL], sources: [S.post, S.debretts],
   }),
   build({
     id: 'gc-thanks', title: 'Do you owe a thanks?', icon: '💛', xp: 10,
@@ -76,8 +97,8 @@ const CORE: Lesson[] = [
     challenge: 'Thank someone who helps you today.',
     situation: 'Someone helps you', behavior: 'Say thank you',
     formality: 'casual', normStrength: 'strong',
-    whenUnsure: 'A quick thanks is never wrong.', reasoning: 'Thanks makes people want to help again.',
-    ageGroups: [...ALL], sources: [S.post],
+    whenUnsure: 'A quick thanks is never wrong.', reasoning: 'Studies show a real thank-you makes people feel closer to you.',
+    ageGroups: [...ALL], sources: [S.gratitude, S.post],
   }),
   build({
     id: 'gc-introduce', title: 'How do you break the ice?', icon: '🤝', xp: 10,
@@ -93,7 +114,7 @@ const CORE: Lesson[] = [
     situation: 'Meeting someone new', behavior: 'Say your name',
     formality: 'semiformal', normStrength: 'medium',
     whenUnsure: 'Say your name and smile.', reasoning: 'Names help people connect.',
-    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.post],
+    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.post, S.psow],
   }),
   build({
     id: 'gc-sorry', title: 'What makes a real sorry?', icon: '🫶', xp: 10,
@@ -104,12 +125,12 @@ const CORE: Lesson[] = [
       { id: 'b', label: 'Blame them', emoji: '😤', reaction: 'Now it is a fight.', reactionState: 'confused' },
       { id: 'c', label: 'Keep walking', emoji: '🏃', reaction: 'They feel upset.', reactionState: 'idle' },
     ],
-    reason: 'Say sorry and check they are okay.',
+    reason: 'Say sorry, own it, and check they are okay.',
     challenge: 'Say sorry for one small mistake today.',
-    situation: 'You make a small mistake', behavior: 'Say sorry and check on them',
+    situation: 'You make a small mistake', behavior: 'Own it and check on them',
     formality: 'casual', normStrength: 'strong',
-    whenUnsure: 'A simple sorry fixes most things.', reasoning: 'Sorry shows you care more than being right.',
-    ageGroups: [...ALL], sources: [S.post],
+    whenUnsure: 'A simple sorry fixes most things.', reasoning: 'Research says the best sorry owns the mistake instead of making excuses.',
+    ageGroups: [...ALL], sources: [S.apology, S.post],
   }),
 
   build({
@@ -125,8 +146,8 @@ const CORE: Lesson[] = [
     challenge: 'Let someone finish before you talk.',
     situation: 'A friend is talking', behavior: 'Look and listen',
     formality: 'casual', normStrength: 'medium',
-    whenUnsure: 'Put your phone away and look up.', reasoning: 'Listening shows people they matter.',
-    ageGroups: [...ALL], sources: [S.post],
+    whenUnsure: 'Put your phone away and look up.', reasoning: 'Real listening makes people feel understood, and easy to like you back.',
+    ageGroups: [...ALL], sources: [S.listening, S.post],
   }),
   build({
     id: 'gc-interrupt', title: 'When can you jump in?', icon: '✋', xp: 10,
@@ -141,8 +162,8 @@ const CORE: Lesson[] = [
     challenge: 'Wait your turn to talk today.',
     situation: 'You want to speak', behavior: 'Wait for a pause',
     formality: 'casual', normStrength: 'medium',
-    whenUnsure: 'Raise your hand or wait.', reasoning: 'Taking turns is fair.',
-    ageGroups: [...ALL], sources: [S.post],
+    whenUnsure: 'Raise your hand or wait.', reasoning: 'Taking turns lets everyone be heard.',
+    ageGroups: [...ALL], sources: [S.listening, S.post],
   }),
   build({
     id: 'gc-boundaries', title: 'What if they say no?', icon: '🛑', xp: 10,
@@ -158,7 +179,7 @@ const CORE: Lesson[] = [
     situation: 'Someone needs space', behavior: 'Accept it kindly',
     formality: 'casual', normStrength: 'strong',
     whenUnsure: 'Give space. They will come back.', reasoning: 'Respecting no builds trust.',
-    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.post],
+    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.post, S.psow],
   }),
 
   build({
@@ -176,7 +197,7 @@ const CORE: Lesson[] = [
     formality: 'semiformal', normStrength: 'medium',
     exceptions: 'If the host says start, go ahead.',
     whenUnsure: 'Watch the host, or ask to start.', reasoning: 'Starting together feels friendly.',
-    ageGroups: [...ALL], sources: [S.post],
+    ageGroups: [...ALL], sources: [S.post, S.debretts],
   }),
   build({
     id: 'gc-chew', title: 'Are you a noisy eater?', icon: '🤫', xp: 10,
@@ -192,7 +213,7 @@ const CORE: Lesson[] = [
     situation: 'Eating near others', behavior: 'Chew quietly',
     formality: 'casual', normStrength: 'medium',
     whenUnsure: 'Copy the quietest eater.', reasoning: 'Quiet eating is easy to be around.',
-    ageGroups: [...ALL], sources: [S.post],
+    ageGroups: [...ALL], sources: [S.post, S.debretts],
   }),
   build({
     id: 'gc-phone-meal', title: 'Phone at the table?', icon: '📵', xp: 10,
@@ -207,8 +228,8 @@ const CORE: Lesson[] = [
     challenge: 'Keep your phone off the table at a meal.',
     situation: 'Phone buzzes during a meal', behavior: 'Put the phone away',
     formality: 'casual', normStrength: 'medium',
-    whenUnsure: 'If you must check, say “one sec” first.', reasoning: 'People beat phones at the table.',
-    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.post],
+    whenUnsure: 'If you must check, say “one sec” first.', reasoning: 'Even a phone face-up on the table makes people feel less heard.',
+    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.phubbing, S.post],
   }),
 
   build({
@@ -224,8 +245,8 @@ const CORE: Lesson[] = [
     challenge: 'Re-read one text before you send it.',
     situation: 'Texting where tone can be misread', behavior: 'Add warmth so it is clear',
     formality: 'casual', normStrength: 'soft',
-    whenUnsure: 'A friendlier text is safer.', reasoning: 'Texts have no voice or face.',
-    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.post],
+    whenUnsure: 'A friendlier text is safer.', reasoning: 'Texts have no voice or face, so tone is easy to misread.',
+    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.post, S.hall],
   }),
   build({
     id: 'gc-groupchat', title: 'Blowing up the chat?', icon: '📱', xp: 10,
@@ -241,7 +262,7 @@ const CORE: Lesson[] = [
     situation: 'Posting in a busy group chat', behavior: 'Keep it to one message',
     formality: 'casual', normStrength: 'soft',
     whenUnsure: 'For one person, message them directly.', reasoning: 'Every text pings the whole group.',
-    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.post],
+    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.post, S.phubbing],
   }),
   build({
     id: 'gc-videocall', title: 'Mic on or off?', icon: '🎥', xp: 10,
@@ -257,7 +278,7 @@ const CORE: Lesson[] = [
     situation: 'Group video call', behavior: 'Mute when not speaking',
     formality: 'semiformal', normStrength: 'medium',
     whenUnsure: 'Stay muted until you speak.', reasoning: 'One open mic can drown out everyone.',
-    ageGroups: ['teens', 'adults'], sources: [S.post],
+    ageGroups: ['teens', 'adults'], sources: [S.post, S.psow],
   }),
 
   build({
@@ -273,8 +294,8 @@ const CORE: Lesson[] = [
     challenge: 'Let one person go before you.',
     situation: 'Waiting in a line', behavior: 'Wait your turn',
     formality: 'casual', normStrength: 'strong',
-    whenUnsure: 'Ask “are you in line?” first.', reasoning: 'Lines are fair for everyone.',
-    ageGroups: [...ALL], sources: [S.post, S.usAtlas],
+    whenUnsure: 'Ask “are you in line?” first.', reasoning: 'A line is the fairest way to share a turn.',
+    ageGroups: [...ALL], sources: [S.post, S.debrettsQueue],
   }),
   build({
     id: 'gc-seat', title: 'Give up your seat?', icon: '💺', xp: 10,
@@ -290,7 +311,7 @@ const CORE: Lesson[] = [
     situation: 'Few seats left', behavior: 'Offer your seat',
     formality: 'casual', normStrength: 'medium',
     whenUnsure: 'Offer kindly. It is okay if they say no.', reasoning: 'Small kindnesses help everyone.',
-    ageGroups: [...ALL], sources: [S.post],
+    ageGroups: [...ALL], sources: [S.post, S.debretts],
   }),
   build({
     id: 'gc-guest', title: 'How to be a good guest?', icon: '🎁', xp: 10,
@@ -306,7 +327,7 @@ const CORE: Lesson[] = [
     situation: 'Visiting a home', behavior: 'Thank the host',
     formality: 'semiformal', normStrength: 'medium',
     whenUnsure: 'Ask “where should I sit?”', reasoning: 'Guests say thanks for the welcome.',
-    ageGroups: [...ALL], sources: [S.post],
+    ageGroups: [...ALL], sources: [S.post, S.debretts],
   }),
 ]
 
@@ -343,8 +364,8 @@ const US: Lesson[] = [
     challenge: 'Notice what distance feels comfy today.',
     situation: 'Talking with someone', behavior: 'Keep an arm’s length',
     formality: 'casual', normStrength: 'medium',
-    whenUnsure: 'Give a little space.', reasoning: 'People like their personal space.',
-    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.usAtlas],
+    whenUnsure: 'Give a little space.', reasoning: 'Researchers found about an arm’s length is the everyday comfort zone here.',
+    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.hall, S.usAtlas],
   }),
   build({
     id: 'us-smalltalk', title: 'How do you do small talk?', icon: '💬', xp: 15, country: 'US',
@@ -359,8 +380,8 @@ const US: Lesson[] = [
     challenge: 'Answer one “how are you?” kindly.',
     situation: 'Casual small talk', behavior: 'Answer short and friendly',
     formality: 'casual', normStrength: 'soft',
-    whenUnsure: 'Say good, thanks, and ask back.', reasoning: 'Small talk is just being friendly.',
-    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.usAtlas],
+    whenUnsure: 'Say good, thanks, and ask back.', reasoning: 'In the US, light small talk is just a friendly hello.',
+    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.usAtlas, S.berlitz],
   }),
   build({
     id: 'us-tipping', title: 'How much do you tip?', icon: '💵', xp: 15, country: 'US',
@@ -376,8 +397,8 @@ const US: Lesson[] = [
     situation: 'Paying at a sit-down restaurant', behavior: 'Tip 15 to 20%',
     formality: 'casual', normStrength: 'strong',
     exceptions: 'Other countries tip differently.',
-    whenUnsure: 'Around 18% is a safe tip.', reasoning: 'Tips are part of servers’ pay in the US.',
-    ageGroups: ['teens', 'adults'], sources: [S.berlitz, S.usAtlas],
+    whenUnsure: 'Around 18% is a safe tip.', reasoning: 'US servers can be paid below minimum wage, so tips are part of their pay.',
+    ageGroups: ['teens', 'adults'], sources: [S.pew, S.post],
   }),
 ]
 
@@ -399,8 +420,8 @@ const JP: Lesson[] = [
     situation: 'Entering a Japanese home', behavior: 'Remove shoes at the door',
     formality: 'formal', normStrength: 'strong',
     exceptions: 'Some restaurants and temples do this too.',
-    whenUnsure: 'Look for shoes at the door, or ask.', reasoning: 'Clean floors matter a lot in Japan.',
-    ageGroups: [...ALL], sources: [S.jp1, S.jp2],
+    whenUnsure: 'Look for shoes at the door, or ask.', reasoning: 'The step up marks clean floor from outside dirt.',
+    ageGroups: [...ALL], sources: [S.jpCommisceo, S.usAtlas],
   }),
   build({
     id: 'jp-chopsticks', title: 'The chopstick mistake?', icon: '🥢', xp: 15, country: 'JP',
@@ -415,8 +436,8 @@ const JP: Lesson[] = [
     challenge: 'Rest your fork or chopsticks neatly.',
     situation: 'Using chopsticks in Japan', behavior: 'Rest them on the holder',
     formality: 'semiformal', normStrength: 'strong',
-    whenUnsure: 'Lay them across the bowl or holder.', reasoning: 'Those moves are used at funerals in Japan.',
-    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.jp1, S.jp2],
+    whenUnsure: 'Lay them across the bowl or holder.', reasoning: 'Both moves copy Japanese funeral rites, so they feel like bad luck.',
+    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.jpNippon, S.jpCommisceo],
   }),
   build({
     id: 'jp-train', title: 'Why do trains go quiet?', icon: '🚆', xp: 15, country: 'JP',
@@ -431,8 +452,8 @@ const JP: Lesson[] = [
     challenge: 'Silence your phone in one quiet place today.',
     situation: 'On a train in Japan', behavior: 'No loud calls on trains',
     formality: 'semiformal', normStrength: 'strong',
-    whenUnsure: 'Silent mode and a quiet voice are safe.', reasoning: 'Quiet trains are polite in Japan.',
-    ageGroups: [...ALL], sources: [S.jp1, S.jp2],
+    whenUnsure: 'Silent mode and a quiet voice are safe.', reasoning: 'Shared calm is a way of respecting the group in Japan.',
+    ageGroups: [...ALL], sources: [S.jpCommisceo, S.hall],
   }),
 ]
 
@@ -450,8 +471,8 @@ const KR: Lesson[] = [
     challenge: 'Hand something over with both hands today.',
     situation: 'Giving to an elder in Korea', behavior: 'Use both hands',
     formality: 'formal', normStrength: 'strong',
-    whenUnsure: 'Two hands and a small bow always work.', reasoning: 'Two hands show you care, especially with elders.',
-    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.kr1, S.kr2],
+    whenUnsure: 'Two hands and a small bow always work.', reasoning: 'Two hands show extra care, which matters most with elders.',
+    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.krCommisceo, S.krAtlas],
   }),
   build({
     id: 'kr-elder-eats', title: 'Who eats first?', icon: '🍚', xp: 15, country: 'KR',
@@ -466,8 +487,8 @@ const KR: Lesson[] = [
     challenge: 'Let the eldest start first tonight.',
     situation: 'A meal with elders in Korea', behavior: 'Wait for the eldest',
     formality: 'formal', normStrength: 'strong',
-    whenUnsure: 'Watch the eldest and follow.', reasoning: 'Korea respects age at the table.',
-    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.kr1, S.kr2],
+    whenUnsure: 'Watch the eldest and follow.', reasoning: 'Respect for age sets the order at a Korean table.',
+    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.krCommisceo, S.krAtlas],
   }),
   build({
     id: 'kr-shoes', title: 'Wear shoes inside?', icon: '🧦', xp: 15, country: 'KR',
@@ -482,8 +503,8 @@ const KR: Lesson[] = [
     challenge: 'Slip your shoes off at the door next time.',
     situation: 'Entering a Korean home', behavior: 'Remove shoes inside',
     formality: 'formal', normStrength: 'strong',
-    whenUnsure: 'Follow the shoes-at-the-door cue.', reasoning: 'People sit and eat on clean floors.',
-    ageGroups: [...ALL], sources: [S.kr1, S.kr2],
+    whenUnsure: 'Follow the shoes-at-the-door cue.', reasoning: 'People sit, eat, and sleep on clean floors.',
+    ageGroups: [...ALL], sources: [S.krCommisceo, S.krAtlas],
   }),
 ]
 
@@ -501,8 +522,8 @@ const AE: Lesson[] = [
     challenge: 'Use your right hand to give and take today.',
     situation: 'Giving or eating in the UAE', behavior: 'Use the right hand',
     formality: 'formal', normStrength: 'strong',
-    whenUnsure: 'Use the right hand for anything social.', reasoning: 'The right hand is the polite hand here.',
-    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.ae1, S.ae2],
+    whenUnsure: 'Use the right hand for anything social.', reasoning: 'By custom the right hand is the clean, social hand.',
+    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.aeCommisceo],
   }),
   build({
     id: 'ae-dress', title: "What's okay to wear?", icon: '🧥', xp: 15, country: 'AE',
@@ -518,8 +539,8 @@ const AE: Lesson[] = [
     situation: 'Dressing for public in the UAE', behavior: 'Cover shoulders and knees',
     formality: 'formal', normStrength: 'strong',
     exceptions: 'Beaches and pools are relaxed.',
-    whenUnsure: 'Carry a layer to cover up.', reasoning: 'Modest clothes show respect here.',
-    ageGroups: ['teens', 'adults'], sources: [S.ae1, S.ae2],
+    whenUnsure: 'Carry a layer to cover up.', reasoning: 'Modest dress is a sign of respect in public here.',
+    ageGroups: ['teens', 'adults'], sources: [S.aeCommisceo],
   }),
   build({
     id: 'ae-ramadan', title: 'Can you eat in public?', icon: '🌙', xp: 15, country: 'AE',
@@ -535,8 +556,8 @@ const AE: Lesson[] = [
     situation: 'Ramadan daytime in the UAE', behavior: 'Eat and drink privately by day',
     formality: 'formal', normStrength: 'strong',
     exceptions: 'Many places serve food indoors.',
-    whenUnsure: 'Eat and drink in private during the day.', reasoning: 'It is kind to people who are fasting.',
-    ageGroups: ['teens', 'adults'], sources: [S.ae1, S.ae2],
+    whenUnsure: 'Eat and drink in private during the day.', reasoning: 'Most people around you are fasting from dawn to sunset.',
+    ageGroups: ['teens', 'adults'], sources: [S.aeCommisceo],
   }),
 ]
 
@@ -554,8 +575,8 @@ const IN: Lesson[] = [
     challenge: 'Greet someone with a small bow today.',
     situation: 'Greeting elders in India', behavior: 'Say namaste',
     formality: 'semiformal', normStrength: 'medium',
-    whenUnsure: 'Namaste works without touching.', reasoning: 'It is polite for everyone, especially elders.',
-    ageGroups: [...ALL], sources: [S.in1, S.in2],
+    whenUnsure: 'Namaste works without touching.', reasoning: 'Namaste shows respect and works without any contact.',
+    ageGroups: [...ALL], sources: [S.inCommisceo, S.inAtlas],
   }),
   build({
     id: 'in-shoes-temple', title: 'Shoes in the temple?', icon: '🛕', xp: 15, country: 'IN',
@@ -570,8 +591,8 @@ const IN: Lesson[] = [
     challenge: 'Look for the shoe rack before you enter.',
     situation: 'Entering temples and homes in India', behavior: 'Remove shoes; mind your feet',
     formality: 'formal', normStrength: 'strong',
-    whenUnsure: 'Follow the rack and how locals sit.', reasoning: 'Feet are seen as unclean here.',
-    ageGroups: [...ALL], sources: [S.in1, S.in2],
+    whenUnsure: 'Follow the rack and how locals sit.', reasoning: 'Feet are seen as the lowest, least clean part of the body here.',
+    ageGroups: [...ALL], sources: [S.inCommisceo, S.inAtlas],
   }),
   build({
     id: 'in-righthand', title: 'Which hand for food?', icon: '🍛', xp: 15, country: 'IN',
@@ -587,8 +608,8 @@ const IN: Lesson[] = [
     situation: 'Eating and sharing in India', behavior: 'Use the right hand for food',
     formality: 'semiformal', normStrength: 'strong',
     exceptions: 'The left hand can hold a cup.',
-    whenUnsure: 'Right hand for food, spoon for sharing.', reasoning: 'The right hand is used for food here.',
-    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.in1, S.in2],
+    whenUnsure: 'Right hand for food, spoon for sharing.', reasoning: 'The right hand is kept for food; the left is for other tasks.',
+    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.inCommisceo, S.inAtlas],
   }),
 ]
 
@@ -607,8 +628,8 @@ const MX: Lesson[] = [
     situation: 'Greeting people in Mexico', behavior: 'Greet each person warmly',
     formality: 'semiformal', normStrength: 'medium',
     exceptions: 'Cheek kiss is for friends. Shake hands the first time.',
-    whenUnsure: 'Start with a handshake.', reasoning: 'Warm hellos matter in Mexico.',
-    ageGroups: ['teens', 'adults'], sources: [S.mx1, S.mx2],
+    whenUnsure: 'Start with a handshake.', reasoning: 'A warm hello to each person sets a friendly tone in Mexico.',
+    ageGroups: ['teens', 'adults'], sources: [S.mxCommisceo],
   }),
   build({
     id: 'mx-provecho', title: 'What do you say at meals?', icon: '🍲', xp: 15, country: 'MX',
@@ -624,7 +645,7 @@ const MX: Lesson[] = [
     situation: 'Near people eating in Mexico', behavior: 'Say buen provecho',
     formality: 'casual', normStrength: 'soft',
     whenUnsure: 'A smile and “buen provecho” is kind.', reasoning: 'Small kind words keep things warm.',
-    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.mx1, S.mx2],
+    ageGroups: ['tweens', 'teens', 'adults'], sources: [S.mxCommisceo],
   }),
   build({
     id: 'mx-time', title: 'Show up on time?', icon: '🕰️', xp: 15, country: 'MX',
@@ -640,8 +661,8 @@ const MX: Lesson[] = [
     situation: 'Timing a party in Mexico', behavior: 'Relax social timing',
     formality: 'casual', normStrength: 'medium',
     exceptions: 'Be on time for work and business.',
-    whenUnsure: 'Ask if it is a set time or “come by.”', reasoning: 'Social time is relaxed in Mexico.',
-    ageGroups: ['teens', 'adults'], sources: [S.mx1, S.mx2],
+    whenUnsure: 'Ask if it is a set time or “come by.”', reasoning: 'Social time is relaxed, but business still runs on the clock.',
+    ageGroups: ['teens', 'adults'], sources: [S.mxCommisceo],
   }),
 ]
 
@@ -660,8 +681,8 @@ const BR: Lesson[] = [
     situation: 'Greeting people in Brazil', behavior: 'Follow their greeting',
     formality: 'casual', normStrength: 'medium',
     exceptions: 'The number of kisses changes by region.',
-    whenUnsure: 'Offer a handshake and follow them.', reasoning: 'Warm hellos are friendly in Brazil.',
-    ageGroups: ['teens', 'adults'], sources: [S.br1, S.br2],
+    whenUnsure: 'Offer a handshake and follow them.', reasoning: 'Warm, close greetings are the norm in Brazil.',
+    ageGroups: ['teens', 'adults'], sources: [S.brCommisceo],
   }),
   build({
     id: 'br-space', title: 'Standing too close?', icon: '🫂', xp: 15, country: 'BR',
@@ -676,8 +697,8 @@ const BR: Lesson[] = [
     challenge: 'Notice comfy chat distance today.',
     situation: 'Chatting in Brazil', behavior: 'Stay relaxed up close',
     formality: 'casual', normStrength: 'soft',
-    whenUnsure: 'Match the other person’s distance.', reasoning: 'Closeness shows friendliness in Brazil.',
-    ageGroups: ['teens', 'adults'], sources: [S.br1, S.br2],
+    whenUnsure: 'Match the other person’s distance.', reasoning: 'Comfortable talking distance is closer in Brazil than in the US.',
+    ageGroups: ['teens', 'adults'], sources: [S.brCommisceo, S.hall],
   }),
   build({
     id: 'br-time', title: 'Late to the party?', icon: '⏳', xp: 15, country: 'BR',
@@ -693,8 +714,8 @@ const BR: Lesson[] = [
     situation: 'Timing events in Brazil', behavior: 'Relax social timing',
     formality: 'casual', normStrength: 'medium',
     exceptions: 'Business runs on time.',
-    whenUnsure: 'Social: a bit late. Work: on time.', reasoning: 'Social time is flexible in Brazil.',
-    ageGroups: ['teens', 'adults'], sources: [S.br1, S.br2],
+    whenUnsure: 'Social: a bit late. Work: on time.', reasoning: 'Social time is flexible, but meetings still start on time.',
+    ageGroups: ['teens', 'adults'], sources: [S.brCommisceo],
   }),
 ]
 
@@ -712,8 +733,8 @@ const GB: Lesson[] = [
     challenge: 'Wait in one queue without checking your phone.',
     situation: 'Queuing in the UK', behavior: 'Join the back and wait',
     formality: 'semiformal', normStrength: 'strong',
-    whenUnsure: 'Ask “are you in the queue?”', reasoning: 'Fair queuing matters a lot in the UK.',
-    ageGroups: [...ALL], sources: [S.debretts],
+    whenUnsure: 'Ask “are you in the queue?”', reasoning: 'Debrett’s calls queue-jumping a serious offence in Britain.',
+    ageGroups: [...ALL], sources: [S.debrettsQueue, S.debretts],
   }),
   build({
     id: 'gb-please', title: "Mind your P's and Q's?", icon: '☕', xp: 15, country: 'GB',
@@ -728,7 +749,7 @@ const GB: Lesson[] = [
     challenge: 'Add please and thanks to three requests.',
     situation: 'Everyday requests in the UK', behavior: 'Say please and thank you',
     formality: 'casual', normStrength: 'strong',
-    whenUnsure: 'More politeness is always safe.', reasoning: 'Little courtesies keep things warm in the UK.',
+    whenUnsure: 'More politeness is always safe.', reasoning: 'Please and thank you are woven through everyday British speech.',
     ageGroups: [...ALL], sources: [S.debretts],
   }),
   build({
@@ -744,8 +765,8 @@ const GB: Lesson[] = [
     challenge: 'Read the room’s tone first.',
     situation: 'Casual chat in the UK', behavior: 'Keep it modest',
     formality: 'casual', normStrength: 'soft',
-    whenUnsure: 'A calm, modest reply is safe.', reasoning: 'Modesty is valued over big shows.',
-    ageGroups: ['teens', 'adults'], sources: [S.debretts],
+    whenUnsure: 'A calm, modest reply is safe.', reasoning: 'Debrett’s treats understatement as a mark of good manners in Britain.',
+    ageGroups: ['teens', 'adults'], sources: [S.debrettsUnderstate, S.debretts],
   }),
 ]
 
