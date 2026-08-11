@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import Mascot from '@/components/Mascot'
+import Icon from '@/components/Icon'
 import { COURSE_MAP, LESSON_MAP, UNIT_MAP } from '@/data/content'
 import { COUNTRIES } from '@/data/countries'
 import { useProgress } from '@/state/store'
@@ -56,7 +57,7 @@ export default function CourseDetail() {
 
         {!unlocked && (
           <div className="card" style={{ padding: 14, marginTop: 12, display: 'flex', gap: 10, alignItems: 'center', background: 'var(--gold-100)', border: '1px solid var(--gold-400)' }}>
-            <span style={{ fontSize: 22 }}>⭐</span>
+            <Icon name="star" size={20} color="var(--gold-600)" />
             <span style={{ fontWeight: 800, fontSize: 14, color: 'var(--gold-600)' }}>
               First lesson free — {unlockHint(course).toLowerCase()}
             </span>
@@ -83,7 +84,11 @@ export default function CourseDetail() {
                       whileTap={{ scale: locked ? 1 : 0.98 }}
                       style={{ opacity: locked ? 0.7 : 1 }}
                     >
-                      <span className="tile-flag" style={{ fontSize: 26 }}>{done ? '✅' : locked ? '🔒' : lesson?.icon}</span>
+                      <span className="tile-flag" style={{ fontSize: 26 }}>
+                        {done ? <Icon name="check" size={24} color="var(--teal-500)" strokeWidth={2.6} />
+                          : locked ? <Icon name="lock" size={22} color="var(--muted)" />
+                            : lesson?.icon}
+                      </span>
                       <div className="grow">
                         <div className="tile-name">{lesson?.title}</div>
                         <div className="tile-sub">{lesson?.situation}</div>

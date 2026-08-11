@@ -19,9 +19,6 @@ import { useEntitlements } from '@/state/entitlements'
 import { useAccount } from '@/state/account'
 import { useProfiles } from '@/state/profiles'
 
-/** Public pages reachable without completing onboarding (store/legal requirement). */
-const PUBLIC_PREFIXES = ['/help', '/privacy', '/terms', '/account']
-
 function Page({ children }: { children: ReactNode }) {
   return (
     <motion.div
@@ -40,6 +37,10 @@ export default function App() {
   const location = useLocation()
   const onboarded = useProgress((s) => s.onboarded)
   const a11y = useProgress((s) => s.a11y)
+  const authReady = useAccount((s) => s.authReady)
+
+  // Restore an existing account session (Supabase) before first paint.
+  useEffect(() => { void useAccount.getState().initAuth() }, [])
 
   // Push the live snapshot to the sync backend whenever progress or
   // entitlements change, so the active learner (account holder or the
@@ -74,17 +75,17 @@ export default function App() {
   }, [a11y])
 
   const path = location.pathname
-  const isPublic = PUBLIC_PREFIXES.some((p) => path.startsWith(p))
   const hideTab = path.startsWith('/lesson') || path.startsWith('/onboarding') || path.startsWith('/account') || !onboarded
 
-  // gate the app behind onboarding, but let public (legal / account) pages through
-  if (!onboarded && !path.startsWith('/onboarding') && !isPublic) {
-    return (
-      <div className="app-frame">
-        <Onboarding />
-      </div>
-    )
+  // Avoid a flash of onboarding while the session is still being restored.
+  if (!authReady) {
+    return <div className="app-frame" aria-busy="true" />
   }
+
+  // Gate protected routes behind onboarding; public (legal / account) and the
+  // onboarding page itself always render. Onboarding lives inside the same
+  // shell as every other screen, so the frame height stays uniform.
+  const gate = (el: ReactNode) => (onboarded ? el : <Navigate to="/onboarding" replace />)
 
   return (
     <div className="app-frame">
@@ -92,12 +93,12 @@ export default function App() {
         <AnimatePresence mode="wait" initial={false}>
           <Routes location={location} key={path}>
             <Route path="/onboarding" element={<Page><Onboarding /></Page>} />
-            <Route path="/" element={<Page><Home /></Page>} />
-            <Route path="/explore" element={<Page><Explore /></Page>} />
-            <Route path="/course/:courseId" element={<Page><CourseDetail /></Page>} />
-            <Route path="/lesson/:lessonId" element={<Page><Lesson /></Page>} />
-            <Route path="/passport" element={<Page><Passport /></Page>} />
-            <Route path="/me" element={<Page><Profile /></Page>} />
+            <Route path="/" element={<Page>{gate(<Home />)}</Page>} />
+            <Route path="/explore" element={<Page>{gate(<Explore />)}</Page>} />
+            <Route path="/course/:courseId" element={<Page>{gate(<CourseDetail />)}</Page>} />
+            <Route path="/lesson/:lessonId" element={<Page>{gate(<Lesson />)}</Page>} />
+            <Route path="/passport" element={<Page>{gate(<Passport />)}</Page>} />
+            <Route path="/me" element={<Page>{gate(<Profile />)}</Page>} />
             <Route path="/account" element={<Page><Auth /></Page>} />
             <Route path="/account/delete" element={<Page><DeleteAccount /></Page>} />
             <Route path="/help" element={<Page><Help /></Page>} />

@@ -13,22 +13,46 @@ Replaced the single `course.free` gating boolean with a real entitlement layer.
 - Gating in `Explore` / `CourseDetail` asks the entitlement layer.
 - Free tier = **Global Core + Home Region + first lesson of every pack**.
 
-## ✅ Accounts + cross-device sync foundation
+## ✅ Accounts — real Supabase auth (with offline fallback)
 
 > Plan: "create an account on one device, sign in on another, see the same profile."
 
-- **`src/state/account.ts`** — email/password + **Continue with Google/Apple**
-  sign-in, per-account data (progress + entitlements swap on sign-in/out), and
-  account deletion.
-- **`src/lib/sync.ts`** — a per-account snapshot **vault** behind a `SyncBackend`
-  interface (`pull` / `push` / `remove`). Local today; **point `backend` at the real
-  service (Supabase / REST) to get true cross-device sync — no caller changes.**
-- **`src/screens/Auth.tsx`** — on-brand sign in / create account at `/account`.
-- App pushes the live snapshot through the sync seam on every change.
+- **`src/lib/supabase.ts`** — the Supabase client. Real accounts turn on when
+  `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` are set (`.env`); with them blank the
+  app uses the on-device stand-in, so every flow still runs offline.
+- **`src/state/account.ts`** — async auth that branches on config: **Supabase**
+  (sign up / sign in / sessions / password reset / OAuth / self-service deletion) or the
+  local stand-in. Session is restored on launch (`initAuth`).
+- **`supabase/schema.sql`** — `profiles` table + Row Level Security + a sign-up trigger
+  + a `delete_account()` RPC. **`supabase/seed.sql`** — the four dev logins.
+- **`docs/store/supabase-setup.md`** — ~10-minute setup: create project → add keys →
+  run schema → seed accounts.
+- **Dev / sample accounts**, one per path (password `Mannerly-Dev-2026`):
+  `solo@` (individual, Manners+), `family@` (parent + two kids),
+  `teacher@` (class + join code), `student@` (joined class).
 
-> ⚠️ Password + OAuth here are a **local development stand-in** so flows are testable
-> without a server. Real auth (server-side hashing, Google/Apple OAuth, sessions) and
-> the sync backend must be provisioned before cross-device works in production.
+> Scope is **accounts only** for now. Learning progress still stores per-account on the
+> device and syncs through the same `SyncBackend` seam (`src/lib/sync.ts`) next — one
+> `pull`/`push` implementation against Supabase, no UI changes.
+
+## ✅ Brand visual system — de-emoji'd chrome
+
+The app's chrome no longer reads as a tray of stock emoji.
+
+- **`src/components/Icon.tsx`** — a hand-built brand icon set (nav, stats, gamify,
+  account types, goals, notify/accessibility) on a 24×24 grid, inheriting brand colour.
+- **`src/components/Avatar.tsx`** + `src/data/avatars.ts` — avatars are now coloured
+  "sticker" glyphs (star, rocket, sprout, compass…), not animal emoji. No photos.
+- Wired through the tab bar, header stats, level + plan badges, Home path, Explore /
+  Course locks, Profile, Passport, Lesson feedback, and the whole onboarding flow.
+- **Kept as content:** country flags and per-lesson scene marks.
+
+## ✅ Uniform app height
+
+`.app-frame` is pinned to the viewport (`100dvh` with a `100vh` fallback) with internal
+scrolling, and onboarding now renders inside the same shell as every other screen (a
+route + redirect, not a separate mount) — so the frame is the same height everywhere and
+tall steps scroll instead of running off-page.
 
 ## ✅ Onboarding & Profile System (`To Do for Bill 2`)
 
@@ -92,9 +116,10 @@ Public pages, reachable without signing in:
 
 ## ▶️ Still to do (needs infrastructure / business action)
 
-1. **Provision the backend** (accounts DB, server-side auth, Google/Apple OAuth,
-   household + classroom rosters) and wire it into `src/lib/sync.ts` for real
-   cross-device / shared-device sync.
+1. **Stand up the Supabase project** (create it, add keys, run `supabase/schema.sql`
+   + `supabase/seed.sql`, enable Google/Apple) per `docs/store/supabase-setup.md` —
+   accounts are wired; this activates them. Then extend the seam to **sync learning
+   progress + household/classroom rosters** across devices (`src/lib/sync.ts`).
 2. **Verifiable parental consent (COPPA)** and the **UK Children's Code age-assurance**
    flow for under-age-of-digital-consent children — the onboarding model flags where these
    gates belong; the verification itself is a backend + policy build.

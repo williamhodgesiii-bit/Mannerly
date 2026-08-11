@@ -47,19 +47,6 @@ export type GoalId =
   | 'family'
   | 'kindness'
 
-export interface Goal {
-  id: GoalId
-  label: string
-  emoji: string
-}
-
-export interface Avatar {
-  id: string
-  emoji: string
-  /** brand color the ring uses */
-  color: UnitColor
-}
-
 /** How often the learner wants a Daily Manner nudge. */
 export type NotifyPref = 'daily' | 'weekly' | 'off'
 

@@ -3,14 +3,24 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import Mascot from '@/components/Mascot'
+import Icon, { type IconName } from '@/components/Icon'
+import Avatar from '@/components/Avatar'
 import { HOME_UNIT_ORDER, LESSON_MAP, UNIT_MAP } from '@/data/content'
 import { levelFor, useProgress } from '@/state/store'
 import { useProfiles } from '@/state/profiles'
 import { useAccount } from '@/state/account'
-import { avatarEmoji } from '@/data/avatars'
 import { haptic } from '@/lib/haptics'
 
 const ZIG = [0, 46, 66, 46, 0, -46, -66, -46]
+
+/** Brand icons for the core learning units (Home path headers). */
+const UNIT_ICON: Record<string, IconName> = {
+  'core-basics': 'check-badge',
+  'core-talk': 'chat',
+  'core-table': 'utensils',
+  'core-screens': 'phone',
+  'core-world': 'globe',
+}
 
 export default function Home() {
   const navigate = useNavigate()
@@ -51,7 +61,7 @@ export default function Home() {
       <div className="screen--padded" style={{ paddingTop: 14 }}>
         {/* greeting */}
         <div className="row" style={{ gap: 10, marginBottom: 12 }}>
-          <span className="home-hi-ava">{avatarEmoji(avatarId)}</span>
+          <Avatar id={avatarId} size={46} />
           <div>
             <div className="kicker">{learnerName ? `Welcome back, ${learnerName}` : 'Welcome back'}</div>
             <div style={{ fontWeight: 900, fontSize: 18 }}>Ready for today’s manner?</div>
@@ -65,7 +75,9 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           style={{ padding: 16, display: 'flex', alignItems: 'center', gap: 14, overflow: 'hidden' }}
         >
-          <div style={{ fontSize: 40 }}>{lvl.current.icon}</div>
+          <div className={`level-badge level-badge--${lvl.idx >= 2 ? 'gold' : 'teal'}`}>
+            <Icon name={lvl.current.icon} size={30} color="#fff" />
+          </div>
           <div className="grow">
             <div className="spread">
               <span style={{ fontWeight: 900, fontSize: 16 }}>{lvl.current.name}</span>
@@ -75,7 +87,7 @@ export default function Home() {
               <motion.div className="fill" initial={{ width: 0 }} animate={{ width: `${lvl.pct}%` }} transition={{ duration: 0.6, ease: 'easeOut' }} />
             </div>
             <span className="kicker" style={{ marginTop: 6, display: 'block' }}>
-              {lvl.next ? `Next: ${lvl.next.name}` : 'Ambassador reached 🎉'}
+              {lvl.next ? `Next: ${lvl.next.name}` : 'Top level reached'}
             </span>
           </div>
           <div style={{ marginRight: -6 }}><Mascot color="teal" size={72} pose="cheer" /></div>
@@ -89,7 +101,9 @@ export default function Home() {
             return (
               <div key={uId} style={{ width: '100%' }}>
                 <div className={`unit-band band-${unit.color}`}>
-                  <span className="u-icon">{unit.icon}</span>
+                  <span className="u-icon">
+                    {UNIT_ICON[uId] ? <Icon name={UNIT_ICON[uId]} size={26} /> : unit.icon}
+                  </span>
                   <div>
                     <div className="u-title">{unit.title}</div>
                     {unit.subtitle && <div className="u-sub">{unit.subtitle}</div>}
@@ -127,7 +141,9 @@ export default function Home() {
                         onClick={() => go(id, locked)}
                         aria-label={lesson?.title ?? 'Lesson'}
                       >
-                        {done ? '✓' : locked ? '🔒' : lesson?.icon}
+                        {done ? <Icon name="check" size={30} color="#fff" strokeWidth={2.6} />
+                          : locked ? <Icon name="lock" size={24} />
+                            : lesson?.icon}
                       </button>
                     </motion.div>
                   )
@@ -142,7 +158,7 @@ export default function Home() {
             onClick={() => { haptic('tap'); navigate('/explore') }}
             whileTap={{ scale: 0.97 }}
           >
-            🌍 Explore country packs →
+            <Icon name="globe" size={18} /> Explore country packs
           </motion.button>
         </div>
       </div>

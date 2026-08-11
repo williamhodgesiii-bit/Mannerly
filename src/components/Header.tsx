@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import Icon from '@/components/Icon'
 import { useProgress } from '@/state/store'
 
 interface HeaderProps {
@@ -17,18 +18,18 @@ export default function Header({ title, back = false, stats = true }: HeaderProp
       <div className="row" style={{ gap: 10 }}>
         {back && (
           <button className="icon-btn" onClick={() => navigate(-1)} aria-label="Back">
-            ←
+            <Icon name="chevron-left" size={22} />
           </button>
         )}
         {title && <span className="appbar__title">{title}</span>}
       </div>
       {stats && (
-        <div className="row" style={{ gap: 16 }}>
+        <div className="row" style={{ gap: 14 }}>
           <span className="stat stat--streak" aria-label={`${streak} day streak`}>
-            🔥 {streak}
+            <Icon name="flame" size={18} /> {streak}
           </span>
           <span className="stat stat--xp" aria-label={`${xp} XP`}>
-            ⚡ {xp}
+            <Icon name="bolt" size={18} /> {xp}
           </span>
         </div>
       )}

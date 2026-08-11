@@ -182,10 +182,10 @@ export const useProgress = create<ProgressState>()(
 
 /** Level ladder from the summary: Beginner → Comfortable → Confident → Ambassador. */
 export const LEVELS = [
-  { name: 'Beginner', min: 0, icon: '🌱' },
-  { name: 'Comfortable', min: 60, icon: '🌿' },
-  { name: 'Confident', min: 160, icon: '⭐' },
-  { name: 'Ambassador', min: 320, icon: '🏅' },
+  { name: 'Beginner', min: 0, icon: 'sprout' },
+  { name: 'Comfortable', min: 60, icon: 'leaf' },
+  { name: 'Confident', min: 160, icon: 'star' },
+  { name: 'Ambassador', min: 320, icon: 'trophy' },
 ] as const
 
 export function levelFor(xp: number) {

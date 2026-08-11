@@ -4,30 +4,31 @@ Give store reviewers a clear path through gated functionality. Paste the relevan
 parts into App Store Connect ("App Review Information" → notes) and Play Console
 ("App access" → provide demo credentials).
 
-## Demo accounts
+## Demo / dev accounts
 
-Sign in from **Me → Sign in / Create account**, or during onboarding. All demo
-accounts use the same password.
+Sign in from **Me → Sign in / Create account**, or during onboarding. One login
+per account type; all share the same password.
 
-**Password:** `Mannerly-Review-2026`
+**Password:** `Mannerly-Dev-2026`
 
-| Email | Role | Unlocks |
-|-------|------|---------|
-| `reviewer.plus@mannerly.com` | Adult, Manners+ | Every country pack, travel content |
-| `reviewer.family@mannerly.com` | Parent, Family plan | Every country pack (family) |
-| `reviewer.teacher@mannerly.com` | Teacher, School licence | Every country pack (school) |
-| `reviewer.student@mannerly.com` | Student | School-licensed access |
+| Email | Type | What it shows |
+|-------|------|---------------|
+| `solo@mannerly.app` | Individual | Manners+ active, progress + streak |
+| `family@mannerly.app` | Family (parent) | Household with two child profiles + learner switcher |
+| `teacher@mannerly.app` | Teacher | A class with a join code |
+| `student@mannerly.app` | Student | Joined to a class |
 
-> These are seeded in `src/state/account.ts` (`DEMO_ACCOUNTS`) so review builds work
-> without a live backend. Remove or rotate them once real auth is in place — do not
-> ship standing demo credentials to production unchanged.
+> Seeded in `src/state/account.ts` (`DEV_ACCOUNTS`) so offline/review builds work
+> without a backend. For a real Supabase project, run `supabase/seed.sql` to create
+> the same logins (see `docs/store/supabase-setup.md`). Rotate or remove standing
+> credentials before production.
 
 ## How to reach each feature
 
 - **Free lesson (no account):** Onboarding → pick an age → pick a home region →
   "Maybe later" → the Learn path. Tap the START node.
 - **First-lesson-free preview:** Explore → any locked country → open the first lesson.
-- **Paid content unlocked:** sign in as `reviewer.plus@mannerly.com` → Explore → open
+- **Paid content unlocked:** sign in as `solo@mannerly.app` → Explore → open
   any country pack fully.
 - **Home region (free pack):** Me → Settings → Home region → pick a country; that
   pack unlocks at no cost.

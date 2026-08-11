@@ -8,6 +8,11 @@ dist
 dist-ssr
 *.local
 
+# env / secrets (never commit real keys — see .env.example)
+.env
+.env.*
+!.env.example
+
 # native (Capacitor) — generated locally with `npx cap add`
 /ios
 /android

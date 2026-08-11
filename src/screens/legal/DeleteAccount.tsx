@@ -23,7 +23,7 @@ export default function DeleteAccount() {
     }
   }
 
-  const doDelete = () => {
+  const doDelete = async () => {
     const msg = account
       ? `Delete the account ${account.email ?? account.displayName}? This erases your progress, entitlements, learner profiles and preferences. This cannot be undone.`
       : 'Erase your progress, entitlements, learner profiles and preferences on this device? This cannot be undone.'
@@ -31,7 +31,7 @@ export default function DeleteAccount() {
     haptic('error')
     resetProfiles() // household children / class data + their snapshots
     if (account) {
-      deleteAccount()
+      await deleteAccount()
     } else {
       resetProgress()
       clearEntitlements()

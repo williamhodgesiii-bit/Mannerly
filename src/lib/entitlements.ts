@@ -115,13 +115,14 @@ export function unlockHint(course: Course): string {
 export interface Plan {
   id: 'school' | 'family' | 'plus' | 'free'
   label: string
-  icon: string
+  /** icon name from the brand set (src/components/Icon.tsx) */
+  icon: 'school' | 'people' | 'star' | 'sprout'
 }
 
 /** The learner's highest active plan, for display. */
 export function activePlan(held: Set<Permission>): Plan {
-  if (held.has('SCHOOL_LICENSE')) return { id: 'school', label: 'School', icon: '🏫' }
-  if (held.has('FAMILY')) return { id: 'family', label: 'Family', icon: '👪' }
-  if (held.has('MANNERLY_PLUS')) return { id: 'plus', label: 'Manners+', icon: '⭐' }
-  return { id: 'free', label: 'Free', icon: '🌱' }
+  if (held.has('SCHOOL_LICENSE')) return { id: 'school', label: 'School', icon: 'school' }
+  if (held.has('FAMILY')) return { id: 'family', label: 'Family', icon: 'people' }
+  if (held.has('MANNERLY_PLUS')) return { id: 'plus', label: 'Manners+', icon: 'star' }
+  return { id: 'free', label: 'Free', icon: 'sprout' }
 }

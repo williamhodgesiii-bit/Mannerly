@@ -8,6 +8,7 @@ import { haptic } from '@/lib/haptics'
 import Scene from '@/components/Scene'
 import Mascot from '@/components/Mascot'
 import Confetti from '@/components/Confetti'
+import Icon from '@/components/Icon'
 
 type Phase = 'play' | 'reason' | 'challenge'
 
@@ -188,7 +189,10 @@ export default function Lesson() {
             exit={{ y: 200 }}
             transition={{ type: 'spring', stiffness: 260, damping: 26 }}
           >
-            <div className="sheet__head">{isCorrect ? '🎉 Nice!' : '💡 Not quite'}</div>
+            <div className="sheet__head">
+              <Icon name={isCorrect ? 'check' : 'spark'} size={20} strokeWidth={2.6} />
+              {isCorrect ? 'Nice!' : 'Not quite'}
+            </div>
             <p className="sheet__body" style={{ marginBottom: 14 }}>{selected?.reaction}</p>
             {isCorrect ? (
               <button className="btn btn--teal" onClick={next}>Continue →</button>
@@ -234,7 +238,7 @@ export default function Lesson() {
                   <div className="rs-lbl">XP earned</div>
                 </div>
                 <div className="reward-stat">
-                  <div className="rs-num" style={{ color: 'var(--gold-600)' }}>🔥 {done.streak}</div>
+                  <div className="rs-num" style={{ color: 'var(--gold-600)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Icon name="flame" size={20} /> {done.streak}</div>
                   <div className="rs-lbl">Day streak</div>
                 </div>
               </div>

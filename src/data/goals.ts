@@ -1,23 +1,30 @@
-import type { AgeGroup, Goal, GoalId } from '@/types'
+import type { AgeGroup, GoalId } from '@/types'
+import type { IconName } from '@/components/Icon'
 
 /**
  * Learning goals shown as tappable cards. Picking a few personalizes the
  * home screen, recommendations, and daily scenarios — the learner is
  * building their own version of Mannerly, not filling out a form.
  */
+export interface Goal {
+  id: GoalId
+  label: string
+  icon: IconName
+}
+
 export const GOALS: Goal[] = [
-  { id: 'everyday', label: 'Everyday manners', emoji: '🤝' },
-  { id: 'conversation', label: 'Conversation', emoji: '💬' },
-  { id: 'confidence', label: 'Confidence', emoji: '✨' },
-  { id: 'dining', label: 'Dining', emoji: '🍽️' },
-  { id: 'school', label: 'School', emoji: '🎒' },
-  { id: 'friends', label: 'Friends', emoji: '🧑‍🤝‍🧑' },
-  { id: 'digital', label: 'Digital life', emoji: '📱' },
-  { id: 'work', label: 'Work', emoji: '💼' },
-  { id: 'travel', label: 'Travel', emoji: '✈️' },
-  { id: 'culture', label: 'Culture', emoji: '🌍' },
-  { id: 'family', label: 'Family', emoji: '🏡' },
-  { id: 'kindness', label: 'Respect & kindness', emoji: '💛' },
+  { id: 'everyday', label: 'Everyday manners', icon: 'check-badge' },
+  { id: 'conversation', label: 'Conversation', icon: 'chat' },
+  { id: 'confidence', label: 'Confidence', icon: 'spark' },
+  { id: 'dining', label: 'Dining', icon: 'utensils' },
+  { id: 'school', label: 'School', icon: 'pencil' },
+  { id: 'friends', label: 'Friends', icon: 'people' },
+  { id: 'digital', label: 'Digital life', icon: 'phone' },
+  { id: 'work', label: 'Work', icon: 'briefcase' },
+  { id: 'travel', label: 'Travel', icon: 'plane' },
+  { id: 'culture', label: 'Culture', icon: 'globe' },
+  { id: 'family', label: 'Family', icon: 'house' },
+  { id: 'kindness', label: 'Respect & kindness', icon: 'heart' },
 ]
 
 export const GOAL_MAP: Record<GoalId, Goal> = Object.fromEntries(

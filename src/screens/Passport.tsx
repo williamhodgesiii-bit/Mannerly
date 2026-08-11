@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import Header from '@/components/Header'
+import Icon from '@/components/Icon'
 import { countryList } from '@/data/countries'
 import { useProgress } from '@/state/store'
 
@@ -13,7 +14,7 @@ export default function Passport() {
       <Header title="Passport" />
       <div className="screen--padded" style={{ paddingTop: 14 }}>
         <div className="card" style={{ padding: 16, marginBottom: 18, display: 'flex', alignItems: 'center', gap: 14 }}>
-          <span style={{ fontSize: 38 }}>📔</span>
+          <div className="level-badge level-badge--teal" style={{ width: 48, height: 48, borderRadius: 15 }}><Icon name="passport" size={26} color="#fff" /></div>
           <div className="grow">
             <div style={{ fontWeight: 900, fontSize: 17 }}>Manners Passport</div>
             <div className="subtitle">Earn a stamp for every country you learn.</div>

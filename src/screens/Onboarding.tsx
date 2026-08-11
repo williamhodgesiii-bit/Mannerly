@@ -17,38 +17,40 @@ import { useProfiles } from '@/state/profiles'
 import { COUNTRIES, countryList } from '@/data/countries'
 import { LANGUAGES } from '@/data/languages'
 import { GOALS, suggestedGoals } from '@/data/goals'
-import { AVATARS, DEFAULT_AVATAR, avatarEmoji } from '@/data/avatars'
+import { AVATARS, DEFAULT_AVATAR } from '@/data/avatars'
 import { starterFor } from '@/data/scenarios'
 import { HOME_UNIT_ORDER, UNIT_MAP } from '@/data/content'
 import { haptic } from '@/lib/haptics'
 import Mascot from '@/components/Mascot'
+import Icon, { type IconName } from '@/components/Icon'
+import Avatar from '@/components/Avatar'
 
 /* ---------- static option data ---------- */
 
-const USAGE: { id: AccountType; title: string; sub: string; emoji: string }[] = [
-  { id: 'individual', title: 'For myself', sub: 'One learner', emoji: '🙋' },
-  { id: 'family', title: 'For my family', sub: 'A parent & kids', emoji: '👪' },
-  { id: 'teacher', title: 'I’m a teacher', sub: 'Set up a class', emoji: '🍎' },
-  { id: 'student', title: 'I’m a student', sub: 'Join with a code', emoji: '🎒' },
+const USAGE: { id: AccountType; title: string; sub: string; icon: IconName }[] = [
+  { id: 'individual', title: 'For myself', sub: 'One learner', icon: 'person' },
+  { id: 'family', title: 'For my family', sub: 'A parent & kids', icon: 'people' },
+  { id: 'teacher', title: 'I’m a teacher', sub: 'Set up a class', icon: 'teacher' },
+  { id: 'student', title: 'I’m a student', sub: 'Join with a code', icon: 'student' },
 ]
 
-const AGES: { id: AgeGroup; name: string; range: string; emoji: string }[] = [
-  { id: 'kids', name: 'Kids', range: '5–7', emoji: '🧸' },
-  { id: 'tweens', name: 'Tweens', range: '8–12', emoji: '🎒' },
-  { id: 'teens', name: 'Teens', range: '13–17', emoji: '🎧' },
-  { id: 'adults', name: 'Adults', range: '18+', emoji: '💼' },
+const AGES: { id: AgeGroup; name: string; range: string; icon: IconName }[] = [
+  { id: 'kids', name: 'Kids', range: '5–7', icon: 'sprout' },
+  { id: 'tweens', name: 'Tweens', range: '8–12', icon: 'leaf' },
+  { id: 'teens', name: 'Teens', range: '13–17', icon: 'spark' },
+  { id: 'adults', name: 'Adults', range: '18+', icon: 'briefcase' },
 ]
 
-const NOTIFY: { id: NotifyPref; label: string; emoji: string }[] = [
-  { id: 'daily', label: 'Daily', emoji: '☀️' },
-  { id: 'weekly', label: 'A few times a week', emoji: '🗓️' },
-  { id: 'off', label: 'Not now', emoji: '🔕' },
+const NOTIFY: { id: NotifyPref; label: string; icon: IconName }[] = [
+  { id: 'daily', label: 'Daily', icon: 'sun' },
+  { id: 'weekly', label: 'A few times a week', icon: 'calendar' },
+  { id: 'off', label: 'Not now', icon: 'bell-off' },
 ]
 
-const A11Y_OPTS: { key: keyof A11yPrefs; label: string; emoji: string }[] = [
-  { key: 'largeText', label: 'Larger text', emoji: '🔠' },
-  { key: 'reduceMotion', label: 'Reduce motion', emoji: '🌿' },
-  { key: 'highContrast', label: 'Higher contrast', emoji: '◐' },
+const A11Y_OPTS: { key: keyof A11yPrefs; label: string; icon: IconName }[] = [
+  { key: 'largeText', label: 'Larger text', icon: 'text-size' },
+  { key: 'reduceMotion', label: 'Reduce motion', icon: 'waves' },
+  { key: 'highContrast', label: 'Higher contrast', icon: 'contrast' },
 ]
 
 type Step =
@@ -103,7 +105,7 @@ export default function Onboarding() {
   const [kids, setKids] = useState<{ name: string; ageGroup: AgeGroup; avatarId: string }[]>([])
   const [kidName, setKidName] = useState('')
   const [kidAge, setKidAge] = useState<AgeGroup>('kids')
-  const [kidAvatar, setKidAvatar] = useState<string>('panda')
+  const [kidAvatar, setKidAvatar] = useState<string>('star')
 
   // teacher
   const [className, setClassName] = useState('')
@@ -201,7 +203,8 @@ export default function Onboarding() {
   )
 
   return (
-    <div className="screen screen--padded" style={{ justifyContent: 'center' }}>
+    <div className="screen">
+      <div className="ob-scroll">
       <AnimatePresence mode="wait">
         {/* ---------------- welcome ---------------- */}
         {phase === 'welcome' && (
@@ -233,7 +236,7 @@ export default function Onboarding() {
             <div className="age-grid grow" style={{ alignContent: 'center' }}>
               {USAGE.map((u) => (
                 <button key={u.id} className="age-card" onClick={() => chooseUsage(u.id)}>
-                  <span className="age-emoji">{u.emoji}</span>
+                  <span className="age-emoji"><Icon name={u.icon} size={28} color="var(--navy-600)" /></span>
                   <span className="age-name">{u.title}</span>
                   <span className="age-range">{u.sub}</span>
                 </button>
@@ -255,7 +258,7 @@ export default function Onboarding() {
                   {AGES.map((a) => (
                     <button key={a.id} className={`age-card ${age === a.id ? 'age-card--on' : ''}`}
                       onClick={() => { haptic('select'); setAge(a.id); setGoals(suggestedGoals(a.id).slice(0, 2)) }}>
-                      <span className="age-emoji">{a.emoji}</span>
+                      <span className="age-emoji"><Icon name={a.icon} size={28} color="var(--navy-600)" /></span>
                       <span className="age-name">{a.name}</span>
                       <span className="age-range">Ages {a.range}</span>
                     </button>
@@ -315,7 +318,7 @@ export default function Onboarding() {
                   {GOALS.map((g) => (
                     <button key={g.id} className={`goal-opt ${goals.includes(g.id) ? 'goal-opt--on' : ''}`}
                       onClick={() => toggleGoal(g.id)}>
-                      <span className="goal-emoji">{g.emoji}</span>
+                      <span className="goal-emoji"><Icon name={g.icon} size={20} color="var(--teal-600)" /></span>
                       <span className="goal-label">{g.label}</span>
                     </button>
                   ))}
@@ -338,7 +341,7 @@ export default function Onboarding() {
                   {NOTIFY.map((n) => (
                     <button key={n.id} className={`option ${notify === n.id ? 'option--correct' : ''}`}
                       onClick={() => { haptic('select'); setNotify(n.id) }}>
-                      <span className="opt-emoji">{n.emoji}</span>{n.label}
+                      <span className="opt-emoji"><Icon name={n.icon} size={22} /></span>{n.label}
                     </button>
                   ))}
                 </div>
@@ -353,7 +356,7 @@ export default function Onboarding() {
                   {A11Y_OPTS.map((o) => (
                     <button key={o.key} className={`option ${a11y[o.key] ? 'option--correct' : ''}`}
                       onClick={() => toggleA11y(o.key)}>
-                      <span className="opt-emoji">{o.emoji}</span>
+                      <span className="opt-emoji"><Icon name={o.icon} size={22} /></span>
                       <span className="grow">{o.label}</span>
                       <span style={{ fontWeight: 900 }}>{a11y[o.key] ? 'On' : 'Off'}</span>
                     </button>
@@ -388,7 +391,7 @@ export default function Onboarding() {
                 <div className="grow hide-scroll" style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {kids.map((k, idx) => (
                     <div key={idx} className="kid-row">
-                      <span className="kid-ava">{avatarEmoji(k.avatarId)}</span>
+                      <Avatar id={k.avatarId} size={44} />
                       <div className="grow"><div className="kid-name">{k.name}</div><div className="tile-sub">{AGES.find((a) => a.id === k.ageGroup)?.name}</div></div>
                       <button className="chip chip--muted" onClick={() => { haptic('tap'); setKids(kids.filter((_, x) => x !== idx)) }}>Remove</button>
                     </div>
@@ -409,7 +412,7 @@ export default function Onboarding() {
                     <div className="avatar-grid">
                       {AVATARS.slice(0, 8).map((av) => (
                         <button key={av.id} className={`avatar-opt ${kidAvatar === av.id ? 'avatar-opt--on' : ''}`}
-                          onClick={() => { haptic('select'); setKidAvatar(av.id) }}>{av.emoji}</button>
+                          onClick={() => { haptic('select'); setKidAvatar(av.id) }}><Avatar id={av.id} size={38} /></button>
                       ))}
                     </div>
                     <button className="btn btn--ghost btn--sm" style={{ width: '100%' }} disabled={!kidName.trim()} onClick={addKid}>
@@ -500,7 +503,7 @@ export default function Onboarding() {
                 <div className="avatar-grid grow" style={{ alignContent: 'center' }}>
                   {AVATARS.map((av) => (
                     <button key={av.id} className={`avatar-opt avatar-opt--lg ${avatar === av.id ? 'avatar-opt--on' : ''}`}
-                      onClick={() => { haptic('select'); setAvatar(av.id) }}>{av.emoji}</button>
+                      onClick={() => { haptic('select'); setAvatar(av.id) }}><Avatar id={av.id} size={46} /></button>
                   ))}
                 </div>
                 <button className="btn btn--teal" onClick={next}>Continue →</button>
@@ -513,6 +516,7 @@ export default function Onboarding() {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   )
 }
@@ -604,16 +608,18 @@ function ReadyBeat({
       : type === 'family' ? 'Start learning'
         : type === 'teacher' ? 'Open my class'
           : 'Start learning'
-  const face = type === 'family' && kids[0] ? avatarEmoji(kids[0].avatarId) : avatarEmoji(avatar)
+  const faceId = type === 'family' && kids[0] ? kids[0].avatarId : avatar
   return (
     <>
       <div className="grow center" style={{ justifyContent: 'center', gap: 18 }}>
         <motion.div className="ready-badge"
           initial={{ scale: 0.5, rotate: -20, opacity: 0 }} animate={{ scale: 1, rotate: 0, opacity: 1 }}
           transition={{ type: 'spring', stiffness: 220, damping: 12 }}>
-          <span style={{ fontSize: 60 }}>{face}</span>
+          <Avatar id={faceId} size={112} />
           <motion.span className="ready-check"
-            initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.4, type: 'spring', stiffness: 300, damping: 12 }}>✓</motion.span>
+            initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.4, type: 'spring', stiffness: 300, damping: 12 }}>
+            <Icon name="check" size={24} color="#fff" strokeWidth={2.6} />
+          </motion.span>
         </motion.div>
         <div style={{ textAlign: 'center' }}>
           <h1 className="title">You’re ready.</h1>

@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import Mascot from '@/components/Mascot'
 import { useAccount } from '@/state/account'
+import { useProfiles } from '@/state/profiles'
+import { isSupabaseConfigured } from '@/lib/supabase'
 import { haptic } from '@/lib/haptics'
 
 type Mode = 'signin' | 'create'
@@ -13,30 +15,57 @@ export default function Auth() {
   const signUpPassword = useAccount((s) => s.signUpPassword)
   const signInPassword = useAccount((s) => s.signInPassword)
   const signInWithProvider = useAccount((s) => s.signInWithProvider)
+  const resetPassword = useAccount((s) => s.resetPassword)
 
   const [mode, setMode] = useState<Mode>('signin')
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [note, setNote] = useState('')
+  const [busy, setBusy] = useState(false)
 
   const done = () => { haptic('success'); navigate('/', { replace: true }) }
 
-  const submit = (e: React.FormEvent) => {
+  // Seed a dev/sample account's household or classroom after it signs in.
+  const applySeed = (seed?: import('@/state/account').DevSeed) => {
+    if (!seed) return
+    const p = useProfiles.getState()
+    p.resetProfiles()
+    seed.children?.forEach((c) => p.addChild(c))
+    if (seed.classroom) p.createClassroom(seed.classroom)
+    if (seed.joinedClass) p.joinClass(seed.joinedClass)
+  }
+
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError('')
+    if (busy) return
+    setError(''); setNote(''); setBusy(true)
     const res =
       mode === 'create'
-        ? signUpPassword(email, username, password)
-        : signInPassword(email, password)
+        ? await signUpPassword(email, username, password)
+        : await signInPassword(email, password)
+    setBusy(false)
+    if (res.ok) { applySeed(res.seed); done() }
+    else { haptic('error'); setError(res.error) }
+  }
+
+  const oauth = async (provider: 'google' | 'apple') => {
+    if (busy) return
+    setError(''); setNote(''); setBusy(true)
+    const res = await signInWithProvider(provider)
+    setBusy(false)
     if (res.ok) done()
     else { haptic('error'); setError(res.error) }
   }
 
-  const oauth = (provider: 'google' | 'apple') => {
-    setError('')
-    const res = signInWithProvider(provider)
-    if (res.ok) done()
+  const forgot = async () => {
+    if (!email.trim()) { setError('Enter your email first, then tap reset.'); return }
+    setError(''); setBusy(true)
+    const res = await resetPassword(email)
+    setBusy(false)
+    if (res.ok) setNote(isSupabaseConfigured ? 'Check your email for a reset link.' : 'Password reset isn’t available in offline mode.')
+    else setError(res.error)
   }
 
   return (
@@ -60,11 +89,11 @@ export default function Auth() {
 
           {/* provider sign-in */}
           <div className="stack" style={{ gap: 10, marginBottom: 14 }}>
-            <button type="button" className="oauth" onClick={() => oauth('google')}>
+            <button type="button" className="oauth" onClick={() => oauth('google')} disabled={busy}>
               <span className="oauth__mark" aria-hidden>G</span>
               Continue with Google
             </button>
-            <button type="button" className="oauth oauth--apple" onClick={() => oauth('apple')}>
+            <button type="button" className="oauth oauth--apple" onClick={() => oauth('apple')} disabled={busy}>
               <span className="oauth__mark" aria-hidden></span>
               Continue with Apple
             </button>
@@ -78,7 +107,7 @@ export default function Auth() {
               role="tab"
               aria-selected={mode === 'signin'}
               className={`seg__btn ${mode === 'signin' ? 'seg__btn--on' : ''}`}
-              onClick={() => { haptic('select'); setMode('signin'); setError('') }}
+              onClick={() => { haptic('select'); setMode('signin'); setError(''); setNote('') }}
             >
               Sign in
             </button>
@@ -86,7 +115,7 @@ export default function Auth() {
               role="tab"
               aria-selected={mode === 'create'}
               className={`seg__btn ${mode === 'create' ? 'seg__btn--on' : ''}`}
-              onClick={() => { haptic('select'); setMode('create'); setError('') }}
+              onClick={() => { haptic('select'); setMode('create'); setError(''); setNote('') }}
             >
               Create account
             </button>
@@ -135,13 +164,22 @@ export default function Auth() {
             </label>
 
             {error && <p className="form-error" role="alert">{error}</p>}
+            {note && <p className="form-note" role="status">{note}</p>}
 
-            <button className="btn" type="submit" style={{ marginTop: 2 }}>
-              {mode === 'create' ? 'Create account' : 'Sign in'}
+            <button className="btn" type="submit" style={{ marginTop: 2 }} disabled={busy}>
+              {busy ? 'One moment…' : mode === 'create' ? 'Create account' : 'Sign in'}
             </button>
           </form>
 
-          <p className="kicker" style={{ textAlign: 'center', marginTop: 18, lineHeight: 1.5 }}>
+          {mode === 'signin' && (
+            <p className="kicker" style={{ textAlign: 'center', marginTop: 12 }}>
+              <button type="button" className="src-link" style={{ background: 'none', border: 'none', cursor: 'pointer', font: 'inherit' }} onClick={forgot} disabled={busy}>
+                Forgot your password?
+              </button>
+            </p>
+          )}
+
+          <p className="kicker" style={{ textAlign: 'center', marginTop: 14, lineHeight: 1.5 }}>
             By continuing you agree to our{' '}
             <Link to="/terms" className="src-link">Terms</Link> and{' '}
             <Link to="/privacy" className="src-link">Privacy Policy</Link>.

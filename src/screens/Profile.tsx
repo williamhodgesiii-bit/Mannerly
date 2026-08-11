@@ -1,5 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '@/components/Header'
+import Icon, { type IconName } from '@/components/Icon'
+import Avatar from '@/components/Avatar'
 import { levelFor, useProgress } from '@/state/store'
 import { useEntitlements, useHeldPermissions } from '@/state/entitlements'
 import { useAccount } from '@/state/account'
@@ -9,7 +11,6 @@ import { totalLessonCount } from '@/data/content'
 import { COUNTRIES, countryList } from '@/data/countries'
 import { LANGUAGES, LANGUAGE_MAP } from '@/data/languages'
 import { GOAL_MAP } from '@/data/goals'
-import { avatarEmoji } from '@/data/avatars'
 import type { CountryCode, LanguageCode } from '@/types'
 import { haptic } from '@/lib/haptics'
 
@@ -44,11 +45,11 @@ export default function Profile() {
   const isPlus = held.has('MANNERLY_PLUS')
   const ownedPacks = countryList().filter((c) => held.has(travelPackPermission(c.code)))
 
-  const stats = [
-    { n: `🔥 ${streak}`, l: 'Streak' },
-    { n: `⚡ ${xp}`, l: 'Total XP' },
+  const stats: { icon?: IconName; n: string; l: string }[] = [
+    { icon: 'flame', n: `${streak}`, l: 'Streak' },
+    { icon: 'bolt', n: `${xp}`, l: 'Total XP' },
     { n: `${doneCount}/${totalLessonCount}`, l: 'Lessons' },
-    { n: `📔 ${stamps}`, l: 'Stamps' },
+    { icon: 'passport', n: `${stamps}`, l: 'Stamps' },
   ]
 
   const startPlus = () => { haptic('success'); grant('MANNERLY_PLUS', 'web') }
@@ -58,7 +59,7 @@ export default function Profile() {
     }
   }
   const changeHome = (code: CountryCode) => { haptic('tap'); setHomeRegion(code) }
-  const doSignOut = () => { haptic('tap'); signOut() }
+  const doSignOut = () => { haptic('tap'); void signOut() }
 
   const showRoster = accountType === 'family' || children.length > 0
 
@@ -68,13 +69,13 @@ export default function Profile() {
       <div className="screen--padded" style={{ paddingTop: 14 }}>
         {/* identity */}
         <div className="center" style={{ gap: 6, marginBottom: 12 }}>
-          <div className="profile-avatar">{avatarEmoji(avatarId)}</div>
-          <h1 className="title" style={{ fontSize: 22 }}>{displayName}</h1>
+          <Avatar id={avatarId} size={104} />
+          <h1 className="title" style={{ fontSize: 22, marginTop: 4 }}>{displayName}</h1>
           {isPrimary && account?.email && <div className="kicker">{account.email}</div>}
           {activeChild && <div className="kicker">Learner profile</div>}
           <div className="pill-row" style={{ justifyContent: 'center' }}>
-            <span className="chip chip--teal">{lvl.current.icon} {lvl.current.name}</span>
-            <span className="chip">{plan.icon} {plan.label}</span>
+            <span className="chip chip--teal"><Icon name={lvl.current.icon} size={14} /> {lvl.current.name}</span>
+            <span className="chip"><Icon name={plan.icon} size={14} /> {plan.label}</span>
           </div>
           {isPrimary && !account && (
             <button className="btn btn--sm" style={{ marginTop: 8 }} onClick={() => { haptic('tap'); navigate('/account') }}>
@@ -89,13 +90,17 @@ export default function Profile() {
             <div className="section-title" style={{ margin: '0 0 10px' }}>Who’s learning?</div>
             <div className="roster">
               <button className={`roster-item ${isPrimary ? 'roster-item--on' : ''}`} onClick={() => { haptic('select'); switchToPrimary() }}>
-                <span className="roster-ava">{isPrimary ? avatarEmoji(avatarId) : '👤'}</span>
+                <span className="roster-ring">
+                  {isPrimary
+                    ? <Avatar id={avatarId} size={52} />
+                    : <span className="avatar avatar--navy" style={{ width: 52, height: 52, borderRadius: 16 }}><Icon name="person" size={28} color="#fff" /></span>}
+                </span>
                 <span className="roster-name">You</span>
               </button>
               {children.map((c) => (
                 <button key={c.id} className={`roster-item ${activeChildId === c.id ? 'roster-item--on' : ''}`}
                   onClick={() => { haptic('select'); switchToChild(c.id) }}>
-                  <span className="roster-ava">{avatarEmoji(c.avatarId)}</span>
+                  <span className="roster-ring"><Avatar id={c.avatarId} size={52} /></span>
                   <span className="roster-name">{c.name}</span>
                 </button>
               ))}
@@ -122,7 +127,7 @@ export default function Profile() {
         {/* student joined class */}
         {accountType === 'student' && joinedClassCode && (
           <div className="card" style={{ padding: 16, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span style={{ fontSize: 26 }}>🎒</span>
+            <Icon name="student" size={24} color="var(--teal-600)" />
             <div className="grow"><div style={{ fontWeight: 800 }}>In a class</div><div className="tile-sub">Code {joinedClassCode}</div></div>
           </div>
         )}
@@ -140,7 +145,10 @@ export default function Profile() {
         <div className="passport-grid" style={{ marginBottom: 16 }}>
           {stats.map((s) => (
             <div key={s.l} className="card" style={{ padding: 16, textAlign: 'center' }}>
-              <div style={{ fontWeight: 900, fontSize: 20 }}>{s.n}</div>
+              <div style={{ fontWeight: 900, fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                {s.icon && <Icon name={s.icon} size={18} color={s.icon === 'flame' ? 'var(--gold-600)' : s.icon === 'bolt' ? 'var(--navy-600)' : 'var(--teal-600)'} />}
+                {s.n}
+              </div>
               <div className="kicker" style={{ marginTop: 2 }}>{s.l}</div>
             </div>
           ))}
@@ -152,7 +160,9 @@ export default function Profile() {
             <div className="section-title" style={{ margin: '0 0 10px' }}>Learning goals</div>
             <div className="pill-row">
               {goals.map((g) => (
-                <span key={g} className="chip chip--muted">{GOAL_MAP[g]?.emoji} {GOAL_MAP[g]?.label}</span>
+                <span key={g} className="chip chip--muted">
+                  {GOAL_MAP[g] && <Icon name={GOAL_MAP[g].icon} size={13} />} {GOAL_MAP[g]?.label}
+                </span>
               ))}
             </div>
           </div>
@@ -163,7 +173,7 @@ export default function Profile() {
           <div className="card" style={{ padding: 18, marginBottom: 16, background: 'linear-gradient(135deg, var(--teal-500), var(--navy-600))', color: '#fff', border: 'none' }}>
             <div className="spread">
               <div>
-                <div style={{ fontWeight: 900, fontSize: 18 }}>Manners+ is active ⭐</div>
+                <div style={{ fontWeight: 900, fontSize: 18, display: 'flex', alignItems: 'center', gap: 7 }}>Manners+ is active <Icon name="star" size={16} /></div>
                 <div style={{ fontSize: 13, fontWeight: 600, opacity: 0.9, marginTop: 2 }}>Every country & travel mode unlocked.</div>
               </div>
             </div>
@@ -175,7 +185,7 @@ export default function Profile() {
           <div className="card" style={{ padding: 18, marginBottom: 16, background: 'linear-gradient(135deg, var(--navy-500), var(--navy-600))', color: '#fff', border: 'none' }}>
             <div className="spread">
               <div>
-                <div style={{ fontWeight: 900, fontSize: 18 }}>Manners+ ⭐</div>
+                <div style={{ fontWeight: 900, fontSize: 18, display: 'flex', alignItems: 'center', gap: 7 }}>Manners+ <Icon name="star" size={16} /></div>
                 <div style={{ fontSize: 13, fontWeight: 600, opacity: 0.9, marginTop: 2 }}>Every country, travel mode & more.</div>
               </div>
               <span style={{ fontWeight: 900 }}>$6.99<span style={{ fontSize: 12, opacity: 0.8 }}>/mo</span></span>
@@ -190,7 +200,7 @@ export default function Profile() {
           {/* account — only for the primary profile */}
           {isPrimary && (
             <div className="tile" style={{ cursor: 'default' }}>
-              <span className="tile-flag" style={{ fontSize: 22 }}>{account ? '👤' : '🔐'}</span>
+              <Icon name={account ? 'profile' : 'lock'} size={22} color="var(--navy-500)" />
               <div className="grow">
                 <div className="tile-name">Account</div>
                 <div className="tile-sub">{account ? (account.email ?? account.displayName) : 'Not signed in'}</div>
@@ -203,14 +213,14 @@ export default function Profile() {
 
           {/* age group */}
           <div className="tile" style={{ cursor: 'default' }}>
-            <span className="tile-flag" style={{ fontSize: 22 }}>🎂</span>
+            <Icon name="person" size={22} color="var(--navy-500)" />
             <div className="grow"><div className="tile-name">Age group</div><div className="tile-sub">{ageGroup ? AGE_LABEL[ageGroup] : 'Not set'}</div></div>
             <button className="chip" onClick={() => { haptic('tap'); navigate('/onboarding') }}>Change</button>
           </div>
 
           {/* language */}
           <div className="tile" style={{ cursor: 'default' }}>
-            <span className="tile-flag" style={{ fontSize: 22 }}>🗣️</span>
+            <Icon name="chat" size={22} color="var(--navy-500)" />
             <div className="grow">
               <div className="tile-name">Language</div>
               <div className="tile-sub">{LANGUAGE_MAP[language]?.native ?? 'English'}</div>
@@ -239,7 +249,7 @@ export default function Profile() {
           {/* owned travel packs */}
           {ownedPacks.length > 0 && (
             <div className="tile" style={{ cursor: 'default' }}>
-              <span className="tile-flag" style={{ fontSize: 22 }}>🎟️</span>
+              <Icon name="plane" size={22} color="var(--navy-500)" />
               <div className="grow">
                 <div className="tile-name">Travel Packs</div>
                 <div className="tile-sub">{ownedPacks.map((c) => c.name).join(' · ')}</div>
@@ -248,16 +258,16 @@ export default function Profile() {
           )}
 
           <button className="tile" onClick={() => { if (confirm('Reset all progress? This cannot be undone.')) { haptic('error'); reset(); navigate('/onboarding', { replace: true }) } }}>
-            <span className="tile-flag" style={{ fontSize: 22 }}>♻️</span>
+            <Icon name="refresh" size={22} color="var(--coral-600)" />
             <div className="grow"><div className="tile-name" style={{ color: 'var(--coral-600)' }}>Reset progress</div><div className="tile-sub">Start over, keep your account</div></div>
           </button>
 
           {/* store-required account deletion */}
           {isPrimary && (
             <button className="tile" onClick={() => { haptic('tap'); navigate('/account/delete') }}>
-              <span className="tile-flag" style={{ fontSize: 22 }}>🗑️</span>
+              <Icon name="trash" size={22} color="var(--coral-600)" />
               <div className="grow"><div className="tile-name" style={{ color: 'var(--coral-600)' }}>Delete account</div><div className="tile-sub">Erase your data</div></div>
-              <span className="tile-go">›</span>
+              <span className="tile-go"><Icon name="chevron-right" size={18} color="var(--muted)" /></span>
             </button>
           )}
         </div>
@@ -269,7 +279,7 @@ export default function Profile() {
           <Link to="/terms" className="src-link">Terms</Link>
         </nav>
         <p className="kicker" style={{ textAlign: 'center', marginTop: 12 }}>
-          Mannerly · confidence in every culture
+          Mannerly
         </p>
       </div>
     </div>
