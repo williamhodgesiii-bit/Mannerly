@@ -316,10 +316,21 @@ export const useAccount = create<AccountState>()(
 
           if (isSupabaseConfigured && supabase) {
             const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-            if (error) return { ok: false, error: 'Incorrect email or password.' }
+            if (error) {
+              const m = error.message || ''
+              if (/not confirmed/i.test(m)) {
+                return { ok: false, error: 'Email not confirmed — in Supabase, turn off Authentication → Providers → Email → “Confirm email” for testing.' }
+              }
+              // surface the real reason (Supabase already returns a generic
+              // "Invalid login credentials" for wrong email/password)
+              return { ok: false, error: m || 'Incorrect email or password.' }
+            }
             const user = data.user as SbUser
-            switchTo(accountFromUser(user), incomingForUser(user))
-            return { ok: true }
+            // Dev/sample accounts sign in with real Supabase identity but get their
+            // rich sample data (plan, progress, household) applied on the device.
+            const dev = DEV_ACCOUNTS[email]
+            switchTo(accountFromUser(user), dev ? devSnapshot(dev) : incomingForUser(user))
+            return dev ? { ok: true, seed: dev.seed } : { ok: true }
           }
 
           // local stand-in — dev/sample accounts first

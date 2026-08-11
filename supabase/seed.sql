@@ -1,23 +1,24 @@
 -- ============================================================
 -- Mannerly — dev / sample accounts (Supabase)
 --
--- Creates one ready-to-use login per account type. Run AFTER schema.sql,
--- in the Supabase SQL Editor. All four share the same password:
+-- Creates one ready-to-use login per account type. Run AFTER schema.sql.
+-- Idempotent: it deletes any existing dev users first, so you can re-run it.
+--
+-- ⚠️ If sign-in still fails after this, use the Admin-API seeder instead —
+-- it's immune to auth-schema differences between Supabase versions:
+--     SUPABASE_SERVICE_ROLE_KEY=... node scripts/seed-users.mjs
 --
 --     Password:  Mannerly-Dev-2026
---
---     solo@mannerly.app      → individual
---     family@mannerly.app    → family (parent)
---     teacher@mannerly.app   → teacher
---     student@mannerly.app   → student
---
--- These insert directly into auth.users with a bcrypt password and a
--- confirmed email, plus a matching auth.identities row so email/password
--- sign-in works. The profiles trigger fills public.profiles automatically.
---
--- Prefer clicking? Authentication → Users → "Add user" works too; then set
--- the user's metadata to match (display_name, role, account_type, onboarded).
+--     solo@mannerly.app    → individual
+--     family@mannerly.app  → family (parent)
+--     teacher@mannerly.app → teacher
+--     student@mannerly.app → student
 -- ============================================================
+
+-- Clean slate (cascades to auth.identities + public.profiles).
+delete from auth.users where email in (
+  'solo@mannerly.app', 'family@mannerly.app', 'teacher@mannerly.app', 'student@mannerly.app'
+);
 
 do $$
 declare
@@ -32,17 +33,16 @@ declare
 begin
   for r in select * from jsonb_array_elements(accounts) as a(v)
   loop
-    -- Skip if the email already exists.
-    if exists (select 1 from auth.users where email = (r.v ->> 'email')) then
-      continue;
-    end if;
-
     uid := gen_random_uuid();
 
+    -- The empty-string token columns matter: GoTrue's login fails if these
+    -- are NULL, which is the usual reason a hand-seeded account "won't log in".
     insert into auth.users (
       instance_id, id, aud, role, email, encrypted_password,
       email_confirmed_at, created_at, updated_at,
-      raw_app_meta_data, raw_user_meta_data
+      raw_app_meta_data, raw_user_meta_data,
+      confirmation_token, recovery_token, email_change,
+      email_change_token_new, email_change_token_current, reauthentication_token
     ) values (
       '00000000-0000-0000-0000-000000000000', uid, 'authenticated', 'authenticated',
       r.v ->> 'email', crypt('Mannerly-Dev-2026', gen_salt('bf')),
@@ -53,11 +53,13 @@ begin
         'role', r.v ->> 'role',
         'account_type', r.v ->> 'type',
         'onboarded', true
-      )
+      ),
+      '', '', '', '', '', ''
     );
 
     insert into auth.identities (
-      id, user_id, provider_id, identity_data, provider, last_sign_in_at, created_at, updated_at
+      id, user_id, provider_id, identity_data, provider,
+      last_sign_in_at, created_at, updated_at
     ) values (
       gen_random_uuid(), uid, uid::text,
       jsonb_build_object('sub', uid::text, 'email', r.v ->> 'email', 'email_verified', true),

@@ -44,9 +44,7 @@ land back in the app).
 
 ## 5. Seed the dev / sample accounts
 
-Open **SQL Editor**, paste [`supabase/seed.sql`](../../supabase/seed.sql), and
-**Run**. This creates one login per account type. All share the password
-**`Mannerly-Dev-2026`**:
+All four share the password **`Mannerly-Dev-2026`**:
 
 | Email | Type | What you'll see |
 |---|---|---|
@@ -55,9 +53,28 @@ Open **SQL Editor**, paste [`supabase/seed.sql`](../../supabase/seed.sql), and
 | `teacher@mannerly.app` | Teacher | A class with a join code |
 | `student@mannerly.app` | Student | Joined to a class |
 
-> The household/classroom sample data (children, class code) is filled in by the
-> app on sign-in for the offline stand-in. In Supabase mode the accounts sign in
-> for real; that sample content becomes backend data when progress sync ships.
+**Recommended — the seeder script** (immune to Supabase auth-schema quirks):
+
+1. Grab your **service_role** key: Settings → API → `service_role` **secret**.
+   It's a secret — keep it in your shell only, never commit it.
+2. From the project root:
+
+   ```bash
+   npm install                                    # if you haven't
+   SUPABASE_SERVICE_ROLE_KEY=your-service-role-key npm run seed:users
+   ```
+
+   It prints `✓ created …` for each account and is safe to re-run (it updates).
+
+**Alternative — SQL:** SQL Editor → New query → paste
+[`supabase/seed.sql`](../../supabase/seed.sql) → Run. It deletes any existing dev
+users first, so it's also re-runnable.
+
+> **"The dev accounts won't let me log in."** Almost always one of two things:
+> (a) email confirmation is still on — do step 4; or (b) an earlier hand-seed left
+> the users in a broken state — re-run the **seeder script** above, which repairs
+> them. The account's sample data (Manners+, children, class code) is applied by
+> the app on sign-in.
 
 ## 6. Google / Apple (optional)
 
