@@ -40,6 +40,11 @@ export interface ProgressSnapshot {
   streak: number
   lastActive: string | null
   completed: Record<string, true>
+  /** which world (course) the learner is currently on */
+  activeCourseId?: string
+  /** energy/charge balance + the timestamp it was last spent */
+  charge?: number
+  chargeAt?: number
 }
 
 /** The learner's entitlements, as stored per account. */
@@ -68,6 +73,9 @@ export const EMPTY_PROGRESS: ProgressSnapshot = {
   streak: 0,
   lastActive: null,
   completed: {},
+  activeCourseId: 'core',
+  charge: 5,
+  chargeAt: 0,
 }
 
 export const EMPTY_ENTITLEMENTS: EntitlementSnapshot = {

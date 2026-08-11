@@ -727,3 +727,134 @@
 .avatar--teal { background: linear-gradient(140deg, var(--teal-400), var(--teal-500)); }
 .avatar--gold { background: linear-gradient(140deg, var(--gold-400), var(--gold-500)); }
 .avatar--coral { background: linear-gradient(140deg, var(--coral-500), var(--coral-600)); }
+
+/* ============================================================
+   World switching · charge · themed tiles · achievements
+   ============================================================ */
+
+/* header charge button */
+.stat--charge { color: var(--gold-600); cursor: pointer; }
+
+/* world switcher (header left) */
+.world-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px 6px 8px;
+  border-radius: var(--pill);
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--line);
+  max-width: 60vw;
+}
+.world-switch__flag { font-size: 18px; display: inline-flex; line-height: 1; }
+.world-switch__name { font-weight: 800; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.world-switch__chev { transform: rotate(90deg); color: var(--muted); }
+
+/* themed world hero */
+.world-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  color: #fff;
+  background: var(--theme, var(--navy-600));
+  box-shadow: var(--shadow);
+}
+.world-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(0, 0, 0, 0.16));
+  pointer-events: none;
+}
+.world-hero > * { position: relative; z-index: 1; }
+.world-hero__flag { font-size: 40px; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25)); }
+.world-hero__hello { font-size: 13px; font-weight: 800; opacity: 0.92; }
+.world-hero__name { font-size: 20px; font-weight: 900; letter-spacing: -0.01em; }
+.world-hero .track { background: rgba(255, 255, 255, 0.28); }
+.world-hero .fill { background: #fff; box-shadow: none; }
+.world-hero .kicker { color: rgba(255, 255, 255, 0.9); }
+
+/* themed explore tiles */
+.tile--themed { position: relative; overflow: hidden; }
+.tile--themed::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 5px;
+  background: var(--theme, var(--navy-500));
+}
+.tile--active { border-color: var(--teal-500); box-shadow: inset 0 0 0 1px var(--teal-500), var(--shadow-sm); }
+
+/* ---------- bottom sheets ---------- */
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: rgba(8, 18, 40, 0.45);
+  backdrop-filter: blur(2px);
+}
+.sheet--modal {
+  background: var(--card);
+  color: var(--ink);
+  z-index: 60;
+  max-height: 84vh;
+  overflow-y: auto;
+}
+.sheet__grip { width: 40px; height: 5px; border-radius: 99px; background: var(--line-strong); margin: 0 auto 14px; }
+.sheet__title { display: flex; align-items: center; gap: 8px; font-size: 19px; font-weight: 900; margin-bottom: 12px; }
+.sheet__text { font-size: 15px; font-weight: 600; color: var(--muted); margin: 2px 0 8px; }
+.sheet__later { display: block; width: 100%; text-align: center; padding: 12px; margin-top: 10px; font-weight: 800; color: var(--muted); }
+
+/* charge bolts */
+.bolts { display: flex; gap: 8px; justify-content: center; margin: 4px 0 14px; }
+.bolt { color: var(--line-strong); display: inline-flex; }
+.bolt--on { color: var(--gold-500); }
+
+/* world list (switcher) */
+.world-list { display: flex; flex-direction: column; gap: 8px; }
+.world-region { font-size: 12px; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 12px 0 4px; }
+.world-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 11px 12px;
+  border-radius: var(--r);
+  background: var(--card);
+  border: 1px solid var(--line);
+  transition: transform 0.1s var(--spring);
+}
+.world-row:active { transform: scale(0.98); }
+.world-row--active { border-color: var(--teal-500); background: var(--teal-100); }
+.world-flag { font-size: 26px; width: 32px; display: inline-flex; align-items: center; justify-content: center; }
+.world-name { font-weight: 800; font-size: 15.5px; }
+.world-sub { font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.world-tag { font-size: 11px; font-weight: 900; padding: 4px 9px; border-radius: var(--pill); }
+.world-tag--on { background: var(--teal-500); color: #fff; }
+
+/* achievements */
+.ach-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.ach { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; opacity: 0.5; }
+.ach--on { opacity: 1; }
+.ach-badge {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: var(--bg-tint);
+  border: 1px solid var(--line);
+}
+.ach--on .ach-badge { background: linear-gradient(140deg, var(--teal-400), var(--teal-500)); border: none; box-shadow: var(--shadow-sm); }
+.ach-name { font-size: 11px; font-weight: 800; color: var(--muted); line-height: 1.15; }
+.ach--on .ach-name { color: var(--ink); }
+
+/* passport per-country progress */
+.stamp-prog { font-size: 11px; font-weight: 800; color: var(--muted); margin-top: 2px; }
+.stamp--got .stamp-prog { color: var(--teal-600); }

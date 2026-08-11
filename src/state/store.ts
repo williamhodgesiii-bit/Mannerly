@@ -21,6 +21,22 @@ function dayDiff(a: string, b: string): number {
   return Math.round(ms / 86_400_000)
 }
 
+/* ---------- charge (energy) ----------
+   A daily limit that keeps sessions bite-size (like Duolingo energy).
+   One lesson costs one bolt; a bolt refills every REGEN_MS. Manners+
+   (and Family / School) make it unlimited — that check lives in the UI
+   via held permissions, so this store stays pure. */
+export const CHARGE_MAX = 5
+export const REGEN_MS = 30 * 60 * 1000 // 30 min per bolt
+
+function regen(charge: number, chargeAt: number, now = Date.now()) {
+  if (charge >= CHARGE_MAX || !chargeAt) return { charge: Math.min(CHARGE_MAX, charge || CHARGE_MAX), chargeAt: 0 }
+  const gained = Math.floor((now - chargeAt) / REGEN_MS)
+  if (gained <= 0) return { charge, chargeAt }
+  const next = Math.min(CHARGE_MAX, charge + gained)
+  return { charge: next, chargeAt: next >= CHARGE_MAX ? 0 : chargeAt + gained * REGEN_MS }
+}
+
 /** What onboarding collects about the learner, saved in one shot. */
 export interface LearnerProfileInit {
   accountType: AccountType
@@ -45,6 +61,18 @@ interface ProgressState {
   streak: number
   lastActive: string | null
   completed: Record<string, true>
+
+  /** which world (course) the Learn tab shows */
+  activeCourseId: string
+  /** current energy balance + when a bolt was last spent (0 = full) */
+  charge: number
+  chargeAt: number
+
+  setActiveCourse: (id: string) => void
+  currentCharge: () => number
+  msToNextCharge: () => number | null
+  spendCharge: () => boolean
+  refillCharge: () => void
 
   setAgeGroup: (a: AgeGroup) => void
   /** Persist the full onboarding profile in one step (also marks onboarded). */
@@ -80,6 +108,30 @@ export const useProgress = create<ProgressState>()(
       streak: 0,
       lastActive: null,
       completed: {},
+      activeCourseId: 'core',
+      charge: CHARGE_MAX,
+      chargeAt: 0,
+
+      setActiveCourse: (id) => set({ activeCourseId: id }),
+      currentCharge: () => {
+        const s = get()
+        return regen(s.charge, s.chargeAt).charge
+      },
+      msToNextCharge: () => {
+        const s = get()
+        const r = regen(s.charge, s.chargeAt)
+        if (r.charge >= CHARGE_MAX || !r.chargeAt) return null
+        return REGEN_MS - ((Date.now() - r.chargeAt) % REGEN_MS)
+      },
+      spendCharge: () => {
+        const s = get()
+        const r = regen(s.charge, s.chargeAt)
+        if (r.charge <= 0) { set({ charge: 0, chargeAt: r.chargeAt || Date.now() }); return false }
+        const wasFull = r.charge >= CHARGE_MAX
+        set({ charge: r.charge - 1, chargeAt: wasFull ? Date.now() : r.chargeAt })
+        return true
+      },
+      refillCharge: () => set({ charge: CHARGE_MAX, chargeAt: 0 }),
 
       setAgeGroup: (a) => set({ ageGroup: a, onboarded: true }),
 
@@ -157,6 +209,9 @@ export const useProgress = create<ProgressState>()(
           streak: s.streak,
           lastActive: s.lastActive,
           completed: s.completed,
+          activeCourseId: s.activeCourseId,
+          charge: s.charge,
+          chargeAt: s.chargeAt,
         }
       },
 
@@ -174,6 +229,9 @@ export const useProgress = create<ProgressState>()(
           streak: s.streak,
           lastActive: s.lastActive,
           completed: s.completed,
+          activeCourseId: s.activeCourseId ?? 'core',
+          charge: s.charge ?? CHARGE_MAX,
+          chargeAt: s.chargeAt ?? 0,
         }),
     }),
     { name: 'mannerly-progress-v1' },

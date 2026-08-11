@@ -1,17 +1,32 @@
 import { useNavigate } from 'react-router-dom'
+import { type ReactNode, useEffect, useState } from 'react'
 import Icon from '@/components/Icon'
 import { useProgress } from '@/state/store'
+import { useUI } from '@/state/ui'
+import { useHeldPermissions } from '@/state/entitlements'
+import { haptic } from '@/lib/haptics'
 
 interface HeaderProps {
   title?: string
+  left?: ReactNode
   back?: boolean
   stats?: boolean
 }
 
-export default function Header({ title, back = false, stats = true }: HeaderProps) {
+export default function Header({ title, left, back = false, stats = true }: HeaderProps) {
   const navigate = useNavigate()
   const streak = useProgress((s) => s.streak)
-  const xp = useProgress((s) => s.xp)
+  const currentCharge = useProgress((s) => s.currentCharge)
+  const openCharge = useUI((s) => s.openCharge)
+  const held = useHeldPermissions()
+  const unlimited = held.has('MANNERLY_PLUS') || held.has('FAMILY') || held.has('SCHOOL_LICENSE')
+
+  // refresh the charge readout as it regenerates
+  const [, tick] = useState(0)
+  useEffect(() => {
+    const t = setInterval(() => tick((n) => n + 1), 30_000)
+    return () => clearInterval(t)
+  }, [])
 
   return (
     <header className="appbar">
@@ -21,16 +36,16 @@ export default function Header({ title, back = false, stats = true }: HeaderProp
             <Icon name="chevron-left" size={22} />
           </button>
         )}
-        {title && <span className="appbar__title">{title}</span>}
+        {left ? left : title && <span className="appbar__title">{title}</span>}
       </div>
       {stats && (
         <div className="row" style={{ gap: 14 }}>
           <span className="stat stat--streak" aria-label={`${streak} day streak`}>
             <Icon name="flame" size={18} /> {streak}
           </span>
-          <span className="stat stat--xp" aria-label={`${xp} XP`}>
-            <Icon name="bolt" size={18} /> {xp}
-          </span>
+          <button className="stat stat--charge" onClick={() => { haptic('tap'); openCharge() }} aria-label="Charge">
+            <Icon name="bolt" size={18} /> {unlimited ? '∞' : currentCharge()}
+          </button>
         </div>
       )}
     </header>

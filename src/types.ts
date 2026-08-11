@@ -220,6 +220,8 @@ export interface Country {
   hello: string
   blurb: string
   courseId: string
+  /** cultural accent colour (hex) for themed heros, tiles & flags */
+  theme: string
 }
 
 export interface Region {

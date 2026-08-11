@@ -6,6 +6,7 @@ import Icon from '@/components/Icon'
 import { COURSE_MAP, LESSON_MAP, UNIT_MAP } from '@/data/content'
 import { COUNTRIES } from '@/data/countries'
 import { useProgress } from '@/state/store'
+import { useUI } from '@/state/ui'
 import { useHeldPermissions } from '@/state/entitlements'
 import { courseUnlocked, unlockHint } from '@/lib/entitlements'
 import { haptic } from '@/lib/haptics'
@@ -15,7 +16,13 @@ export default function CourseDetail() {
   const navigate = useNavigate()
   const course = COURSE_MAP[courseId]
   const completed = useProgress((s) => s.completed)
+  const activeCourseId = useProgress((s) => s.activeCourseId)
+  const setActive = useProgress((s) => s.setActiveCourse)
+  const currentCharge = useProgress((s) => s.currentCharge)
+  const spendCharge = useProgress((s) => s.spendCharge)
+  const openCharge = useUI((s) => s.openCharge)
   const held = useHeldPermissions()
+  const unlimited = held.has('MANNERLY_PLUS') || held.has('FAMILY') || held.has('SCHOOL_LICENSE')
 
   if (!course) {
     return (
@@ -32,9 +39,13 @@ export default function CourseDetail() {
 
   const open = (id: string, locked: boolean) => {
     if (locked) { haptic('error'); return }
+    if (!unlimited && currentCharge() <= 0) { haptic('error'); openCharge(); return }
+    if (!unlimited) spendCharge()
     haptic('tap')
     navigate(`/lesson/${id}`)
   }
+
+  const learnThis = () => { haptic('success'); setActive(course.id); navigate('/') }
 
   return (
     <div className="screen has-tabbar">
@@ -62,6 +73,19 @@ export default function CourseDetail() {
               First lesson free — {unlockHint(course).toLowerCase()}
             </span>
           </div>
+        )}
+
+        {unlocked && (
+          activeCourseId === course.id ? (
+            <div className="card" style={{ padding: 14, marginTop: 12, display: 'flex', gap: 10, alignItems: 'center', background: 'var(--teal-100)', border: '1px solid var(--teal-400)' }}>
+              <Icon name="check-badge" size={20} color="var(--teal-600)" />
+              <span style={{ fontWeight: 800, fontSize: 14, color: 'var(--teal-600)' }}>You’re learning this world</span>
+            </div>
+          ) : (
+            <button className="btn" style={{ marginTop: 12 }} onClick={learnThis}>
+              <Icon name="learn" size={18} color="#fff" /> Learn this world
+            </button>
+          )
         )}
 
         {course.unitIds.map((uId) => {

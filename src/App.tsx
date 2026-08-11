@@ -10,6 +10,7 @@ import Lesson from '@/screens/Lesson'
 import Passport from '@/screens/Passport'
 import Profile from '@/screens/Profile'
 import Auth from '@/screens/Auth'
+import Sheets from '@/components/Sheets'
 import Help from '@/screens/legal/Help'
 import Privacy from '@/screens/legal/Privacy'
 import Terms from '@/screens/legal/Terms'
@@ -109,6 +110,7 @@ export default function App() {
         </AnimatePresence>
       </div>
       {!hideTab && <TabBar />}
+      {onboarded && <Sheets />}
     </div>
   )
 }
