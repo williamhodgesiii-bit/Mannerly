@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Header from '@/components/Header'
 import Mascot from '@/components/Mascot'
@@ -12,12 +12,17 @@ type Mode = 'signin' | 'create'
 
 export default function Auth() {
   const navigate = useNavigate()
+  const location = useLocation()
   const signUpPassword = useAccount((s) => s.signUpPassword)
   const signInPassword = useAccount((s) => s.signInPassword)
   const signInWithProvider = useAccount((s) => s.signInWithProvider)
   const resetPassword = useAccount((s) => s.resetPassword)
 
-  const [mode, setMode] = useState<Mode>('signin')
+  // Sign-up runs through onboarding, which hands off here in 'create' mode to
+  // finish with credentials; every other entry opens on sign-in.
+  const [mode, setMode] = useState<Mode>(
+    (location.state as { mode?: Mode } | null)?.mode === 'create' ? 'create' : 'signin',
+  )
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -115,7 +120,13 @@ export default function Auth() {
               role="tab"
               aria-selected={mode === 'create'}
               className={`seg__btn ${mode === 'create' ? 'seg__btn--on' : ''}`}
-              onClick={() => { haptic('select'); setMode('create'); setError(''); setNote('') }}
+              onClick={() => {
+                haptic('select')
+                // New accounts are built through onboarding, which returns here
+                // in create mode to collect credentials — so send sign-ups there
+                // rather than skipping straight to the form.
+                if (mode !== 'create') navigate('/onboarding')
+              }}
             >
               Create account
             </button>

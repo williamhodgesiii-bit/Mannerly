@@ -157,12 +157,14 @@ export default function Onboarding() {
   }
 
   // Account handoff (individual + family): commit first so the new account
-  // inherits the profile, then head to the auth screen (a public route).
-  const toAuth = () => {
+  // inherits the profile, then head to the auth screen (a public route). We
+  // land there in the right mode — create-account arrives ready to collect
+  // credentials, "I already have one" opens sign-in.
+  const toAuth = (mode: 'create' | 'signin') => {
     haptic('tap')
     if (type === 'family') commitFamily(false)
     else commitIndividual()
-    navigate('/account', { replace: true })
+    navigate('/account', { replace: true, state: { mode } })
   }
 
   // Final launch from the "ready" beat — onboarded flips here, then we go.
@@ -378,8 +380,8 @@ export default function Onboarding() {
                   <Mascot color="gold" pose="cheer" size={124} />
                 </div>
                 <div className="stack" style={{ gap: 10 }}>
-                  <button className="btn" onClick={toAuth}>Create free account</button>
-                  <button className="btn btn--ghost" onClick={toAuth}>I already have one</button>
+                  <button className="btn" onClick={() => toAuth('create')}>Create free account</button>
+                  <button className="btn btn--ghost" onClick={() => toAuth('signin')}>I already have one</button>
                   <button className="btn btn--ghost" onClick={next}>Maybe later</button>
                 </div>
               </>
