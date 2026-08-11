@@ -42,169 +42,169 @@ Each scene has an **Intro** clip (the setup) and a **Correct** clip (after the r
 ### 1. Wave back — street
 Intro:
 ```
-Kaya waves hello to Manni on a sunny sidewalk. Manni turns and notices her.
+Morning light spills gold across a quiet city sidewalk, warm and unhurried. Kaya rounds the corner, catches sight of Manni, and lifts her hand in a bright, easy wave. Manni glances up from the pavement, a flicker of recognition warming his face.
 ```
 Correct:
 ```
-Manni smiles and waves back. Kaya lights up, happy.
+Manni breaks into a grin and waves back, the small distance between them closing. Kaya laughs, delighted, two friends lit by the same morning sun.
 ```
 
 ### 2. Say please — kitchen
 Intro:
 ```
-Manni looks at a jug of juice on the kitchen counter next to Kaya, wondering how to ask.
+A cozy kitchen glows in soft late-morning light, steam curling from a mug on the counter. A cold jug of orange juice sits just out of reach, beading with condensation, near where Kaya leans. Manni eyes it, then eyes her, weighing how to ask.
 ```
 Correct:
 ```
-Manni asks politely. Kaya smiles and hands him the juice.
+Manni asks gently, an open hand and an easy smile. Kaya's face softens as she slides the juice across the counter to him.
 ```
 
 ### 3. Say thank you — shop door
 Intro:
 ```
-Remy holds the shop door open for Manni, who is walking up.
+Outside a little corner shop, mint-green afternoon light pools on the glass. Remy pushes the door wide and holds it, glancing back with a small, helpful smile as Manni comes up the step with a paper bag in his arm.
 ```
 Correct:
 ```
-Manni thanks Remy warmly. Remy smiles, pleased.
+Manni meets Remy's eyes and offers a warm thank-you. Remy beams, quietly pleased to have been seen.
 ```
 
 ### 4. Introduce yourself — party
 Intro:
 ```
-At a party, Manni stands next to Nia, someone he hasn't met yet, unsure what to say.
+A living room hums with a gentle party glow, string lights blurring soft and pink behind a scatter of guests. Manni stands a beat too still beside Nia, a stranger holding a cup, the silence stretching thin between them. He draws a breath, unsure whether to break it.
 ```
 Correct:
 ```
-Manni offers his hand and introduces himself. Nia smiles and shakes it.
+Manni offers his hand and says his name; the ice cracks and warms. Nia smiles, shakes it, and gives her name back.
 ```
 
 ### 5. Say sorry — street
 Intro:
 ```
-Manni bumps into Kaya on a busy sidewalk. Both stop, surprised.
+On a bright, busy sidewalk, footsteps and distant traffic blur into an easy afternoon rhythm. Distracted for a heartbeat, Manni's shoulder clips Kaya's as they pass; both stumble to a stop, breath caught, eyes wide.
 ```
 Correct:
 ```
-Manni apologizes and checks that she's okay. Kaya smiles, all good.
+Manni's hand flies up in apology, his face open with real concern as he checks that she's alright. Kaya softens into a forgiving smile — no harm done.
 ```
 
 ### 6. Really listen — study room
 Intro:
 ```
-Remy is telling Manni a story. Manni's phone sits nearby, tempting him.
+A sunlit study nook, soft blue light on the table, two chairs pulled close. Remy is mid-story, hands drawing shapes in the air, eyes bright with something that matters. Nearby, Manni's phone glows face-up, humming for his attention.
 ```
 Correct:
 ```
-Manni ignores the phone, looks at Remy and nods. Remy feels heard.
+Manni leaves the phone dark, turns fully to Remy, and nods along. Remy, feeling truly heard, opens up and glows a little brighter.
 ```
 
 ### 7. Wait to jump in — classroom
 Intro:
 ```
-Kaya and Remy are talking. Manni has an idea and wants to jump in.
+A bright classroom corner, afternoon light warm across scattered notebooks. Kaya and Remy are deep in an easy back-and-forth, their words overlapping. Beside them Manni lights up with an idea, leaning in, the urge to interrupt buzzing on his lips.
 ```
 Correct:
 ```
-Manni waits for a pause, then shares his idea. Kaya and Remy nod.
+Manni holds back, waits for the pause, then slips his idea in gently. Kaya and Remy turn toward him, nodding — it lands just right.
 ```
 
 ### 8. Respect a no — living room
 Intro:
 ```
-Remy sits on the couch and quietly signals they need space. Manni watches, unsure.
+A quiet living room at dusk, amber lamplight soft on the couch. Remy sits curled at one end, a little withdrawn, offering a small, tired "not now." Manni lingers close by, caring, unsure whether to step nearer or give way.
 ```
 Correct:
 ```
-Manni nods kindly and gives Remy room. Remy relaxes, grateful.
+Manni reads the room, nods with warmth, and eases back to give space. Remy exhales, grateful and safe.
 ```
 
 ### 9. Wait to eat — restaurant
 Intro:
 ```
-Manni's plate arrives first while Kaya and Nia still wait for theirs.
+A warm restaurant booth glows honey-gold, the low clink of cutlery all around. A steaming plate lands in front of Manni first, while across the table Kaya and Nia sit with empty settings, still waiting. Manni's fork hovers, tempted.
 ```
 Correct:
 ```
-Manni waits, and once everyone is served they all start eating together.
+Manni sets the fork down and waits; once every plate has arrived, the three lift their forks together and begin as one.
 ```
 
 ### 10. Eat quietly — home dinner
 Intro:
 ```
-At a family dinner, hungry Manni lifts a big forkful next to Kaya.
+A family dinner table, warm lamplight and the comfortable murmur of a full house. Hungry after a long day, Manni loads his fork high beside Kaya, who eats with easy, tidy calm.
 ```
 Correct:
 ```
-Manni takes a smaller bite with his mouth closed, relaxed. Kaya nods approvingly.
+Manni takes a smaller bite, mouth closed, unhurried and at ease. Kaya gives a small, approving nod.
 ```
 
 ### 11. Phone at dinner — restaurant
 Intro:
 ```
-Manni's phone buzzes on the table while Remy is talking at dinner.
+A snug two-person table, candle-warm and close. Remy is halfway through a story when Manni's phone buzzes face-up on the table, its screen flaring bright between them.
 ```
 Correct:
 ```
-Manni flips the phone face down and gives Remy his full attention. Remy brightens.
+Manni turns the phone face down without a second thought and gives Remy his whole attention. Remy brightens, pulled back into the moment.
 ```
 
 ### 12. Warm texts — couch
 Intro:
 ```
-Manni sits alone with his phone, about to send a cold one-word reply.
+Late evening on a soft couch, the room dim but for the glow of a phone in Manni's hands. His thumb hovers over a cold, one-word reply — the kind that lands flatter than he means.
 ```
 Correct:
 ```
-Manni smiles and types something warmer instead.
+Manni's face eases into a smile; he backspaces and types something warmer instead.
 ```
 
 ### 13. One clear message — kitchen table
 Intro:
 ```
-Manni's phone is flooded with group-chat notifications. He looks a little overwhelmed.
+At the kitchen table, a phone buzzes and buzzes, notifications swarming like restless fireflies. Manni stares down at the flood of the group chat, thumbs poised, a little overwhelmed by the noise.
 ```
 Correct:
 ```
-Manni sends one calm, clear message. The buzzing settles.
+Manni gathers his thought into one calm, clear message and sends it. The buzzing settles into quiet.
 ```
 
 ### 14. Mute on a call — desk
 Intro:
 ```
-Manni is on a video call with Nia leading. He isn't speaking, and there's noise around him.
+A tidy desk bathed in cool screen-light, a grid of small faces glowing on the monitor. Nia is speaking, leading the call, while Manni listens without talking as little sounds stir in the room around him.
 ```
 Correct:
 ```
-Manni mutes his mic and keeps listening. The call stays clear.
+Manni taps mute and leans in to listen, the call staying clean and clear for everyone.
 ```
 
 ### 15. Wait in line — shop
 Intro:
 ```
-Manni hurries up to a line at a shop counter, eyeing the front. Kaya waits ahead.
+Inside a bright little shop, a tidy line inches toward the counter under soft green light. Manni hurries in on impatient energy, eyes darting to the front; a few people ahead, Kaya waits her turn.
 ```
 Correct:
 ```
-Manni walks to the back and waits his turn. Kaya smiles back at him.
+Manni lets the impatience go and joins the back of the line, settling in. Kaya glances back with a warm, approving smile.
 ```
 
 ### 16. Give up your seat — train
 Intro:
 ```
-Manni sits on a crowded train as older Baba Sol boards and stands, holding a rail.
+A crowded train sways through cool daylight, windows streaming with the passing city. Manni sits in the last free seat as the doors slide open and older Baba Sol steps aboard, steadying himself on a rail as the carriage rocks.
 ```
 Correct:
 ```
-Manni stands and offers his seat. Baba Sol accepts with a warm thank you.
+Manni rises and offers his seat with an open hand. Baba Sol accepts, crinkle-eyed and grateful, with a warm thank-you.
 ```
 
 ### 17. Good guest — friend's home
 Intro:
 ```
-Nia opens her front door and welcomes Manni inside. He steps in.
+Evening light spills warm from an open doorway as Nia welcomes Manni inside, the room beyond soft with lamplight and the smell of something cooking. Manni steps over the threshold, a little unsure how to be the perfect guest.
 ```
 Correct:
 ```
-Manni thanks Nia warmly for having him. Nia beams.
+Manni turns to Nia with a warm thank-you for having him. She beams, glad to have him there.
 ```
