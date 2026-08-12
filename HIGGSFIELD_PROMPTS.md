@@ -208,3 +208,275 @@ Correct:
 ```
 Manni turns to Nia first and thanks her warmly for having him. She beams, the room opens up, and Kaya scoots over to make him a spot. Generate spoken character voices and on-screen closed captions.
 ```
+
+---
+
+## Part 3 — Country Scenes
+
+Same cast, same format. Manni is the traveler learning each custom, sometimes with Kaya or Remy along; local hosts, elders, and servers are new faces. Each Intro freezes on Manni's choice; each Correct pays it off.
+
+### 🇺🇸 United States
+
+#### 18. Hold the door — shop
+Intro:
+```
+A busy storefront in bright afternoon light, glass doors swinging, shoppers streaming in and out. Manni reaches the entrance a few steps ahead of Nia, whose arms are stacked high with boxes she can barely see over. Let the door swing shut behind him and keep moving, or catch it and hold it open, his hand hangs on the glass, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni catches the door and holds it wide, waving Nia through with an easy smile. She slips past, grateful behind her stack of boxes, and the moment glows. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 19. Personal space — office
+Intro:
+```
+A sleek open-plan office, cool daylight through tall windows, a coffee in each hand. Manni falls into conversation with Kaya by the desks, and there's a quiet decision in how he stands: right up close, or an easy arm's length back. He steps in, then hesitates, unsure how much room to leave. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni settles at a comfortable arm's length, relaxed and easy. Kaya loosens, the conversation flows, and both of them look at ease. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 20. Small talk — shop
+Intro:
+```
+A friendly corner store, warm light over the counter, Remy working the register with a bright cashier's smile. As Manni sets his things down, Remy tosses out the usual how's-your-day. Brush past it in silence, unload his entire day, or toss back something short and friendly, Manni pauses, caught mid-answer. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni gives a warm, easy reply and lobs the question right back. Remy grins, the exchange lands light and human, and the line moves on. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 21. Tipping — restaurant
+Intro:
+```
+A cozy diner, the check resting on the table in a little black folder, Remy the server clearing plates nearby after great service. Manni opens the bill and hovers over the tip line: leave nothing, drop a few coins, or add the usual generous percentage. His pen hangs above the paper, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni writes in a fair, generous tip and closes the folder with a smile. Remy's face lights with genuine thanks, the good service repaid. Generate spoken character voices and on-screen closed captions.
+```
+
+### 🇯🇵 Japan
+
+#### 22. Shoes off — home entrance
+Intro:
+```
+The genkan entryway of a Japanese home, a small step up to a spotless floor, guest slippers waiting in a neat row, a gracious local host offering a soft bow of welcome. Manni pauses at the threshold in his outdoor shoes: stride straight in, or stop and slip them off first. His foot hovers over the clean step, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni steps back, slips off his shoes, and eases into the waiting slippers. The host beams, delighted, and welcomes him warmly inside. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 23. Chopsticks — restaurant
+Intro:
+```
+A quiet Japanese restaurant, warm light on a lacquered table, a steaming bowl of rice in front of Manni, Kaya seated across. He pauses mid-meal with his chopsticks: plant them standing upright in the rice, or rest them neatly across the little holder. The sticks hover over the bowl, the choice unmade. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni lays his chopsticks gently across the holder, and Kaya gives a small approving nod. The table stays calm and easy. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 24. Quiet train — train
+Intro:
+```
+A spotless Japanese train glides along in hushed calm, every passenger quiet, the city sliding past the windows, Kaya seated beside Manni. His phone lights up with a call, buzzing loud in the stillness: answer it out loud, or keep the peace and let it wait. His thumb hovers over the screen, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni silences the call and quietly lets it wait, keeping the carriage's calm. Kaya smiles, and the quiet holds, unbroken. Generate spoken character voices and on-screen closed captions.
+```
+
+### 🇰🇷 South Korea
+
+#### 25. Two hands — formal room
+Intro:
+```
+A warm, formal Korean setting, soft light, a respected elder seated across from Manni as a small wrapped gift is passed between them. Manni reaches to hand it over: carelessly with one hand, or with both hands and a small bow. The gift hovers in the space between them, his choice unmade. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni offers the gift with both hands and a small, respectful bow. The elder receives it warmly, pleased by the care shown. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 26. Elders first — restaurant
+Intro:
+```
+A Korean table crowded with sizzling dishes and little bowls of banchan, steam rising, Kaya beside Manni and a senior elder at the head. Everyone's ready, and Manni's chopsticks twitch toward the food: dig in first, or wait for the eldest to begin. He hovers over the dish, undecided, the table waiting. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni holds off until the elder lifts their spoon first, then everyone begins together. The elder gives a warm, approving glance. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 27. Shoes inside — home
+Intro:
+```
+The entry of a cozy Korean apartment, a raised floor just ahead, cushions and a low table beyond, a kind local host greeting Manni at the door. He steps up in his street shoes, then pauses: track them across the clean floor, or leave them at the door. His foot hangs over the step, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni slips his shoes off at the door and steps up in socked feet. The host smiles, pleased, and waves him toward the warm low table. Generate spoken character voices and on-screen closed captions.
+```
+
+### 🇦🇪 United Arab Emirates
+
+#### 28. Right hand — majlis
+Intro:
+```
+A warm Emirati majlis, low cushioned seating and a shared platter of dates and cardamom coffee, a gracious host offering food to Manni. He reaches out to take and eat: with the left hand, or with the right. His hands hover over the platter, the choice unmade. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni takes and eats with his right hand, easy and respectful. The host smiles warmly, the welcome complete. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 29. Modest dress — hotel room
+Intro:
+```
+A bright hotel room in Dubai, the mall and a mosque visible through the window, two outfits laid out on the bed, light beachwear or a breezy set that covers shoulders and knees, Kaya waiting by the door. Manni holds up one, then the other, weighing which to wear out into the city. He stands between them, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni chooses the outfit that covers shoulders and knees, comfortable and respectful. Kaya nods, and the two set off easy into the day. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 30. Ramadan daytime — street
+Intro:
+```
+A hot Ramadan afternoon on a quiet Emirati street, most people fasting until sunset, Kaya walking beside Manni with a water bottle in his bag. Thirsty in the heat, he weighs it: drink right there on the open street, or wait and step somewhere private. His hand rests on the bottle, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni leaves the bottle capped and waits for a private spot out of sight. Kaya gives an understanding nod, the small kindness quietly landing. Generate spoken character voices and on-screen closed captions.
+```
+
+### 🇮🇳 India
+
+#### 31. Namaste — home
+Intro:
+```
+A warm Indian home glowing with afternoon light, a respected elder stepping forward to greet Manni at the door. He moves to say hello: a big backslapping hug, or palms pressed together in a gentle namaste with a small bow. His hands hover between the two, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni brings his palms together and offers a warm namaste with a small bow. The elder's face softens into a delighted smile. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 32. Shoes at the temple — temple
+Intro:
+```
+The steps of an Indian temple, ornate and serene, a shoe rack by the entrance and a kind attendant nearby, incense drifting on the air. Manni approaches the threshold still in his shoes: walk straight in, or stop and leave them at the rack. His foot hovers at the doorway, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni slips his shoes off and sets them at the rack before stepping through, mindful of his feet. The attendant gives a warm, approving nod. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 33. Right hand for food — restaurant
+Intro:
+```
+A lively Indian restaurant, shared dishes crowding a bright table, fragrant steam rising, Kaya seated beside Manni. He reaches toward a communal plate: with his left hand, or with his right and the serving spoon. His hand hovers over the food, the choice unmade. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni serves with the spoon and eats with his right hand, easy and natural. Kaya smiles, and the shared meal rolls on warm. Generate spoken character voices and on-screen closed captions.
+```
+
+### 🇲🇽 Mexico
+
+#### 34. Greet everyone — party
+Intro:
+```
+A warm Mexican house party spilling with music and color, a whole room of friends and family, Remy already inside waving Manni over. Arriving at the door, Manni weighs it: a distant wave from the doorway, or a warm hello to each person in turn. He hovers on the threshold, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni goes around and greets each person warmly, one by one. The room opens up to him, and Remy grins as he's folded into the party. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 35. Buen provecho — restaurant
+Intro:
+```
+A sunny Mexican restaurant, tables full of people mid-meal, Kaya walking in with Manni past the diners. As they pass, there's a small customary mealtime courtesy people offer to those eating: say it warmly, stare at their food, or pass in silence. Manni hesitates, the moment open. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni offers the warm mealtime courtesy as he passes, and the diners smile back. Kaya beams, a small kindness easily given. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 36. Relaxed timing — friend's home
+Intro:
+```
+Evening outside a friend's home in Mexico, a party invite for eight o'clock glowing on Manni's phone, Remy texting that they're on their way. Manni weighs the clock: show up exactly on the dot while the host is still setting up, or arrive comfortably a little after. He lingers by the door, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni arrives a relaxed little while after eight, right on time by the party's rhythm. The host welcomes him in, unhurried and glad. Generate spoken character voices and on-screen closed captions.
+```
+
+### 🇧🇷 Brazil
+
+#### 37. Follow their greeting — party
+Intro:
+```
+A warm Brazilian gathering, music and laughter, friends greeting each other close and easy, Remy pulling Manni into the circle. Someone leans in to say hello, and Manni has to read it: a stiff formal bow, backing away, or following their lead into a cheek kiss or handshake. He hovers mid-greeting, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni relaxes and follows their lead, matching the warm cheek-kiss hello. The greeting lands smooth, and he's swept into the group. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 38. Close talkers — street
+Intro:
+```
+A lively Brazilian street corner, warm and bright, Kaya chatting with Manni as the conversation flows. She stands comfortably close, the way friends do here, and Manni feels the pull to back away and reset the distance, or to relax and stay. He shifts on his feet, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni stays easy and relaxed at the closer distance, and the two fall right into sync. The chat warms and flows without a hitch. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 39. Fashionably late — friend's home
+Intro:
+```
+Evening at a friend's place in Brazil, a party set for nine, Remy messaging that things are only just getting started. Manni checks the time: turn up exactly at nine before the host is ready, or roll in the customary fifteen or thirty minutes later. He waits by the door, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni arrives a comfortable stretch after nine, right on the party's clock. The host greets him warmly, everything in full swing. Generate spoken character voices and on-screen closed captions.
+```
+
+### 🇬🇧 United Kingdom
+
+#### 40. Join the queue — shop
+Intro:
+```
+A tidy British shop, soft grey daylight, an orderly queue snaking toward the till, Kaya already waiting in line. Manni hurries in and clocks the front: slip in near the head of the queue, or walk to the very back and wait his turn. He hovers at the line's edge, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni heads straight to the back and joins the queue properly. Kaya glances back with an approving smile, and the line ticks along fair. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 41. Please and thank you — café
+Intro:
+```
+A snug British café, rain on the windows, a pot of tea steaming as Remy works behind the counter. Manni steps up to order, and there's a choice in how: blunt and clipped, or softened with the little pleases and thank-yous woven through. He pauses at the counter, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni orders warmly, courtesies and all, and Remy brightens behind the counter. The whole exchange turns easy and pleasant. Generate spoken character voices and on-screen closed captions.
+```
+
+#### 42. Understatement — office
+Intro:
+```
+A calm British office, soft grey light and quiet keyboards, Remy asking Manni how things are going. Everything's actually brilliant, and Manni weighs the reply: a huge over-the-top gush, a long list of every detail, or a calm, modest, very British few words. He hangs on the answer, undecided. Generate spoken character voices and on-screen closed captions.
+```
+Correct:
+```
+Manni gives a calm, modest, understated reply, and Remy grins knowingly. It lands just right, quietly perfect. Generate spoken character voices and on-screen closed captions.
+```
