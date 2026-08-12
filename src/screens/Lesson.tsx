@@ -2,10 +2,12 @@ import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { LESSON_MAP } from '@/data/content'
+import { lessonMedia } from '@/data/lessonMedia'
 import type { Choice, SceneSpec } from '@/types'
 import { useProgress } from '@/state/store'
 import { haptic } from '@/lib/haptics'
 import Scene from '@/components/Scene'
+import LessonStage from '@/components/LessonStage'
 import Mascot from '@/components/Mascot'
 import Confetti from '@/components/Confetti'
 import Icon from '@/components/Icon'
@@ -33,10 +35,15 @@ export default function Lesson() {
   const lesson = LESSON_MAP[lessonId]
   const completeLesson = useProgress((s) => s.completeLesson)
 
+  const media = lessonMedia(lessonId)
+
   const [phase, setPhase] = useState<Phase>('play')
   const [chosen, setChosen] = useState<string | null>(null)
   const [showMeta, setShowMeta] = useState(false)
   const [done, setDone] = useState<{ xpGained: number; streak: number } | null>(null)
+  // with an intro clip, hold the choices until it has played; without one, show them at once
+  const [introDone, setIntroDone] = useState(!media?.intro)
+  const [rewardDone, setRewardDone] = useState(false)
 
   const choices = useMemo(() => (lesson ? shuffle(lesson.choices, lesson.id) : []), [lesson])
 
@@ -82,7 +89,7 @@ export default function Lesson() {
   const leave = () => navigate(-1)
 
   return (
-    <div className="screen" style={{ overflow: 'hidden' }}>
+    <div className="screen" style={{ overflowX: 'hidden' }}>
       {/* top bar */}
       <div className="row" style={{ gap: 12, padding: 'calc(env(safe-area-inset-top) + 12px) 18px 8px' }}>
         <button className="icon-btn" onClick={leave} aria-label="Close">✕</button>
@@ -92,11 +99,53 @@ export default function Lesson() {
       </div>
 
       <div className="screen--padded" style={{ paddingTop: 8, gap: 16, display: 'flex', flexDirection: 'column' }}>
-        <Scene spec={liveScene} height={248} />
+        {/* Stage: real clips when the lesson has them (intro → reward),
+            otherwise the branded placeholder. The intro holds on its
+            last frame while the learner chooses; a correct answer plays
+            the reward clip. */}
+        {phase === 'play' ? (
+          isCorrect ? (
+            <LessonStage
+              key="stage-correct"
+              src={media?.correct}
+              height={248}
+              maxVh={58}
+              skippable
+              onDone={() => setRewardDone(true)}
+              fallback={<Scene spec={liveScene} height={248} />}
+            />
+          ) : (
+            <LessonStage
+              key="stage-intro"
+              src={media?.intro}
+              height={248}
+              /* play big, then dock smaller once the choices appear */
+              maxVh={introDone ? 40 : 62}
+              skippable
+              onDone={() => setIntroDone(true)}
+              fallback={<Scene spec={liveScene} height={248} />}
+            />
+          )
+        ) : (
+          <Scene spec={liveScene} height={248} />
+        )}
 
         <AnimatePresence mode="wait">
-          {/* -------- PLAY -------- */}
-          {phase === 'play' && (
+          {/* -------- PLAY: watch the intro, then choose -------- */}
+          {phase === 'play' && !introDone && (
+            <motion.p
+              key="watch"
+              className="stage-hint"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.28 }}
+            >
+              Watch what happens, then choose what you’d do…
+            </motion.p>
+          )}
+
+          {phase === 'play' && introDone && !isCorrect && (
             <motion.div key="play" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.28 }}>
               <h2 className="title" style={{ fontSize: 21, marginBottom: 14 }}>{lesson.prompt}</h2>
               <div className="options">
@@ -179,8 +228,9 @@ export default function Lesson() {
       </div>
 
       {/* -------- feedback / continue bar -------- */}
+      {/* on a correct answer, hold the sheet until the reward clip has played */}
       <AnimatePresence>
-        {phase === 'play' && chosen && (
+        {phase === 'play' && chosen && (!isCorrect || rewardDone) && (
           <motion.div
             key="sheet"
             className={`sheet ${isCorrect ? 'sheet--correct' : 'sheet--wrong'}`}

@@ -900,3 +900,77 @@
 }
 .intro__skip:hover { background: rgba(0, 0, 0, 0.5); }
 .intro__skip:active { transform: scale(0.96); }
+
+/* ---------- lesson stage (per-lesson video beat) ----------
+   The in-card clip that plays a lesson's intro (before the choices) and
+   its reward (after a correct answer). It adopts each clip's own aspect
+   ratio so nothing — captions included — is cropped, and falls back to
+   the branded <Scene> when a lesson has no clip. */
+.stage {
+  position: relative;
+  width: 100%;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  background: #0b1f45;
+  isolation: isolate;
+  transition: max-height 0.45s var(--ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage { transition: none; }
+}
+.stage__video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #0b1f45;
+}
+.stage__sound {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--pill);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.15s var(--ease), transform 0.1s var(--spring);
+  z-index: 3;
+}
+.stage__sound:active { transform: scale(0.94); }
+.stage__skip {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  padding: 6px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--pill);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.15s var(--ease), transform 0.1s var(--spring);
+  z-index: 3;
+}
+.stage__skip:active { transform: scale(0.96); }
+.stage-hint {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  opacity: 0.62;
+  padding: 6px 8px 2px;
+}
