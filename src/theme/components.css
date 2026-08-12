@@ -904,8 +904,9 @@
 /* ---------- lesson stage (per-lesson video beat) ----------
    The in-card clip that plays a lesson's intro (before the choices) and
    its reward (after a correct answer). It adopts each clip's own aspect
-   ratio so nothing — captions included — is cropped, and falls back to
-   the branded <Scene> when a lesson has no clip. */
+   ratio and shows the clip whole (never cropped); a blurred, zoomed copy
+   fills the space beside a vertical clip so there are no black bars.
+   Falls back to the branded <Scene> when a lesson has no clip. */
 .stage {
   position: relative;
   width: 100%;
@@ -914,17 +915,36 @@
   box-shadow: var(--shadow-sm);
   background: #0b1f45;
   isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: max-height 0.45s var(--ease);
 }
 @media (prefers-reduced-motion: reduce) {
   .stage { transition: none; }
 }
-.stage__video {
+/* soft blurred backdrop — the same clip, zoomed and blurred, filling the card */
+.stage__bg {
+  position: absolute;
+  inset: 0;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.2);
+  filter: blur(30px) saturate(1.2) brightness(0.7);
+  z-index: 0;
+  pointer-events: none;
+}
+/* the clip itself — whole, centered, above the backdrop */
+.stage__video {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
   height: 100%;
   object-fit: contain;
   display: block;
-  background: #0b1f45;
 }
 .stage__sound {
   position: absolute;

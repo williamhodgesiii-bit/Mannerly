@@ -11,14 +11,16 @@ import { motion } from 'framer-motion'
    opportunistic un-mute where the platform permits; the clip's
    burned-in captions keep it learnable while muted.
 
+   The clip is shown whole (never cropped): it sits centered and
+   contained, and any space left beside a vertical clip is filled by a
+   soft, blurred, zoomed copy of the same video — so there are no black
+   letterbox bars, just an on-brand backdrop.
+
    It fires onDone() exactly once — on ended, skip, error, or when
    there is no clip — so the lesson flow never stalls waiting on a
-   video. With no `src` (or a load failure) it renders `fallback`,
-   the branded <Scene> placeholder, so lessons without a clip behave
+   video. With no `src` (or a load failure) it renders `fallback`, the
+   branded <Scene> placeholder, so lessons without a clip behave
    exactly as before.
-
-   The stage adopts each clip's own aspect ratio (read from metadata)
-   so nothing — captions included — is ever cropped.
    ============================================================ */
 
 interface LessonStageProps {
@@ -48,6 +50,7 @@ export default function LessonStage({
   skippable,
 }: LessonStageProps) {
   const ref = useRef<HTMLVideoElement>(null)
+  const bgRef = useRef<HTMLVideoElement>(null)
   const doneRef = useRef(false)
   const [failed, setFailed] = useState(false)
   const [muted, setMuted] = useState(true)
@@ -91,6 +94,7 @@ export default function LessonStage({
     play()
     v.muted = false
     play()
+    void bgRef.current?.play().catch(() => {}) // decorative backdrop, always muted
     const t = window.setTimeout(() => setShowSkip(true), 1400)
     return () => window.clearTimeout(t)
   }, [src, autoPlay])
@@ -106,6 +110,20 @@ export default function LessonStage({
 
   return (
     <div className="stage" style={ar ? { aspectRatio: String(ar), maxHeight: `${maxVh}vh` } : { height }}>
+      {/* blurred, zoomed copy fills the space beside a vertical clip — no black bars */}
+      <video
+        ref={bgRef}
+        className="stage__bg"
+        src={src}
+        autoPlay={autoPlay}
+        muted
+        playsInline
+        preload="auto"
+        tabIndex={-1}
+        aria-hidden
+      />
+
+      {/* the clip itself, shown whole (contained) and centered */}
       <video
         ref={ref}
         className="stage__video"
