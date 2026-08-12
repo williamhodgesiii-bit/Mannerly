@@ -1,7 +1,8 @@
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { type ReactNode, useEffect } from 'react'
+import { type ReactNode, useEffect, useRef, useState } from 'react'
 import TabBar from '@/components/TabBar'
+import IntroVideo from '@/components/IntroVideo'
 import Onboarding from '@/screens/Onboarding'
 import Home from '@/screens/Home'
 import Explore from '@/screens/Explore'
@@ -36,12 +37,32 @@ function Page({ children }: { children: ReactNode }) {
 
 export default function App() {
   const location = useLocation()
+  const navigate = useNavigate()
   const onboarded = useProgress((s) => s.onboarded)
   const a11y = useProgress((s) => s.a11y)
   const authReady = useAccount((s) => s.authReady)
 
+  // The branded intro plays on top of everything each launch; when it ends
+  // (or is skipped) we fade it away to reveal the screen we've already routed
+  // to underneath.
+  const [introDone, setIntroDone] = useState(false)
+
   // Restore an existing account session (Supabase) before first paint.
   useEffect(() => { void useAccount.getState().initAuth() }, [])
+
+  // Decide, once per launch, where the app should open: brand-new visitors go
+  // through onboarding, returning-but-signed-out learners land on sign-in
+  // (sign-up there routes back through onboarding), and signed-in learners open
+  // straight to their world. Runs as soon as the session is known so the target
+  // screen is settled beneath the intro before the clip fades.
+  const routed = useRef(false)
+  useEffect(() => {
+    if (routed.current || !authReady) return
+    routed.current = true
+    const signedIn = !!useAccount.getState().account
+    const dest = signedIn ? '/' : useProgress.getState().onboarded ? '/account' : '/onboarding'
+    navigate(dest, { replace: true })
+  }, [authReady, navigate])
 
   // Push the live snapshot to the sync backend whenever progress or
   // entitlements change, so the active learner (account holder or the
@@ -78,11 +99,6 @@ export default function App() {
   const path = location.pathname
   const hideTab = path.startsWith('/lesson') || path.startsWith('/onboarding') || path.startsWith('/account') || !onboarded
 
-  // Avoid a flash of onboarding while the session is still being restored.
-  if (!authReady) {
-    return <div className="app-frame" aria-busy="true" />
-  }
-
   // Gate protected routes behind onboarding; public (legal / account) and the
   // onboarding page itself always render. Onboarding lives inside the same
   // shell as every other screen, so the frame height stays uniform.
@@ -90,27 +106,41 @@ export default function App() {
 
   return (
     <div className="app-frame">
-      <div className="viewport">
-        <AnimatePresence mode="wait" initial={false}>
-          <Routes location={location} key={path}>
-            <Route path="/onboarding" element={<Page><Onboarding /></Page>} />
-            <Route path="/" element={<Page>{gate(<Home />)}</Page>} />
-            <Route path="/explore" element={<Page>{gate(<Explore />)}</Page>} />
-            <Route path="/course/:courseId" element={<Page>{gate(<CourseDetail />)}</Page>} />
-            <Route path="/lesson/:lessonId" element={<Page>{gate(<Lesson />)}</Page>} />
-            <Route path="/passport" element={<Page>{gate(<Passport />)}</Page>} />
-            <Route path="/me" element={<Page>{gate(<Profile />)}</Page>} />
-            <Route path="/account" element={<Page><Auth /></Page>} />
-            <Route path="/account/delete" element={<Page><DeleteAccount /></Page>} />
-            <Route path="/help" element={<Page><Help /></Page>} />
-            <Route path="/privacy" element={<Page><Privacy /></Page>} />
-            <Route path="/terms" element={<Page><Terms /></Page>} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </AnimatePresence>
-      </div>
-      {!hideTab && <TabBar />}
-      {onboarded && <Sheets />}
+      {authReady ? (
+        <>
+          <div className="viewport">
+            <AnimatePresence mode="wait" initial={false}>
+              <Routes location={location} key={path}>
+                <Route path="/onboarding" element={<Page><Onboarding /></Page>} />
+                <Route path="/" element={<Page>{gate(<Home />)}</Page>} />
+                <Route path="/explore" element={<Page>{gate(<Explore />)}</Page>} />
+                <Route path="/course/:courseId" element={<Page>{gate(<CourseDetail />)}</Page>} />
+                <Route path="/lesson/:lessonId" element={<Page>{gate(<Lesson />)}</Page>} />
+                <Route path="/passport" element={<Page>{gate(<Passport />)}</Page>} />
+                <Route path="/me" element={<Page>{gate(<Profile />)}</Page>} />
+                <Route path="/account" element={<Page><Auth /></Page>} />
+                <Route path="/account/delete" element={<Page><DeleteAccount /></Page>} />
+                <Route path="/help" element={<Page><Help /></Page>} />
+                <Route path="/privacy" element={<Page><Privacy /></Page>} />
+                <Route path="/terms" element={<Page><Terms /></Page>} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </AnimatePresence>
+          </div>
+          {!hideTab && <TabBar />}
+          {onboarded && <Sheets />}
+        </>
+      ) : (
+        // Session still restoring — the opaque intro covers this placeholder,
+        // so there's no flash of onboarding before we know who's signed in.
+        <div className="viewport" aria-busy="true" />
+      )}
+
+      {/* Mounted last and at a fixed position so finishing the auth restore
+          underneath never remounts (and restarts) the clip. */}
+      <AnimatePresence>
+        {!introDone && <IntroVideo key="intro" onFinish={() => setIntroDone(true)} />}
+      </AnimatePresence>
     </div>
   )
 }

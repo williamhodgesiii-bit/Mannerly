@@ -858,3 +858,45 @@
 /* passport per-country progress */
 .stamp-prog { font-size: 11px; font-weight: 800; color: var(--muted); margin-top: 2px; }
 .stamp--got .stamp-prog { color: var(--teal-600); }
+
+/* ---------- intro video ----------
+   Full-frame branded opening, layered above every other surface. It fills
+   the app column and fades away (App unmounts it) once the clip ends,
+   revealing the screen already routed underneath. */
+.intro {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.intro__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #000;
+}
+.intro__skip {
+  position: absolute;
+  right: calc(env(safe-area-inset-right) + 16px);
+  bottom: calc(env(safe-area-inset-bottom) + 18px);
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--pill);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.15s var(--ease), transform 0.1s var(--spring);
+}
+.intro__skip:hover { background: rgba(0, 0, 0, 0.5); }
+.intro__skip:active { transform: scale(0.96); }
