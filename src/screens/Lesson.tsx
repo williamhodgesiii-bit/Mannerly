@@ -109,7 +109,8 @@ export default function Lesson() {
               key="stage-correct"
               src={media?.correct}
               height={248}
-              maxVh={58}
+              /* reward plays big, then docks so the "Nice!" sheet sits below its held frame */
+              maxVh={rewardDone ? 40 : 58}
               skippable
               onDone={() => setRewardDone(true)}
               fallback={<Scene spec={liveScene} height={248} />}
