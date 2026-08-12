@@ -579,6 +579,19 @@
   min-height: 0;
   width: 100%;
 }
+/* content sits at the TOP of the step; the trailing button(s) sink to the
+   bottom so the primary action stays in easy thumb reach */
+.ob-step > :last-child { margin-top: auto; }
+/* welcome + ready heroes: a tidy column near the top, centered horizontally */
+.ob-hero,
+.ob-ready {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-top: 4vh;
+}
+.ob-hero__mark { width: 200px; max-width: 70%; height: auto; }
 
 /* top: back + converging-mascots progress rail */
 .ob-top { display: flex; align-items: center; gap: 10px; }

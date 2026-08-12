@@ -18,10 +18,7 @@ import { COUNTRIES, countryList } from '@/data/countries'
 import { LANGUAGES } from '@/data/languages'
 import { GOALS, suggestedGoals } from '@/data/goals'
 import { AVATARS, DEFAULT_AVATAR } from '@/data/avatars'
-import { starterFor } from '@/data/scenarios'
-import { HOME_UNIT_ORDER, UNIT_MAP } from '@/data/content'
 import { haptic } from '@/lib/haptics'
-import Mascot from '@/components/Mascot'
 import Icon, { type IconName } from '@/components/Icon'
 import Avatar from '@/components/Avatar'
 
@@ -54,18 +51,16 @@ const A11Y_OPTS: { key: keyof A11yPrefs; label: string; icon: IconName }[] = [
 ]
 
 type Step =
-  | 'age' | 'region' | 'passport' | 'language' | 'goals' | 'scenario'
+  | 'age' | 'region' | 'passport' | 'language' | 'goals'
   | 'notify' | 'a11y' | 'account' | 'ready'
   | 'kids' | 'class' | 'code' | 'joincode' | 'avatar'
 
 const FLOWS: Record<AccountType, Step[]> = {
-  individual: ['age', 'region', 'passport', 'language', 'goals', 'scenario', 'notify', 'a11y', 'account', 'ready'],
+  individual: ['age', 'region', 'passport', 'language', 'goals', 'notify', 'a11y', 'account', 'ready'],
   family: ['region', 'language', 'kids', 'passport', 'account', 'ready'],
   teacher: ['class', 'code', 'ready'],
   student: ['joincode', 'avatar', 'ready'],
 }
-
-const FIRST_LESSON = UNIT_MAP[HOME_UNIT_ORDER[0]]?.lessonIds[0] ?? 'gc-greet'
 
 const anim = {
   initial: { opacity: 0, y: 16 },
@@ -97,9 +92,6 @@ export default function Onboarding() {
   const [avatar, setAvatar] = useState<string>(DEFAULT_AVATAR)
   const [notify, setNotify] = useState<NotifyPref>('daily')
   const [a11y, setA11y] = useState<A11yPrefs>(DEFAULT_A11Y)
-
-  // interactive scenario
-  const [pick, setPick] = useState<string | null>(null)
 
   // family
   const [kids, setKids] = useState<{ name: string; ageGroup: AgeGroup; avatarId: string }[]>([])
@@ -167,13 +159,17 @@ export default function Onboarding() {
     navigate('/account', { replace: true, state: { mode } })
   }
 
-  // Final launch from the "ready" beat — onboarded flips here, then we go.
+  // Final launch from the "ready" beat — commit the profile, then open the
+  // learner's Home path (with its glowing START on the first lesson). Landing
+  // on Home for every path keeps the flow robust: the first lesson is started
+  // from there, so finishing it always returns somewhere real.
   const launch = () => {
     haptic('success')
-    if (type === 'individual') { commitIndividual(); navigate(`/lesson/${FIRST_LESSON}`, { replace: true }) }
-    else if (type === 'family') { commitFamily(true); navigate('/', { replace: true }) }
-    else if (type === 'teacher') { commitTeacher(); navigate('/', { replace: true }) }
-    else { commitStudent(); navigate(`/lesson/${FIRST_LESSON}`, { replace: true }) }
+    if (type === 'individual') commitIndividual()
+    else if (type === 'family') commitFamily(true)
+    else if (type === 'teacher') commitTeacher()
+    else commitStudent()
+    navigate('/', { replace: true })
   }
 
   const addKid = () => {
@@ -192,15 +188,11 @@ export default function Onboarding() {
 
   const codeValid = /^MANNER-\d{4}$/i.test(codeInput.trim())
 
-  /* ---------- shared chrome ---------- */
+  /* ---------- shared chrome: back + progress ---------- */
   const Rail = () => (
     <div className="ob-top">
       <button className="ob-back" onClick={back} aria-label="Back">←</button>
-      <div className="ob-rail">
-        <Mascot color="navy" size={26} pose="wave" bob={false} />
-        <div className="ob-rail__bar"><div className="ob-rail__fill" style={{ width: `${pct}%` }} /></div>
-        <Mascot color="teal" size={26} pose="idle" bob={false} flip />
-      </div>
+      <div className="ob-rail__bar"><div className="ob-rail__fill" style={{ width: `${pct}%` }} /></div>
     </div>
   )
 
@@ -210,17 +202,11 @@ export default function Onboarding() {
       <AnimatePresence mode="wait">
         {/* ---------------- welcome ---------------- */}
         {phase === 'welcome' && (
-          <motion.div key="welcome" {...anim} className="ob-step" style={{ justifyContent: 'center', gap: 22 }}>
-            <div className="center" style={{ gap: 2 }}>
-              <div className="row" style={{ gap: 0 }}>
-                <Mascot color="navy" pose="wave" size={112} />
-                <Mascot color="teal" pose="idle" size={112} flip />
-              </div>
-              <img src="/brand/wordmark-stacked.png" alt="Mannerly" style={{ width: 196, marginTop: -6 }} />
-            </div>
-            <div className="center" style={{ gap: 8, textAlign: 'center' }}>
-              <h1 className="title" style={{ fontSize: 24 }}>Good manners, made fun.</h1>
-              <p className="subtitle" style={{ maxWidth: 300 }}>
+          <motion.div key="welcome" {...anim} className="ob-step">
+            <div className="ob-hero">
+              <img src="/brand/wordmark-stacked.png" alt="Mannerly" className="ob-hero__mark" />
+              <h1 className="title" style={{ fontSize: 24, textAlign: 'center' }}>Good manners, made fun.</h1>
+              <p className="subtitle" style={{ maxWidth: 300, textAlign: 'center' }}>
                 Bite-size lessons in kindness, etiquette & world cultures.
               </p>
             </div>
@@ -231,11 +217,11 @@ export default function Onboarding() {
         {/* ---------------- usage / paths ---------------- */}
         {phase === 'usage' && (
           <motion.div key="usage" {...anim} className="ob-step">
-            <div style={{ marginTop: 6 }}>
+            <div>
               <h1 className="title">How will you use Mannerly?</h1>
               <p className="subtitle">Pick one — you can change it later.</p>
             </div>
-            <div className="age-grid grow" style={{ alignContent: 'center' }}>
+            <div className="age-grid">
               {USAGE.map((u) => (
                 <button key={u.id} className="age-card" onClick={() => chooseUsage(u.id)}>
                   <span className="age-emoji"><Icon name={u.icon} size={28} color="var(--navy-600)" /></span>
@@ -256,7 +242,7 @@ export default function Onboarding() {
             {step === 'age' && (
               <>
                 <div><h1 className="title">Who’s learning?</h1><p className="subtitle">Lessons adapt to each age.</p></div>
-                <div className="age-grid grow" style={{ alignContent: 'center' }}>
+                <div className="age-grid">
                   {AGES.map((a) => (
                     <button key={a.id} className={`age-card ${age === a.id ? 'age-card--on' : ''}`}
                       onClick={() => { haptic('select'); setAge(a.id); setGoals(suggestedGoals(a.id).slice(0, 2)) }}>
@@ -331,14 +317,9 @@ export default function Onboarding() {
               </>
             )}
 
-            {step === 'scenario' && (
-              <ScenarioStep age={age} pick={pick} setPick={setPick} onNext={() => { setPick(null); next() }} />
-            )}
-
             {step === 'notify' && (
               <>
                 <div><h1 className="title">Want a Daily Manner?</h1><p className="subtitle">One quick situation each day — that’s it.</p></div>
-                <div className="grow center" style={{ justifyContent: 'center' }}><Mascot color="gold" pose="offer" size={112} /></div>
                 <div className="options">
                   {NOTIFY.map((n) => (
                     <button key={n.id} className={`option ${notify === n.id ? 'option--correct' : ''}`}
@@ -347,14 +328,14 @@ export default function Onboarding() {
                     </button>
                   ))}
                 </div>
-                <button className="btn btn--teal" style={{ marginTop: 12 }} onClick={next}>Continue →</button>
+                <button className="btn btn--teal" onClick={next}>Continue →</button>
               </>
             )}
 
             {step === 'a11y' && (
               <>
                 <div><h1 className="title">Make Mannerly comfortable for you</h1><p className="subtitle">Optional — change these anytime in Settings.</p></div>
-                <div className="options grow" style={{ justifyContent: 'center' }}>
+                <div className="options">
                   {A11Y_OPTS.map((o) => (
                     <button key={o.key} className={`option ${a11y[o.key] ? 'option--correct' : ''}`}
                       onClick={() => toggleA11y(o.key)}>
@@ -375,9 +356,6 @@ export default function Onboarding() {
                   <p className="subtitle">
                     One account keeps your streak, packs & passport on every device — phone, tablet and the web.
                   </p>
-                </div>
-                <div className="grow center" style={{ justifyContent: 'center' }}>
-                  <Mascot color="gold" pose="cheer" size={124} />
                 </div>
                 <div className="stack" style={{ gap: 10 }}>
                   <button className="btn" onClick={() => toAuth('create')}>Create free account</button>
@@ -469,12 +447,12 @@ export default function Onboarding() {
             {step === 'code' && (
               <>
                 <div><h1 className="title">Your class is ready</h1><p className="subtitle">Students enter this code to join {className.trim() || 'your class'}.</p></div>
-                <div className="grow center" style={{ justifyContent: 'center', gap: 18 }}>
+                <div className="stack" style={{ gap: 16, marginTop: 8 }}>
                   <motion.div className="joincode" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
                     transition={{ type: 'spring', stiffness: 240, damping: 16 }}>
                     {joinCode}
                   </motion.div>
-                  <p className="subtitle" style={{ textAlign: 'center', maxWidth: 280 }}>
+                  <p className="subtitle" style={{ maxWidth: 280 }}>
                     Share it on the board or in a message. You can make more classes anytime.
                   </p>
                 </div>
@@ -485,8 +463,7 @@ export default function Onboarding() {
             {step === 'joincode' && (
               <>
                 <div><h1 className="title">Joining a class?</h1><p className="subtitle">Enter the code your teacher gave you.</p></div>
-                <div className="grow center" style={{ justifyContent: 'center', gap: 14 }}>
-                  <Mascot color="teal" pose="wave" size={104} />
+                <div className="stack" style={{ gap: 14, marginTop: 8 }}>
                   <input className="input joincode-input" value={codeInput} autoCapitalize="characters"
                     onChange={(e) => setCodeInput(e.target.value.toUpperCase())} placeholder="MANNER-1234" />
                   {codeValid && (
@@ -502,7 +479,7 @@ export default function Onboarding() {
             {step === 'avatar' && (
               <>
                 <div><h1 className="title">Pick your avatar</h1><p className="subtitle">This is you in Mannerly. No photos, ever.</p></div>
-                <div className="avatar-grid grow" style={{ alignContent: 'center' }}>
+                <div className="avatar-grid">
                   {AVATARS.map((av) => (
                     <button key={av.id} className={`avatar-opt avatar-opt--lg ${avatar === av.id ? 'avatar-opt--on' : ''}`}
                       onClick={() => { haptic('select'); setAvatar(av.id) }}><Avatar id={av.id} size={46} /></button>
@@ -535,64 +512,25 @@ function PassportBeat({ home, family, onNext }: { home: CountryCode; family: boo
   ]
   return (
     <>
-      <div style={{ textAlign: 'center' }}>
+      <div>
         <h1 className="title">{family ? 'Your Family Passport' : 'Your Manners Passport'}</h1>
         <p className="subtitle">Global Manners + your home region — included free.</p>
       </div>
-      <div className="grow center" style={{ justifyContent: 'center' }}>
-        <div className="passport-beat">
-          {stamps.map((s, idx) => (
-            <motion.div key={s.name} className="stamp stamp--got"
-              initial={{ scale: 0.6, opacity: 0, rotate: -12 }}
-              animate={{ scale: 1, opacity: 1, rotate: 0 }}
-              transition={{ delay: 0.15 + idx * 0.35, type: 'spring', stiffness: 240, damping: 14 }}>
-              <motion.span className="stamp__seal"
-                initial={{ scale: 0, rotate: -40 }} animate={{ scale: 1, rotate: 8 }}
-                transition={{ delay: 0.45 + idx * 0.35, type: 'spring', stiffness: 260, damping: 12 }}>✓</motion.span>
-              <span className="stamp-flag">{s.flag}</span>
-              <span className="stamp-name">{s.name}</span>
-            </motion.div>
-          ))}
-        </div>
+      <div className="passport-beat" style={{ marginTop: 8 }}>
+        {stamps.map((s, idx) => (
+          <motion.div key={s.name} className="stamp stamp--got"
+            initial={{ scale: 0.6, opacity: 0, rotate: -12 }}
+            animate={{ scale: 1, opacity: 1, rotate: 0 }}
+            transition={{ delay: 0.15 + idx * 0.35, type: 'spring', stiffness: 240, damping: 14 }}>
+            <motion.span className="stamp__seal"
+              initial={{ scale: 0, rotate: -40 }} animate={{ scale: 1, rotate: 8 }}
+              transition={{ delay: 0.45 + idx * 0.35, type: 'spring', stiffness: 260, damping: 12 }}>✓</motion.span>
+            <span className="stamp-flag">{s.flag}</span>
+            <span className="stamp-name">{s.name}</span>
+          </motion.div>
+        ))}
       </div>
       <button className="btn btn--teal" onClick={onNext}>Nice →</button>
-    </>
-  )
-}
-
-function ScenarioStep({
-  age, pick, setPick, onNext,
-}: {
-  age: AgeGroup | null
-  pick: string | null
-  setPick: (id: string) => void
-  onNext: () => void
-}) {
-  const scenario = starterFor(age)
-  const chosen = scenario.choices.find((c) => c.id === pick)
-  return (
-    <>
-      <div><span className="eyebrow">Try this</span><h1 className="title" style={{ marginTop: 6 }}>{scenario.prompt}</h1></div>
-      <div className="options grow" style={{ justifyContent: 'center' }}>
-        {scenario.choices.map((c) => {
-          const cls = pick == null ? '' : c.id === pick ? (c.correct ? 'option--correct' : 'option--wrong') : c.correct ? 'option--correct' : 'option--dim'
-          return (
-            <button key={c.id} className={`option ${cls}`} disabled={pick != null}
-              onClick={() => { haptic(c.correct ? 'success' : 'error'); setPick(c.id) }}>
-              <span className="opt-emoji">{c.emoji}</span>{c.label}
-            </button>
-          )
-        })}
-      </div>
-      {chosen && (
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-          className="card" style={{ padding: 14, marginBottom: 12 }}>
-          <div style={{ fontWeight: 800, marginBottom: 2 }}>{chosen.correct ? 'Nice.' : 'Good to know.'}</div>
-          <div className="subtitle" style={{ color: 'var(--ink)', fontWeight: 600 }}>{chosen.reaction}</div>
-          <div className="kicker" style={{ marginTop: 8 }}>Mannerly builds lessons like this around your age, goals & region.</div>
-        </motion.div>
-      )}
-      <button className="btn btn--teal" disabled={pick == null} onClick={onNext}>Continue →</button>
     </>
   )
 }
@@ -606,14 +544,11 @@ function ReadyBeat({
   kids: { name: string; ageGroup: AgeGroup; avatarId: string }[]
 }) {
   const cta =
-    type === 'individual' ? 'Start my first lesson'
-      : type === 'family' ? 'Start learning'
-        : type === 'teacher' ? 'Open my class'
-          : 'Start learning'
+    type === 'teacher' ? 'Open my class' : 'Start learning'
   const faceId = type === 'family' && kids[0] ? kids[0].avatarId : avatar
   return (
     <>
-      <div className="grow center" style={{ justifyContent: 'center', gap: 18 }}>
+      <div className="ob-ready">
         <motion.div className="ready-badge"
           initial={{ scale: 0.5, rotate: -20, opacity: 0 }} animate={{ scale: 1, rotate: 0, opacity: 1 }}
           transition={{ type: 'spring', stiffness: 220, damping: 12 }}>
